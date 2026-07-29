@@ -53,7 +53,7 @@ Login
 </li>
 
 <li class="nav-item ms-3">
-<a class="btn btn-primary px-4 rounded-pill"
+<a class="register-btn"
 href="/tasks/register.php">
 Register
 </a>

@@ -53,17 +53,133 @@ main{
 .nav-link:hover{
     color:#2563eb !important;
 }
-
 .nav-link:hover::after{
     width:100%;
 }
-
-.btn-primary{
+.register-btn{
+    padding:13px 26px;
     border-radius:30px;
-    padding:10px 25px;
+    background:#7faae2;
+    color:white;
+    font-size:20px;
     font-weight:600;
-    font-size:18px;
+    text-decoration:none;
+    transition:.3s;
 }
+
+.register-btn:hover{
+    background:#6998d4;
+    color:white;
+}
+
+
+
+.hero-section{
+    background:#f5f8fc;
+    padding:80px 20px;
+    display:flex;
+    justify-content:center;
+}
+.hero-card{
+    width:1800px;
+    max-width:100%;
+    min-height:800px;
+    background:#ffffff;
+    border-radius:35px;
+    padding:70px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:60px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    transition:all .35s ease;
+}
+.hero-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 25px 60px rgba(0,0,0,.15);
+}
+.hero-content{
+    flex:1;
+}
+.hero-content h1{
+    font-size:60px;
+    font-weight:800;
+    color:#1f2937;
+    margin-bottom:20px;
+}
+.hero-content p{
+    font-size:20px;
+    color:#6b7280;
+    line-height:1.8;
+    margin-bottom:35px;
+}
+.hero-buttons{
+    display:flex;
+    gap:20px;
+}
+.btn-primary{
+    padding:18px 38px;
+    background:#7faae2;
+    color:white;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+}
+.btn-primary:hover{
+    background:#6998d4;
+}
+.btn-secondary{
+    padding:18px 38px;
+    border:2px solid #7faae2;
+    color:#7faae2;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+}
+.btn-secondary:hover{
+    background:#7faae2;
+    color:white;
+}
+
+.hero-image{
+    flex:1;
+    display:flex;
+    justify-content:center;
+}
+.hero-image img{
+    width:500px;
+    max-width:100%;
+    transition:.4s;
+}
+.hero-card:hover .hero-image img{
+    transform:scale(1.05);
+}
+
+@media(max-width:992px){
+
+    .hero-card{
+        flex-direction:column;
+        text-align:center;
+        padding:45px 30px;
+    }
+
+    .hero-content h1{
+        font-size:42px;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .hero-image img{
+        width:350px;
+    }
+
+}
+
 
 /*FOOTER*/
 
@@ -138,4 +254,96 @@ main{
     color:#94a3b8;
     font-size:16px;
     margin-top:10px;
+}
+
+/* Newsletter */
+.newsletter-section{
+    width:100%;
+    padding:80px 40px;
+    background:#7faae2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.newsletter-card{
+    width:900px;
+    max-width:100%;
+    min-height:500px;
+    background:white;
+    padding:50px;
+    border-radius:35px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.15);
+}
+
+.newsletter-icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 20px;
+    background:#7faae2;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    color:white;
+}
+.newsletter-card h2{
+    font-size:32px;
+    font-weight:800;
+    color:#1f2937;
+    margin-bottom:15px;
+}
+.newsletter-card h6{
+    color:#6b7280;
+    font-size:23px;
+    margin-bottom:35px;
+}
+.newsletter-card form{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+.newsletter-card input{
+    width:450px;
+    padding:18px 25px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:19px;
+    outline:none;
+}
+.newsletter-card input:focus{
+    border-color:#78c5e9;
+}
+.newsletter-card button{
+    padding:18px 40px;
+    border:none;
+    border-radius:12px;
+    background:#7faae2;
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+    font-size:20px;
+}
+.newsletter-card button:hover{
+    background:#6998d4;
+}
+@media(max-width:768px){
+    .newsletter-section{
+        padding:50px 20px;
+    }
+    .newsletter-card{
+        padding:35px 20px;
+    }
+    .newsletter-card form{
+        flex-direction:column;
+    }
+    .newsletter-card input{
+        width:100%;
+    }
+    .newsletter-card button{
+        width:100%;
+    }
 }
