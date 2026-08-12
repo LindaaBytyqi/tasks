@@ -581,16 +581,151 @@ main{
 
 
 
+.categories-menu{
+    margin:60px auto;
+    display:flex;
+    justify-content:center;
+}
+.categories-nav{
+    display:flex;
+    flex-wrap:wrap;
+    background:#fff4a8;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+}
+.category-link{
+    padding:18px 35px;
+    text-decoration:none;
+    color:#222;
+    font-weight:600;
+    font-size:22px;
+    border-right:1px solid rgba(0,0,0,.1);
+    transition:.3s;
+}
+.category-link:last-child{
+    border-right:none;
+}
+.category-link:hover{
+    background:#f0a2c9;
+    color:#fff;
+}
 
 
 
-
-
-
-
-
-
-
+.products-section{
+    width: 100%;
+    padding:40px 80px;
+}
+.products-container{
+    max-width:1700px;
+    width:100%;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4, 350px);
+    justify-content:space-between;
+    gap:40px;
+}
+.product-card{
+    background:#ffffff;
+    border-radius:20px;
+    width:350px;
+    height:550px;
+    padding:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    transition:0.3s ease;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+.product-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 18px 40px rgba(0,0,0,.15);
+}
+.product-card img{
+    width:100%;
+    height:280px;
+    object-fit:cover;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+.product-card h3{
+    font-size:20px;
+    font-weight:600;
+    color:#333;
+    margin-bottom:10px;
+}
+.product-card p{
+    font-size:17px;
+    overflow:hidden;
+    color:#777;
+    line-height:1.2;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    line-clamp:2;
+    margin-bottom:8px;
+}
+.price{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+.sale-price{
+    font-size:20px;
+    font-weight:700;
+    color:#eb3f81;
+}
+.old-price{
+    font-size:15px;
+    color:#999;
+    text-decoration:line-through;
+}
+.price span.price{
+    font-size:20px;
+    font-weight:700;
+    color:#333;
+}
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+.buttons a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    padding: 11px 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.buttons a:first-child {
+    background: #f5f5f5;
+    color: #333;
+}
+.buttons a:first-child:hover {
+    background: #eb3f81;
+    color: white;
+}
+.buttons a.btn-add {
+    background: #eb3f81;
+    color: white;
+}
+.buttons a.btn-add:hover {
+    background: #d4316f;
+}
+.stock{
+    display:inline-block;
+    color:#070707;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:10px;
+}
 
 
 
