@@ -43,22 +43,6 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-<section class="categories-menu">
-    <div class="categories-nav">
-        <?php foreach($categories as $category): ?>
-            <a href="categories.php?id=<?= $category['id']; ?>" class="category-link">
-                <?= htmlspecialchars($category['name']); ?>
-            </a>
-        <?php endforeach; ?>
-    </div>
-</section>
-
-
-
-
-
-
-
 
 
 
