@@ -2,7 +2,6 @@
 include "includes/header.php";
 include "includes/database.php";
 
-
 $sql = "SELECT * FROM categories ORDER BY id ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -51,8 +50,6 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
     </div>
 </section>
-
-
 
 
 <section class="products-section">
