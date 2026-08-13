@@ -53,7 +53,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : "home";
             }elseif($page == "changepassword"){
                 include "changepassword.php";
 
-          } else {
+            } elseif($page == "orderdetail"){
+                include "orderdetail.php";
+            } else {
             ?>
                 <div class="card shadow-sm welcome-card">
                     <div class="card-body text-center p-5">

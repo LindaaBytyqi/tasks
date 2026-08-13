@@ -48,46 +48,82 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?= htmlspecialchars($category['name']); ?>
             </a>
         <?php endforeach; ?>
+
+        <a href="saleproducts.php" class="category-link sale-link">
+            Sale Products
+        </a>
+
     </div>
 </section>
 
 
 <section class="products-section">
-<div class="products-container">
-<?php foreach($products as $product): ?>
-<div class="product-card">
-    <div class="product-info">
-        <img src="images/<?= htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
-        <h3><?= htmlspecialchars($product['name']); ?></h3>
-        
-        <div class="price">
-        <?php if($product['sale_price'] !== null): ?>
-            <span class="sale-price">$<?= number_format($product['sale_price'], 2); ?></span>
-            <span class="old-price">$<?= number_format($product['price'], 2); ?></span>
-        <?php else: ?>
-            <span class="price">$<?= number_format($product['price'], 2); ?></span>
-        <?php endif; ?>
-        </div>
+    <div class="products-container">
+        <?php foreach($products as $product): ?>
+            <div class="product-card">
+                <div class="product-info">
+                    <img 
+                        src="images/<?= htmlspecialchars($product['image']); ?>" 
+                        alt="<?= htmlspecialchars($product['name']); ?>"
+                    >
+
+                    <h3>
+                        <?= htmlspecialchars($product['name']); ?>
+                    </h3>
+                    <div class="price">
+
+                        <?php if(
+                            $product['sale_price'] !== null && 
+                            $product['sale_price'] < $product['price']
+                        ): ?>
+
+                            <span class="sale-price">
+                                $<?= number_format($product['sale_price'], 2); ?>
+                            </span>
+
+                            <span class="old-price">
+                                $<?= number_format($product['price'], 2); ?>
+                            </span>
+
+                        <?php else: ?>
+
+                            <span class="regular-price">
+                                $<?= number_format($product['price'], 2); ?>
+                            </span>
+
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="product-bottom">
+                    <?php if($product['stock'] > 0): ?>
+
+                        <span class="stock">
+                            In Stock
+                        </span>
+
+                    <?php else: ?>
+
+                        <span class="stock">
+                            Out of Stock
+                        </span>
+
+                    <?php endif; ?>
+                    <div class="buttons">
+                        <a href="productdetails.php?id=<?= $product['id']; ?>">
+                            View Product
+                        </a>
+                        <a 
+                            href="cart.php?action=add&id=<?= $product['id']; ?>" 
+                            class="btn-add">
+                            Add to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-
-    <div class="product-bottom">
-        <?php if($product['stock'] > 0): ?>
-            <span class="stock">In Stock</span>
-        <?php else: ?>
-            <span class="stock">Out of Stock</span>
-        <?php endif; ?>
-
-        <div class="buttons">
-            <a href="productdetails.php?id=<?= $product['id']; ?>">View Product</a>
-            <a href="cart.php?action=add&id=<?= $product['id']; ?>" class="btn-add">Add to Cart</a>
-        </div>
-    </div>
-</div>
-<?php endforeach; ?>
-</section> 
-
-
-
+</section>
 
 
 

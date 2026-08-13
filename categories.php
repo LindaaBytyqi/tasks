@@ -145,13 +145,36 @@ Apply
 <?= htmlspecialchars($product['name']); ?>
 </h3>
 
-<p>
-<?= htmlspecialchars($product['description']); ?>
-</p>
-
 <div class="price">
-$<?= number_format($product['price'],2); ?>
+    <?php if(
+        $product['sale_price'] !== null &&
+        $product['sale_price'] < $product['price']
+    ): ?>
+        <span class="sale-price">
+            $<?= number_format($product['sale_price'], 2); ?>
+        </span>
+        <span class="old-price">
+            $<?= number_format($product['price'], 2); ?>
+        </span>
+    <?php else: ?>
+        <span class="regular-price">
+            $<?= number_format($product['price'], 2); ?>
+        </span>
+    <?php endif; ?>
 </div>
+
+
+<?php if($product['stock'] > 0): ?>
+
+        <span class="stock">
+            In Stock
+        </span>
+<?php else: ?>
+        <span class="stock">
+            Out of Stock
+            </span>
+<?php endif; ?>
+
 
 <div class="buttons">
 <a href="productdetails.php?id=<?= $product['id']; ?>">
