@@ -56,55 +56,39 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="products-container">
 <?php foreach($products as $product): ?>
 <div class="product-card">
-    <img src="images/<?= htmlspecialchars($product['image']); ?>"
-         alt="<?= htmlspecialchars($product['name']); ?>">
-    <h3>
-        <?= htmlspecialchars($product['name']); ?>
-    </h3>
-
-    <p>
-        <?= htmlspecialchars($product['description']); ?>
-    </p>
-    <div class="price">
-    <?php if($product['sale_price'] !== null): ?>
-        <span class="sale-price">
-            $<?= number_format($product['sale_price'],2); ?>
-        </span>
-        <span class="old-price">
-            $<?= number_format($product['price'],2); ?>
-        </span>
-
-    <?php else: ?>
-        <span class="price">
-            $<?= number_format($product['price'],2); ?>
-        </span>
-    <?php endif; ?>
+    <div class="product-info">
+        <img src="images/<?= htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
+        <h3><?= htmlspecialchars($product['name']); ?></h3>
+        
+        <div class="price">
+        <?php if($product['sale_price'] !== null): ?>
+            <span class="sale-price">$<?= number_format($product['sale_price'], 2); ?></span>
+            <span class="old-price">$<?= number_format($product['price'], 2); ?></span>
+        <?php else: ?>
+            <span class="price">$<?= number_format($product['price'], 2); ?></span>
+        <?php endif; ?>
+        </div>
     </div>
-    <?php if($product['stock'] > 0): ?>
-    <span class="stock">
-        In Stock
-    </span>
-    <?php else: ?>
-    <span class="stock">
-        Out of Stock
-    </span>
 
-<?php endif; ?>
-    <div class="buttons">
-        <a href="productdetails.php?id=<?= $product['id']; ?>">
-            View Product
-        </a>
+    <div class="product-bottom">
+        <?php if($product['stock'] > 0): ?>
+            <span class="stock">In Stock</span>
+        <?php else: ?>
+            <span class="stock">Out of Stock</span>
+        <?php endif; ?>
 
-        <a href="cart.php?action=add&id=<?= $product['id']; ?>" class="btn-add">
-            Add to Cart
-        </a>
-
-
+        <div class="buttons">
+            <a href="productdetails.php?id=<?= $product['id']; ?>">View Product</a>
+            <a href="cart.php?action=add&id=<?= $product['id']; ?>" class="btn-add">Add to Cart</a>
+        </div>
     </div>
 </div>
 <?php endforeach; ?>
-</div>
-</section>
+</section> 
+
+
+
+
 
 
 <section class="newsletter-section">

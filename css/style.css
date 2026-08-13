@@ -630,7 +630,7 @@ main{
     background:#ffffff;
     border-radius:20px;
     width:350px;
-    height:550px;
+    min-height:550px;
     padding:20px;
     box-shadow:0 8px 25px rgba(0,0,0,0.08);
     transition:0.3s ease;
@@ -654,6 +654,14 @@ main{
     font-weight:600;
     color:#333;
     margin-bottom:10px;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    line-clamp:2;
+    overflow:hidden;
+
+    min-height:48px;
+    line-height:1.2;
 }
 .product-card p{
     font-size:17px;
@@ -670,6 +678,7 @@ main{
     display:flex;
     align-items:center;
     gap:10px;
+    height: 30px;
     margin-bottom:20px;
 }
 .sale-price{
@@ -690,6 +699,7 @@ main{
 .buttons {
     display: flex;
     gap: 10px;
+    /* margin-top: auto; */
 }
 .buttons a {
     flex: 1;
