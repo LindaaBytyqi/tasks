@@ -3,8 +3,8 @@ include "../includes/database.php";
 
 if(isset($_POST['add_category'])){
     $name = $_POST['name'];
-    $description = $_POST['description'];
 
+    $description = $_POST['description'];
     $sql = "INSERT INTO categories(name, description)
             VALUES(:name, :description)";
 
@@ -17,7 +17,6 @@ if(isset($_POST['add_category'])){
     exit();
 
 }
-
 ?>
 
 

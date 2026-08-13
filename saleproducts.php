@@ -62,7 +62,6 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </label>
 
                 <select name="sort">
-
                     <option 
                         value="newest"
                         <?= $sort == "newest" ? "selected" : ""; ?>>
@@ -92,20 +91,16 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?= $sort == "za" ? "selected" : ""; ?>>
                         Alphabetically (Z-A)
                     </option>
-
                 </select>
-
                 <label>
                     Min Sale Price
                 </label>
-
                 <input 
                     type="number"
                     step="0.01"
                     name="min_price"
                     value="<?= htmlspecialchars($min_price); ?>"
                 >
-
                 <label>
                     Max Sale Price
                 </label>

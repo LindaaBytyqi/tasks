@@ -6,46 +6,99 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$errors = [];
+
 if(isset($_POST['add_product'])){
 
-$category_id = $_POST['category_id'];
-$name = $_POST['name'];
-$price = $_POST['price'];
-$stock = $_POST['stock'];
-$description = $_POST['description'];
-$sale_price = !empty($_POST['sale_price'])
-    ? $_POST['sale_price']
-    : null;
-$status = $_POST['status'];
-$image = $_FILES['image']['name'];
-$target = "../images/" . $image;
-move_uploaded_file(
-    $_FILES['image']['tmp_name'],
-    $target
-);
+    $category_id = $_POST['category_id'] ?? '';
+    $name = trim($_POST['name'] ?? '');
+    $price = $_POST['price'] ?? '';
+    $stock = $_POST['stock'] ?? '';
+    $description = trim($_POST['description'] ?? '');
+    $sale_price = !empty($_POST['sale_price'])
+        ? $_POST['sale_price']
+        : null;
+    $status = $_POST['status'] ?? '';
 
-$sql = "INSERT INTO products
-(category_id,name,price,stock,description,image,sale_price,status)
-VALUES
-(:category_id,:name,:price,:stock,:description,:image,:sale_price,:status)";
-$stmt=$conn->prepare($sql);
-$stmt->execute([
+    if(empty($name)){
+        $errors[] = "Product name is required.";
+    } elseif(strlen($name) < 2){
+        $errors[] = "Product name must contain at least 2 characters.";
+    }
 
-"category_id"=>$category_id,
-"name"=>$name,
-"price"=>$price,
-"stock"=>$stock,
-"description"=>$description,
-"image"=>$image,
-"sale_price"=>$sale_price,
-"status"=>$status
+    if(empty($category_id)){
+        $errors[] = "Please select a category.";
+    }
 
-]);
+    if($price === ''){
+        $errors[] = "Price is required.";
+    } elseif(!is_numeric($price) || $price <= 0){
+        $errors[] = "Price must be greater than 0.";
+    }
 
-header("Location: product.php");
-exit();
+    if($stock === ''){
+        $errors[] = "Stock is required.";
+    } elseif(!is_numeric($stock) || $stock < 0){
+        $errors[] = "Stock cannot be negative.";
+    }
+
+    if($sale_price !== null){
+        if(!is_numeric($sale_price) || $sale_price <= 0){
+            $errors[] = "Sale price must be greater than 0.";
+        } elseif($sale_price >= $price){
+            $errors[] = "Sale price must be lower than the original price.";
+        }
+    }
+
+    if($status !== '0' && $status !== '1'){
+        $errors[] = "Invalid product status.";
+    }
+
+    if(empty($_FILES['image']['name'])){
+        $errors[] = "Product image is required.";
+    } else {
+
+        $allowed_types = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ];
+
+        if(!in_array($_FILES['image']['type'], $allowed_types)){
+            $errors[] = "Only JPG, PNG and WEBP images are allowed.";
+        }
+    }
+
+    if(empty($errors)){
+        $image = $_FILES['image']['name'];
+        $target = "../images/" . $image;
+        move_uploaded_file(
+            $_FILES['image']['tmp_name'],
+            $target
+        );
+
+        $sql = "INSERT INTO products
+        (category_id, name, price, stock, description, image, sale_price, status)
+        VALUES
+        (:category_id, :name, :price, :stock, :description, :image, :sale_price, :status)";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute([
+            "category_id" => $category_id,
+            "name" => $name,
+            "price" => $price,
+            "stock" => $stock,
+            "description" => $description,
+            "image" => $image,
+            "sale_price" => $sale_price,
+            "status" => $status
+        ]);
+
+        header("Location: product.php");
+        exit();
+    }
 }
-
 ?>
 
 
@@ -68,6 +121,17 @@ Add Product
 </div>
 
 <div class="card-body">
+
+<?php if(!empty($errors)): ?>
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            <?php foreach($errors as $error): ?>
+                <li><?= htmlspecialchars($error); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
 <form method="POST" enctype="multipart/form-data">
 <div class="mb-3">
 

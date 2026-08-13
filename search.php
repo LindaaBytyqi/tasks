@@ -25,7 +25,6 @@ Search results for:
 
 
 <div class="products-container">
-
 <?php if(empty($products)): ?>
     <h3>
         No products found.
@@ -49,7 +48,6 @@ Search results for:
     <div class="price">
         $<?= number_format($product['price'],2); ?>
     </div>
-
     <div class="buttons">
         <a href="product-details.php?id=<?= $product['id']; ?>">
             View Product

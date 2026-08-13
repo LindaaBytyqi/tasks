@@ -1,16 +1,61 @@
 <?php
 include "../includes/database.php";
 
+$search = trim($_GET['query'] ?? '');
+$pagination = 10;
+
+$page_number = isset($_GET['page_number'])
+    ? (int)$_GET['page_number']
+    : 1;
+if($page_number < 1){
+    $page_number = 1;
+}
+
+$count_sql = "SELECT COUNT(*)
+              FROM products
+              WHERE LOWER(name) LIKE LOWER(:search)
+                 OR LOWER(description) LIKE LOWER(:search)";
+
+$count_stmt = $conn->prepare($count_sql);
+$count_stmt->execute([
+    "search" => "%$search%"
+]);
+
+$total_products = $count_stmt->fetchColumn();
+$total_pages = ceil($total_products / $pagination);
+$offset = ($page_number - 1) * $pagination;
 $sql = "SELECT 
             products.*,
             categories.name AS category_name
         FROM products
         LEFT JOIN categories 
         ON products.category_id = categories.id
-        ORDER BY products.id DESC";
-$stmt = $conn->prepare($sql);
-$stmt->execute();
 
+        WHERE LOWER(products.name) LIKE LOWER(:search)
+           OR LOWER(products.description) LIKE LOWER(:search)
+
+        ORDER BY products.id DESC
+
+        LIMIT :limit OFFSET :offset";
+
+
+$stmt = $conn->prepare($sql);
+$stmt->bindValue(
+    ':search',
+    "%$search%",
+    PDO::PARAM_STR
+);
+$stmt->bindValue(
+    ':limit',
+    $pagination,
+    PDO::PARAM_INT
+);
+$stmt->bindValue(
+    ':offset',
+    $offset,
+    PDO::PARAM_INT
+);
+$stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
@@ -22,14 +67,65 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <title>Products</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+
+    .search-form{
+    position:relative;
+    display:flex;
+    align-items:center;
+    flex:1;
+    max-width: 500px;
+    margin-left:auto;
+    margin-right:60px;
+}
+.search-form i{
+    position:absolute;
+    left:18px;
+    color:#6b7280;
+    font-size:23px;
+}
+.search-form input{
+    width:500px;
+    height:60px;
+    padding-left:50px;
+    padding-right:50px;
+    border:none;
+    border-radius:25px;
+    background:#f1f5f9;
+    font-size:20px;
+    outline:none;
+    transition:.3s;
+}
+.search-form input:focus{
+    background:white;
+    box-shadow:0 0 0 2px #eb3f81;
+}
+.search-form input[type="search"]::-webkit-search-cancel-button{
+    -webkit-appearance: none;
+    appearance: none;
+    width:18px;
+    height:18px;
+    cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+      background-position:center;
+}
+</style>
 </head>
 
 <body class="bg-light">
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">
-            Products
-        </h2>
+
+    <form class="search-form" action="search.php" method="GET">
+        <i class="bi bi-search"></i>
+    <input 
+        type="search"
+        name="query"
+        placeholder="Search products..."
+        value="<?= isset($_GET['query']) ? htmlspecialchars($_GET['query']) : ''; ?>"
+        >
+    </form>
 
         <a href="addproduct.php" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i>
@@ -97,6 +193,45 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endforeach; ?>
     </tbody>
             </table>
+            <nav class="mt-4">
+
+    <ul class="pagination justify-content-center">
+        <?php if($page_number > 1): ?>
+            <li class="page-item">
+                <a 
+                    class="page-link"
+                    href="admindashboard.php?page=products&query=<?= urlencode($search); ?>&page_number=<?= $page_number - 1; ?>"
+                >
+                    Previous
+                </a>
+            </li>
+        <?php endif; ?>
+
+        <?php for($i = 1; $i <= $total_pages; $i++): ?>
+            <li class="page-item <?= $i == $page_number ? 'active' : ''; ?>">
+                <a 
+                    class="page-link"
+                    href="admindashboard.php?page=products&query=<?= urlencode($search); ?>&page_number=<?= $i; ?>"
+                >
+                    <?= $i; ?>
+                </a>
+
+            </li>
+
+        <?php endfor; ?>
+        <?php if($page_number < $total_pages): ?>
+            <li class="page-item">
+                <a 
+                    class="page-link"
+                    href="admindashboard.php?page=products&query=<?= urlencode($search); ?>&page_number=<?= $page_number + 1; ?>"
+                >
+                    Next
+                </a>
+            </li>
+        <?php endif; ?>
+    </ul>
+</nav>
+
         </div>
     </div>
 </div>
