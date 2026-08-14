@@ -1,6 +1,5 @@
 <?php
 include "../includes/database.php";
-
 if(isset($_POST['add_category'])){
     $name = $_POST['name'];
 
@@ -20,7 +19,6 @@ if(isset($_POST['add_category'])){
      exit();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html>

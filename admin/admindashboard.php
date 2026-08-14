@@ -108,7 +108,7 @@
                 <span>Products</span>
             </a>
 
-            <a href="#" class="nav-link">
+            <a href="admindashboard.php?page=orders" class="nav-link">
                 <i class="bi bi-cart3"></i>
                 <span>Orders</span>
             </a>
@@ -165,7 +165,14 @@
 
                 include "orders.php";
 
-            } elseif($page == "users") {
+            }  elseif($page == "orderdetails") {
+
+                include "orderdetails.php";
+
+            } 
+            
+            
+            elseif($page == "users") {
 
                 include "users.php";
 
@@ -180,16 +187,10 @@
             }
 
         } else {
-
             echo "<h2>Welcome to Admin Dashboard</h2>";
-
         }
-
         ?>
-
     </main>
-
 </div>
-
 </body>
 </html>
