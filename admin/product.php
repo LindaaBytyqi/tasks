@@ -1,6 +1,5 @@
 <?php
 include "../includes/database.php";
-
 $search = trim($_GET['query'] ?? '');
 $pagination = 10;
 
@@ -108,7 +107,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     cursor:pointer;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
     background-repeat:no-repeat;
-      background-position:center;
+    background-position:center;
 }
 </style>
 </head>
@@ -117,7 +116,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <form class="search-form" action="search.php" method="GET">
+    <form class="search-form" action="product.php" method="GET">
         <i class="bi bi-search"></i>
     <input 
         type="search"
@@ -126,8 +125,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         value="<?= isset($_GET['query']) ? htmlspecialchars($_GET['query']) : ''; ?>"
         >
     </form>
-
-        <a href="addproduct.php" class="btn btn-primary">
+        <a href="admindashboard.php?page=addproduct" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i>
             Add Product
         </a>
@@ -182,7 +180,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?= $product['status'] ? 'Active' : 'Inactive'; ?>
             </td>
             <td>
-                <a href="editproduct.php?edit=<?= $product['id']; ?>" class="btn btn-warning btn-sm">
+                <a href="admindashboard.php?page=editproduct&edit=<?= $product['id']; ?>" class="btn btn-warning btn-sm">
                     <i class="bi bi-pencil"></i> Edit
                 </a>
                 <a href="deleteproduct.php?delete=<?= $product['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?');">

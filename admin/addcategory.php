@@ -13,9 +13,11 @@ if(isset($_POST['add_category'])){
         "name"=>$name,
         "description"=>$description
     ]);
-    header("Location: category.php");
-    exit();
-
+   
+    echo '<script>
+        window.location.href = "admindashboard.php?page=category";
+    </script>';
+     exit();
 }
 ?>
 
@@ -77,9 +79,8 @@ class="btn btn-success">
 Save Category
 </button>
 
-<a href="category.php"
+<a href="admindashboard.php?page=category"
 class="btn btn-secondary">
-
 Cancel
 
 </a>

@@ -2,7 +2,7 @@
 include "includes/header.php";
 include "includes/database.php";
 
-$sql = "SELECT * FROM categories ORDER BY id ASC";
+$sql = "SELECT * FROM categories WHERE status = true  ORDER BY id ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);

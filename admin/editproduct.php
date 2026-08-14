@@ -68,7 +68,7 @@ if(isset($_POST['update_product'])){
         "status"=>$status
     ]);
 
-    header("Location: product.php");
+    header("Location: admindashboard.php?page=products");
     exit();
 }
 

@@ -3,7 +3,6 @@ if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,53 +13,7 @@ if(session_status() === PHP_SESSION_NONE){
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet"  href="/tasks/css/style.css">
-<style>
-
-    .search-form{
-    position:relative;
-    display:flex;
-    align-items:center;
-    /* margin-right: 1220px; */
-    flex:1;
-    max-width: 500px;
-    margin-left:auto;
-    margin-right:60px;
-}
-.search-form i{
-    position:absolute;
-    left:18px;
-    color:#6b7280;
-    font-size:23px;
-}
-.search-form input{
-    width:500px;
-    height:60px;
-    padding-left:50px;
-    padding-right:50px;
-    border:none;
-    border-radius:25px;
-    background:#f1f5f9;
-    font-size:20px;
-    outline:none;
-    transition:.3s;
-}
-.search-form input:focus{
-    background:white;
-    box-shadow:0 0 0 2px #eb3f81;
-}
-.search-form input[type="search"]::-webkit-search-cancel-button{
-    -webkit-appearance: none;
-    appearance: none;
-    width:18px;
-    height:18px;
-    cursor:pointer;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;
-      background-position:center;
-}
-</style>
 </head>
-
 <body>
 <nav class="navbar navbar-expand-lg custom-navbar">
 <div class="container-fluid px-5">

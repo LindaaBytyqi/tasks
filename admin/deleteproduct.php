@@ -13,7 +13,7 @@ if(isset($_GET['delete'])){
     ]);
 }
 
-header("Location: product.php");
+header("Location: admindashboard.php?page=products");
 exit();
 
 ?>

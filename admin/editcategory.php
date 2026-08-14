@@ -39,10 +39,10 @@ if(isset($_POST['update_category'])){
 
     ]);
 
-
-    header("Location: category.php");
-    exit();
-
+    echo '<script>
+        window.location.href = "admindashboard.php?page=category";
+    </script>';
+     exit();
 }
 
 ?>
@@ -107,23 +107,17 @@ required>
 
 </div>
 
-
-
 <div class="mb-3">
 
 <label>
 Description
 </label>
 
-
 <textarea name="description"
 class="form-control"
 rows="4"><?= htmlspecialchars($category['description']); ?></textarea>
 
-
 </div>
-
-
 
 <button type="submit"
 name="update_category"
@@ -133,31 +127,19 @@ Update
 
 </button>
 
-
-
-<a href="category.php"
+<a href="admindashboard.php?page=category";
 class="btn btn-secondary">
-
 Cancel
 
 </a>
-
-
 </form>
-
-
+</div>
 </div>
 
 </div>
-
-
 </div>
 
 </div>
-
-
-</div>
-
 
 </body>
 
