@@ -659,7 +659,6 @@ main{
     -webkit-line-clamp:2;
     line-clamp:2;
     overflow:hidden;
-
     min-height:48px;
     line-height:1.2;
 }

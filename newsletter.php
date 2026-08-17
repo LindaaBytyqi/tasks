@@ -20,9 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $sql = "INSERT INTO newsletter_subscribers(email)
                 VALUES (:email)";
-
         $stmt = $conn->prepare($sql);
-
         $stmt->execute([
             ":email" => $email
         ]);

@@ -83,10 +83,7 @@
 <body>
 
 <div class="admin-layout">
-
-    <!-- SIDEBAR -->
     <aside class="admin-sidebar">
-
         <div class="admin-logo">
             Admin Panel
         </div>
@@ -113,12 +110,12 @@
                 <span>Orders</span>
             </a>
 
-            <a href="#" class="nav-link">
+            <a href="admindashboard.php?page=users" class="nav-link">
                 <i class="bi bi-people"></i>
                 <span>Users</span>
             </a>
 
-            <a href="#" class="nav-link">
+            <a href="admindashboard.php?page=newsletter" class="nav-link">
                 <i class="bi bi-envelope"></i>
                 <span>Subscribers</span>
             </a>
@@ -128,11 +125,8 @@
     </aside>
 
 
-    <!-- CONTENT -->
     <main class="admin-content">
-
         <?php
-
         if(isset($_GET['page'])) {
 
             $page = $_GET['page'];
@@ -169,16 +163,25 @@
 
                 include "orderdetails.php";
 
-            } 
-            
-            
-            elseif($page == "users") {
+            } elseif($page == "users") {
 
                 include "users.php";
 
-            } elseif($page == "subscribers") {
+            } elseif($page == "edituser") {
 
-                include "subscribers.php";
+                include "edituser.php";
+
+            }  elseif($page == "updaterole") {
+
+                include "updaterole.php";
+
+            } elseif($page == "newsletter") {
+
+                include "newsletter.php";
+
+            } elseif($page == "deletenewsletter") {
+
+                include "deletenewsletter.php";
 
             } else {
 

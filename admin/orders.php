@@ -1,5 +1,4 @@
 <?php
-
 include "../includes/database.php";
 $search = trim($_GET['search'] ?? '');
 

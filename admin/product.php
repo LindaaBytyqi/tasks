@@ -116,7 +116,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <form class="search-form" action="product.php" method="GET">
+    <form class="search-form" action="admindashboard.php" method="GET">
         <i class="bi bi-search"></i>
     <input 
         type="search"
