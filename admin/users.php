@@ -2,7 +2,6 @@
 
 include "../includes/database.php";
 $search = trim($_GET['search'] ?? '');
-
 $sql = "SELECT id, first_name, last_name, email, role, status
         FROM users
         WHERE CAST(id AS TEXT) ILIKE :search
@@ -16,10 +15,9 @@ $stmt->execute([
     ':search' => '%' . $search . '%'
 ]);
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
-<div class="container-fluid">
+<div class="container mt-5">
       <form method="GET" action="admindashboard.php" class="mb-4">
         <input type="hidden" name="page" value="users">
 
@@ -73,7 +71,6 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($users as $user): ?>
 
                         <tr>
-
                             <td>
                                 <?= $user['id']; ?>
                             </td>
@@ -110,25 +107,15 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                              <span class="badge bg-success">
                                      Active
                             </span>
-
-    <?php else: ?>
-
-        <span class="badge bg-danger">
-            Inactive
-        </span>
-
-    <?php endif; ?>
-</td>
+                        <?php else: ?>
+                            <span class="badge bg-danger">
+                                 Inactive
+                            </span>
+                        <?php endif; ?>
+                        </td>
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a
-                                        href="admindashboard.php?page=viewuser&id=<?= $user['id']; ?>"
-                                        class="btn btn-sm btn-info text-white"
-                                        title="View Details"
-                                    >
-                                        <i class="bi bi-eye"></i>
-                                    </a>
                                     <a 
                                         href="admindashboard.php?page=edituser&id=<?= $user['id']; ?>" 
                                         class="btn btn-sm btn-primary" 

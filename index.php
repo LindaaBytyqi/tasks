@@ -12,6 +12,8 @@ $sql="SELECT * FROM products ORDER BY id ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <section class="hero-section">
@@ -48,7 +50,6 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?= htmlspecialchars($category['name']); ?>
             </a>
         <?php endforeach; ?>
-
         <a href="saleproducts.php" class="category-link sale-link">
             Sale Products
         </a>
@@ -126,8 +127,7 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
 
-
-<section class="newsletter-section">
+<section class="newsletter-section" id="newsletter">
     <div class="newsletter-card">
         <div class="newsletter-icon">
             ✉
@@ -138,7 +138,8 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h6>
             Get latest products and offers.
         </h6>
-        <form action="newsletter.php" method="POST">
+
+        <form id="newsletterForm" action="newsletter.php" method="POST">
             <input type="email"  name="email"
                 placeholder="Enter your email"
                 required >
@@ -147,13 +148,44 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
             </button>
         </form>
     </div>
-</section>
+</section> 
 
 
+<!-- <?php if (isset($_SESSION["newsletter_error"])): ?>
+    <div class="popup-message error-popup">
+        <div class="popup-content">
 
-<?php
-include "newsletter.php";
-?>
+            <div class="popup-icon">
+                ✕
+            </div>
+
+            <p>
+                <?= htmlspecialchars($_SESSION["newsletter_error"]) ?>
+            </p>
+
+        </div>
+    </div>
+    <?php unset($_SESSION["newsletter_error"]); ?>
+<?php endif; ?>
+
+
+<?php if (isset($_SESSION["newsletter_success"])): ?>
+    <div class="popup-message success-popup">
+        <div class="popup-content">
+
+            <div class="popup-icon">
+                ✓
+            </div>
+
+            <p>
+                <?= htmlspecialchars($_SESSION["newsletter_success"]) ?>
+            </p>
+        </div>
+    </div>
+    <?php unset($_SESSION["newsletter_success"]); ?>
+<?php endif; ?> -->
+
+
 
 <?php
 include "includes/footer.php";
@@ -177,5 +209,75 @@ setInterval(() => {
     }
     showSlide(currentSlide);
 }, 3000);
+
+
+const newsletterForm = document.getElementById("newsletterForm");
+newsletterForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    const formData = new FormData(newsletterForm);
+    fetch("newsletter.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const oldPopup = document.querySelector(".popup-message");
+        if (oldPopup) {
+            oldPopup.remove();
+        }
+
+        const popup = document.createElement("div");
+        popup.className = data.success
+            ? "popup-message success-popup"
+            : "popup-message error-popup";
+
+        popup.innerHTML = `
+            <div class="popup-content">
+
+                <div class="popup-icon">
+                    ${data.success ? "✓" : "✕"}
+                </div>
+
+                <p>
+                    ${data.message}
+                </p>
+
+            </div>
+        `;
+        newsletterForm.parentElement.appendChild(popup);
+        setTimeout(function() {
+
+            popup.style.opacity = "0";
+            popup.style.transition = "opacity 0.5s ease";
+
+            setTimeout(function() {
+                popup.remove();
+            }, 500);
+        }, 3000);
+
+        if (data.success) {
+            newsletterForm.reset();
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});
+
+
+
+
+// setTimeout(function () {
+//         const popup = document.querySelector('.popup-message');
+
+//         if (popup) {
+//             popup.style.opacity = '0';
+//             popup.style.transition = 'opacity 0.5s ease';
+
+//             setTimeout(function () {
+//                 popup.remove();
+//             }, 500);
+//         }
+//     }, 3000);
 
 </script>

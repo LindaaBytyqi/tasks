@@ -259,12 +259,14 @@ main{
 
 
 
+
 .newsletter-section{
     width:100%;
     padding:80px 40px;
     display:flex;
     justify-content:center;
     align-items:center;
+     position: relative;
 }
 .newsletter-card{
     width:900px;
@@ -329,8 +331,6 @@ main{
 .newsletter-card button:hover{
     background:#e681b3;
 }
-
-
 
 
 

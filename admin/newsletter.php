@@ -27,6 +27,11 @@ $newsletter_subscribers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold mb-0">Newsletter-subscribers</h2>
+        
+        <a href="exportnewsletter.php" class="btn btn-success">
+            <i class="bi bi-download"></i>
+             Export CSV
+        </a>
     </div>
 
       <form method="GET" action="admindashboard.php" class="mb-4">

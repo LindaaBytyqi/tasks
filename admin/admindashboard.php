@@ -1,30 +1,21 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Admin Dashboard</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
     <style>
-
         body {
             margin: 0;
             background-color: #f8f9fa;
         }
-
         .admin-layout {
             display: flex;
             min-height: 100vh;
         }
-
         .admin-sidebar {
             width: 320px;
             min-height: 100vh;
@@ -90,8 +81,8 @@
 
         <nav class="admin-nav">
 
-            <a href="admindashboard.php" class="nav-link">
-                <i class="bi bi-speedometer2"></i>
+            <a href="admindashboard.php?page=dashboard" class="nav-link">
+                <i class="bi bi-grid-1x2"></i>
                 <span>Dashboard</span>
             </a>
 
@@ -119,11 +110,8 @@
                 <i class="bi bi-envelope"></i>
                 <span>Subscribers</span>
             </a>
-
         </nav>
-
     </aside>
-
 
     <main class="admin-content">
         <?php
@@ -131,7 +119,11 @@
 
             $page = $_GET['page'];
 
-            if($page == "products") {
+            if($page == "dashboard") {
+
+                include "dashboard.php";
+
+            } elseif($page == "products") {
 
                 include "product.php";
 
