@@ -1,5 +1,7 @@
 <?php
+include "admin_auth.php";
 include "../includes/database.php";
+
 if(isset($_GET['id'])){
 
     $id = $_GET['id'];

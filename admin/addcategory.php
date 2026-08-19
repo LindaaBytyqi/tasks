@@ -1,5 +1,7 @@
 <?php
+include "admin_auth.php";
 include "../includes/database.php";
+
 if(isset($_POST['add_category'])){
     $name = $_POST['name'];
 

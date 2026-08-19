@@ -1,5 +1,7 @@
 <?php
+include "admin_auth.php";
 include "../includes/database.php";
+
 $id = $_GET['id'] ?? null;
 
 if (!$id) {

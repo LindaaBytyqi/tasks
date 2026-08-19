@@ -1,5 +1,7 @@
 <?php
+include "admin_auth.php";
 include "../includes/database.php";
+
 
 if(isset($_GET['delete'])){
     $id = $_GET['delete'];

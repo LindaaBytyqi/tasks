@@ -1,5 +1,7 @@
 <?php
+include "admin_auth.php";
 include "../includes/database.php";
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: admindashboard.php?page=orders");
     exit;

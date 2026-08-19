@@ -1,6 +1,6 @@
 <?php
 include "../includes/database.php";
-
+include "admin_auth.php";
 $search = trim($_GET['search'] ?? '');
 $sql = "SELECT * FROM newsletter_subscribers";
 if ($search !== '') {

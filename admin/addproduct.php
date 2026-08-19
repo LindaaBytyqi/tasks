@@ -1,4 +1,5 @@
 <?php
+include "admin_auth.php";
 include "../includes/database.php";
 
 $sql = "SELECT * FROM categories ORDER BY name ASC";

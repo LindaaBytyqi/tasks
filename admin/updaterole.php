@@ -1,5 +1,7 @@
 <?php
+include "admin_auth.php";
 include "../includes/database.php";
+
 $user_id = $_GET['id'] ?? null;
 
 if (!$user_id) {
@@ -18,6 +20,26 @@ if (!$user) {
     header("Location: admindashboard.php?page=users");
     exit;
 }
+//for last admin
+if ($user['role'] === 'admin') {
+    $sql = "SELECT COUNT(*)
+            FROM users
+            WHERE role = 'admin'
+            AND status = true";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    $admin_count = (int) $stmt->fetchColumn();
+
+    if ($admin_count <= 1) {
+
+        header("Location: admindashboard.php?page=users&error=last_admin");
+        exit;
+    }
+}
+
+
 
 $new_role = ($user['role'] === 'admin') ? 'user' : 'admin';
 $sql = "UPDATE users

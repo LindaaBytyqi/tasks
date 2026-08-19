@@ -1,6 +1,7 @@
 <?php
-
+include "admin_auth.php";
 include "../includes/database.php";
+
 $search = trim($_GET['search'] ?? '');
 $sql = "SELECT id, first_name, last_name, email, role, status
         FROM users

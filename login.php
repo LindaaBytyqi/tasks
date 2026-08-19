@@ -1,30 +1,50 @@
 <?php
+
 session_start();
 include "includes/database.php";
-$error= "";
+$error = "";
 
 if(isset($_POST['login'])){
 
-    $email = $_POST['email'];
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE email = :email";
+    $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+
     $stmt = $conn->prepare($sql);
+
     $stmt->execute([
-        "email"=>$email
+        "email" => $email
     ]);
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if($user && password_verify($password, $user['password'])){
+    if(!$user){
+
+        $error = "Email or password incorrect";
+
+    } elseif(!password_verify($password, $user['password'])){
+
+        $error = "Email or password incorrect";
+
+    } elseif($user['status'] !== true){
+
+        $error = "Your account is inactive.";
+
+    } else {
+
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['name'] = $user['first_name'];
         $_SESSION['role'] = $user['role'];
+        $_SESSION['status'] = $user['status'];
 
-        header("Location:index.php");
-        exit();
-    }else{
-        $error = "Email or password incorrect";
+        if($user['role'] === 'admin'){
+            header("Location: admin/admindashboard.php");
+            exit();
+        } else {
+            header("Location: index.php");
+            exit();
+        }
     }
 }
 

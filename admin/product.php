@@ -1,5 +1,7 @@
 <?php
+include "admin_auth.php";
 include "../includes/database.php";
+
 $search = trim($_GET['query'] ?? '');
 $pagination = 10;
 
