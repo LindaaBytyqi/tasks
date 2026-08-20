@@ -1,4 +1,5 @@
 <?php
+include "../includes/user_auth.php";
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -59,9 +60,9 @@ $payment_method = ($order['payment_method'] == '0')
     <div class="card mb-3 shadow-sm">
         <div class="card-body">
             <h4 class="mb-3">Customer Information</h4>
-            <p class="mb-1"><strong>Full Name:</strong> <?= htmlspecialchars($order['fullname']); ?></p>
-            <p class="mb-1"><strong>Email:</strong> <?= htmlspecialchars($order['email']); ?></p>
-            <p class="mb-0"><strong>Phone:</strong> <?= htmlspecialchars($order['phone']); ?></p>
+            <p class="mb-1"><strong>Full Name:</strong> <?= htmlspecialchars($order['fullname'], ENT_QUOTES, 'UTF-8'); ?>" </p>
+            <p class="mb-1"><strong>Email:</strong> <?= htmlspecialchars($order['email'], ENT_QUOTES, 'UTF-8'); ?>"  </p>
+            <p class="mb-0"><strong>Phone:</strong> <?= htmlspecialchars($order['phone'], ENT_QUOTES, 'UTF-8'); ?>"  </p>
         </div>
     </div>
 
@@ -69,9 +70,9 @@ $payment_method = ($order['payment_method'] == '0')
     <div class="card mb-3 shadow-sm">
         <div class="card-body">
             <h4 class="mb-3">Shipping Information</h4>
-            <p class="mb-1"><strong>Address:</strong> <?= htmlspecialchars($order['address']); ?></p>
-            <p class="mb-1"><strong>City:</strong> <?= htmlspecialchars($order['city']); ?></p>
-            <p class="mb-0"><strong>Zip Code:</strong> <?= htmlspecialchars($order['zipcode']); ?></p>
+            <p class="mb-1"><strong>Address:</strong> <?= htmlspecialchars($order['address'], ENT_QUOTES, 'UTF-8'); ?>"  </p>
+            <p class="mb-1"><strong>City:</strong> <?= htmlspecialchars($order['city'], ENT_QUOTES, 'UTF-8'); ?>"  </p>
+            <p class="mb-0"><strong>Zip Code:</strong> <?= htmlspecialchars($order['zipcode'], ENT_QUOTES, 'UTF-8'); ?>"  </p>
         </div>
     </div>
 
@@ -82,7 +83,7 @@ $payment_method = ($order['payment_method'] == '0')
             <p class="mb-0">
                 <strong>Order Status:</strong> 
                 <span class="badge bg-warning text-dark">
-                    <?= htmlspecialchars($order['status']); ?>
+                    <?= htmlspecialchars($order['status'], ENT_QUOTES, 'UTF-8'); ?>"  
                 </span>
             </p>
         </div>
@@ -97,8 +98,8 @@ $payment_method = ($order['payment_method'] == '0')
                     <div class="d-flex align-items-center">
                         <?php if (!empty($item['image'])): ?>
                             <img 
-                                src="../images/<?= htmlspecialchars($item['image']); ?>"
-                                alt="<?= htmlspecialchars($item['name']); ?>"
+                                src="../images/<?= htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>"  
+                                alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>"  
                                 style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 15px;"
                             >
                         <?php endif; ?>
@@ -106,7 +107,7 @@ $payment_method = ($order['payment_method'] == '0')
                         <div>
                             <strong><?= htmlspecialchars($item['name']); ?></strong>
                             <br>
-                            <small class="text-muted">Quantity: <?= htmlspecialchars($item['quantity']); ?></small>
+                            <small class="text-muted">Quantity: <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>"  </small>
                         </div>
                     </div>
                     <strong>€<?= number_format($item['price'] * $item['quantity'], 2); ?></strong>

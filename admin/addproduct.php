@@ -1,5 +1,6 @@
 <?php
 include "admin_auth.php";
+include "../includes/csrf.php";
 include "../includes/database.php";
 
 $sql = "SELECT * FROM categories ORDER BY name ASC";
@@ -11,6 +12,7 @@ $errors = [];
 
 if(isset($_POST['add_product'])){
 
+     verifyCsrfToken();
     $category_id = $_POST['category_id'] ?? '';
     $name = trim($_POST['name'] ?? '');
     $price = $_POST['price'] ?? '';
@@ -20,7 +22,7 @@ if(isset($_POST['add_product'])){
         ? $_POST['sale_price']
         : null;
     $status = $_POST['status'] ?? '';
-
+    
     if(empty($name)){
         $errors[] = "Product name is required.";
     } elseif(strlen($name) < 2){
@@ -54,50 +56,64 @@ if(isset($_POST['add_product'])){
     if($status !== '0' && $status !== '1'){
         $errors[] = "Invalid product status.";
     }
+    $allowed_types = [
+    'image/jpeg' => 'jpg',
+    'image/png'  => 'png',
+    'image/webp' => 'webp'
+    ];
 
-    if(empty($_FILES['image']['name'])){
-        $errors[] = "Product image is required.";
+  if (empty($_FILES['image']['name'])) {
+
+    $errors[] = "Product image is required.";
+
+} else {
+
+    if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+        $errors[] = "Image upload failed.";
     } else {
+        $max_file_size = 2 * 1024 * 1024;
+        if ($_FILES['image']['size'] > $max_file_size) {
+            $errors[] = "Image size must not exceed 2MB.";
+        }
 
-        $allowed_types = [
-            'image/jpeg',
-            'image/png',
-            'image/webp'
-        ];
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime_type = $finfo->file($_FILES['image']['tmp_name']);
 
-        if(!in_array($_FILES['image']['type'], $allowed_types)){
+        if (!array_key_exists($mime_type, $allowed_types)) {
             $errors[] = "Only JPG, PNG and WEBP images are allowed.";
         }
     }
+}
+   if(empty($errors)){ 
+    $extension = $allowed_types[$mime_type];
+    $image = bin2hex(random_bytes(16)) . '.' . $extension;
+    $target = "../images/" . $image;
 
-    if(empty($errors)){
-        $image = $_FILES['image']['name'];
-        $target = "../images/" . $image;
-        move_uploaded_file(
-            $_FILES['image']['tmp_name'],
-            $target
-        );
+    if(!move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+        $errors[] = "Failed to upload image.";
+    } else {
 
-        $sql = "INSERT INTO products
-        (category_id, name, price, stock, description, image, sale_price, status)
-        VALUES
-        (:category_id, :name, :price, :stock, :description, :image, :sale_price, :status)";
+        $sql = "INSERT INTO products 
+        (category_id, name, price, stock, description, image, sale_price, status) 
+        VALUES 
+        (:category_id, :name, :price, :stock, :description, :image, :sale_price, :status)"; 
 
-        $stmt = $conn->prepare($sql);
+        $stmt = $conn->prepare($sql); 
 
-        $stmt->execute([
-            "category_id" => $category_id,
-            "name" => $name,
-            "price" => $price,
-            "stock" => $stock,
-            "description" => $description,
-            "image" => $image,
-            "sale_price" => $sale_price,
-            "status" => $status
-        ]);
+        $stmt->execute([ 
+            "category_id" => $category_id, 
+            "name" => $name, 
+            "price" => $price, 
+            "stock" => $stock, 
+            "description" => $description, 
+            "image" => $image, 
+            "sale_price" => $sale_price, 
+            "status" => $status 
+        ]); 
 
-        header("Location: admindashboard.php?page=products");
-        exit();
+        header("Location: admindashboard.php?page=products"); 
+        exit(); 
+    }
     }
 }
 ?>
@@ -125,6 +141,9 @@ Add Product
 <?php endif; ?>
 
 <form method="POST" enctype="multipart/form-data">
+    <input type="hidden"
+       name="csrf_token"
+       value="<?= htmlspecialchars(generateCsrfToken()) ?>">
 <div class="mb-3">
 
 <label>
@@ -151,7 +170,7 @@ Choose Category
 
 <?php foreach($categories as $category): ?>
 <option value="<?= $category['id']; ?>">
-<?= htmlspecialchars($category['name']); ?>
+<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>  
 </option>
 <?php endforeach; ?>
 </select>
@@ -176,6 +195,8 @@ Stock
 <input type="number"
 name="stock"
 class="form-control"
+step="1"
+min="0"
 required>
 </div>
 
@@ -217,7 +238,8 @@ Product Image
 <input type="file"
 name="image"
 class="form-control"
-accept="image/*">
+accept=".jpg,.jpeg,.png,.webp"
+required>
 </div>
 
 

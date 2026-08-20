@@ -1,5 +1,6 @@
 <?php
 include "admin_auth.php";
+include "../includes/csrf.php";
 include "../includes/database.php";
 
 
@@ -50,27 +51,19 @@ if(isset($_POST['update_category'])){
 
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
-
 
 <body class="bg-light">
 
-
 <div class="container mt-5">
-
 
 <div class="row justify-content-center">
 
 <div class="col-md-6">
 
-
 <div class="card shadow">
-
 
 <div class="card-header bg-warning">
 
@@ -79,13 +72,12 @@ Edit Category
 </h3>
 
 </div>
-
-
 <div class="card-body">
 
-
 <form method="POST">
-
+<input type="hidden"
+       name="csrf_token"
+       value="<?= htmlspecialchars(generateCsrfToken()) ?>">
 
 <input type="hidden" 
 name="id"
@@ -102,7 +94,7 @@ Category Name
 <input type="text"
 name="name"
 class="form-control"
-value="<?= htmlspecialchars($category['name']); ?>"
+value="<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>"
 required>
 
 </div>
@@ -112,13 +104,10 @@ required>
 <label>
 Description
 </label>
-
 <textarea name="description"
 class="form-control"
-rows="4"><?= htmlspecialchars($category['description']); ?></textarea>
-
+rows="4"><?= htmlspecialchars($category['description'], ENT_QUOTES, 'UTF-8'); ?>"</textarea>
 </div>
-
 <button type="submit"
 name="update_category"
 class="btn btn-success">

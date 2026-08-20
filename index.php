@@ -8,7 +8,7 @@ $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-$sql="SELECT * FROM products ORDER BY id ASC";
+$sql="SELECT * FROM products ORDER BY id DESC LIMIT 8";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,7 +25,7 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
                 Shop with confidence and enjoy fast delivery.
             </p>
             <div class="hero-buttons">
-                <a href="products.php" class="btn-primary">Shop Now</a>
+                <a href="product.php" class="btn-primary">Shop Now</a>
                 <a href="about.php" class="btn-secondary">Learn More</a>
             </div>
         </div>
@@ -154,15 +154,12 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!-- <?php if (isset($_SESSION["newsletter_error"])): ?>
     <div class="popup-message error-popup">
         <div class="popup-content">
-
             <div class="popup-icon">
                 ✕
             </div>
-
             <p>
                 <?= htmlspecialchars($_SESSION["newsletter_error"]) ?>
             </p>
-
         </div>
     </div>
     <?php unset($_SESSION["newsletter_error"]); ?>
@@ -172,11 +169,9 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php if (isset($_SESSION["newsletter_success"])): ?>
     <div class="popup-message success-popup">
         <div class="popup-content">
-
             <div class="popup-icon">
                 ✓
             </div>
-
             <p>
                 <?= htmlspecialchars($_SESSION["newsletter_success"]) ?>
             </p>
@@ -264,20 +259,5 @@ newsletterForm.addEventListener("submit", function(event) {
     });
 });
 
-
-
-
-// setTimeout(function () {
-//         const popup = document.querySelector('.popup-message');
-
-//         if (popup) {
-//             popup.style.opacity = '0';
-//             popup.style.transition = 'opacity 0.5s ease';
-
-//             setTimeout(function () {
-//                 popup.remove();
-//             }, 500);
-//         }
-//     }, 3000);
 
 </script>

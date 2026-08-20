@@ -1,5 +1,6 @@
 <?php
 include "admin_auth.php";
+include "../includes/csrf.php";
 include "../includes/database.php";
 
 $id = $_GET['id'] ?? null;
@@ -102,8 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input
                             type="hidden"
                             name="id"
-                            value="<?= $user['id']; ?>"
-                        >
+                            value="<?= $user['id']; ?>">
+
+                              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']); ?>">
 
                         <div class="mb-3">
 
@@ -115,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 type="text"
                                 name="first_name"
                                 class="form-control"
-                                value="<?= htmlspecialchars($user['first_name']); ?>"
+                                value="<?= htmlspecialchars($user['first_name'], ENT_QUOTES, 'UTF-8'); ?>"
                                 required
                             >
 
@@ -131,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 type="text"
                                 name="last_name"
                                 class="form-control"
-                                value="<?= htmlspecialchars($user['last_name']); ?>"
+                                value="<?= htmlspecialchars($user['last_name'], ENT_QUOTES, 'UTF-8'); ?>"
                                 required
                             >
 
@@ -147,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 type="email"
                                 name="email"
                                 class="form-control"
-                                value="<?= htmlspecialchars($user['email']); ?>"
+                                value="<?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8'); ?>"
                                 required
                             >
 

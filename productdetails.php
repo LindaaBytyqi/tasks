@@ -171,19 +171,17 @@ if (!$product) {
     <div class="product-details-box">
         <div class="product-image-box">
             <img
-                src="images/<?= htmlspecialchars($product['image']); ?>"
-                alt="<?= htmlspecialchars($product['name']); ?>"
+                src="images/<?= htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8'); ?>"
+                alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>"
             >
-
         </div>
-
         <div class="product-info-box">
             <h1 class="product-title">
-                <?= htmlspecialchars($product['name']); ?>
+                <?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>
             </h1>
 
             <p class="product-description">
-                <?= htmlspecialchars($product['description']); ?>
+                <?= htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8') ?>
             </p>
             <div class="product-price">
 
@@ -196,13 +194,10 @@ if (!$product) {
                     <del class="old-price">
                         $<?= number_format($product['price'], 2); ?>
                     </del>
-
                 <?php else: ?>
-
                     <span class="normal-price">
                         $<?= number_format($product['price'], 2); ?>
                     </span>
-
                 <?php endif; ?>
 
                 </div>
@@ -212,7 +207,7 @@ if (!$product) {
                     <span class="in-stock">
                         <i class="bi bi-check-circle"></i>
                         In Stock
-                        (<?= $product['stock']; ?> available)
+                        (<?=(int) $product['stock']; ?> available)
                     </span>
 
                 <?php else: ?>
@@ -250,7 +245,7 @@ if (!$product) {
                                 name="quantity"
                                 value="1"
                                 min="1"
-                                max="<?= $product['stock']; ?>"
+                                max="<?= (int)$product['stock']; ?>"
                             >
                             <button
                                 type="button"

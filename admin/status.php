@@ -1,6 +1,7 @@
 <?php
-include "../includes/database.php";
 include "admin_auth.php";
+include "../includes/database.php";
+
 if (!isset($_GET['id']) || !isset($_GET['status'])) {
     header("Location: admindashboard.php?page=category");
     exit();

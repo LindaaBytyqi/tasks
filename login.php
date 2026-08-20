@@ -1,9 +1,13 @@
 <?php
-
+session_set_cookie_params([
+    'httponly' => true,
+    'secure' => false,
+    'samesite' => 'Lax'
+]);
 session_start();
 include "includes/database.php";
-$error = "";
 
+$error = "";
 if(isset($_POST['login'])){
 
     $email = trim($_POST['email']);
@@ -32,6 +36,8 @@ if(isset($_POST['login'])){
         $error = "Your account is inactive.";
 
     } else {
+
+           session_regenerate_id(true);
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['name'] = $user['first_name'];
@@ -153,7 +159,7 @@ if($error != ""): ?>
             <i class="bi bi-x-lg"></i>
         </div>
         <p>
-            <?php echo $error; ?>
+            <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
         </p>
     </div>
 </div>
@@ -222,7 +228,7 @@ const password = document.querySelector("#password");
 togglePassword.addEventListener("click", function(){
 
     if(password.type === "password"){
-
+        
         password.type = "text";
         this.classList.remove("bi-eye-slash");
         this.classList.add("bi-eye");

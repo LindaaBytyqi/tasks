@@ -1,5 +1,6 @@
 <?php
 include "admin_auth.php";
+include "../includes/csrf.php";
 include "../includes/database.php";
 
 $order_id = $_GET['id'] ?? null;
@@ -58,17 +59,17 @@ $payment_method = $order['payment_method'] == '0'
 
         <p class="mb-1">
             <strong>Full Name:</strong>
-            <?= htmlspecialchars($order['fullname']); ?>
+            <?= htmlspecialchars($order['fullname'], ENT_QUOTES, 'UTF-8'); ?>"
         </p>
 
         <p class="mb-1">
             <strong>Email:</strong>
-            <?= htmlspecialchars($order['email']); ?>
+            <?= htmlspecialchars($order['email'], ENT_QUOTES, 'UTF-8'); ?>"
         </p>
 
         <p class="mb-0">
             <strong>Phone:</strong>
-            <?= htmlspecialchars($order['phone']); ?>
+            <?= htmlspecialchars($order['phone'], ENT_QUOTES, 'UTF-8'); ?>"
         </p>
     </div>
 </div>
@@ -83,17 +84,17 @@ $payment_method = $order['payment_method'] == '0'
 
         <p class="mb-1">
             <strong>Address:</strong>
-            <?= htmlspecialchars($order['address']); ?>
+            <?= htmlspecialchars($order['address'], ENT_QUOTES, 'UTF-8'); ?>"
         </p>
 
         <p class="mb-1">
             <strong>City:</strong>
-            <?= htmlspecialchars($order['city']); ?>
+            <?= htmlspecialchars($order['city'], ENT_QUOTES, 'UTF-8'); ?>"
         </p>
 
         <p class="mb-0">
             <strong>Zip Code:</strong>
-            <?= htmlspecialchars($order['zipcode']); ?>
+            <?= htmlspecialchars($order['zipcode'], ENT_QUOTES, 'UTF-8'); ?>"
         </p>
     </div>
 </div>
@@ -124,12 +125,12 @@ $payment_method = $order['payment_method'] == '0'
 
                     <div>
                         <strong>
-                            <?= htmlspecialchars($item['name']); ?>
+                            <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>"
                         </strong>
                         <br>
                         <small class="text-muted">
                             Quantity:
-                            <?= htmlspecialchars($item['quantity']); ?>
+                            <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>"
                         </small>
                         <br>
                         <small class="text-muted">

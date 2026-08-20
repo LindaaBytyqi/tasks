@@ -1,4 +1,6 @@
 <?php
+include "../includes/user_auth.php";
+include "../includes/csrf.php";
 $user_id = $_SESSION['user_id'];
 
 if(isset($_POST['update_profile'])){
@@ -86,7 +88,7 @@ $stmt->execute([
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 <style>
-
+/* 
 .edit-card{
     width:650px;
     margin-left:300px;
@@ -144,6 +146,158 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     text-decoration:none;
     display:inline-block;
     margin-bottom:30px;
+} */
+
+ .edit-card {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+}
+.edit-card .card-header {
+    padding: 18px;
+}
+.edit-card .card-header h4 {
+    font-size: 30px;
+}
+.edit-card .card-body {
+    padding: 25px;
+}
+.edit-card .form-label {
+    font-size: 18px;
+    font-weight: 600;
+}
+.edit-card .form-control {
+    height: 50px;
+    font-size: 17px;
+}
+.edit-card .btn-primary,
+.edit-card .btn-secondary {
+    padding: 12px 22px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+.edit-card .btn-primary,
+.edit-card .btn-primary:hover,
+.edit-card .btn-primary:focus,
+.edit-card .btn-primary:active {
+    background: #e681b3;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+.edit-card .btn-secondary,
+.edit-card .btn-secondary:hover,
+.edit-card .btn-secondary:focus,
+.edit-card .btn-secondary:active {
+    background: #d1ced0;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    color: #333;
+}
+.edit-card .text-primary {
+    font-size: 20px;
+    color: black !important;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+.profile-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+@media (max-width: 991px) {
+    .edit-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .edit-card {
+        width: 100%;
+        margin: 0;
+    }
+    .edit-card .card-header {
+        padding: 15px;
+    }
+    .edit-card .card-header h4 {
+        font-size: 23px;
+    }
+    .edit-card .card-body {
+        padding: 20px;
+    }
+    .edit-card .form-label {
+        font-size: 16px;
+    }
+    .edit-card .form-control {
+        height: 46px;
+        font-size: 16px;
+    }
+    .edit-card .btn-primary,
+    .edit-card .btn-secondary {
+        font-size: 16px;
+        padding: 10px 16px;
+    }
+    .edit-card .text-primary {
+        font-size: 17px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .account-sidebar {
+        display: flex;
+        justify-content: center;
+        padding: 0 15px;
+        margin-bottom: 45px;
+    }
+    .account-sidebar > * {
+        width: 100%;
+        max-width: 400px;
+    }
+    .account-content {
+        padding: 0 15px;
+    }
+    .welcome-card {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .edit-card {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .edit-card .card-body {
+        padding: 20px;
+    }
+    .edit-card .d-flex {
+        gap: 15px !important;
+    }
+    .edit-card .btn-primary,
+    .edit-card .btn-secondary {
+        flex: 1;
+        min-width: 120px;
+    }
+     .profile-buttons {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+    }
+    .profile-buttons .btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+@media (max-width: 450px) {
+    .profile-buttons {
+        gap: 10px;
+    }
+    .profile-buttons .btn {
+        font-size: 15px;
+        padding: 10px 8px;
+    }
 }
 </style>
 <div class="card shadow-sm edit-card">
@@ -168,7 +322,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     type="text"
                     name="first_name"
                     class="form-control"
-                    value="<?= htmlspecialchars($user['first_name']); ?>"
+                    value="<?= htmlspecialchars($user['first_name'], ENT_QUOTES, 'UTF-8'); ?>"  
                     required>
             </div>
             <div class="mb-3">
@@ -179,7 +333,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     type="text"
                     name="last_name"
                     class="form-control"
-                    value="<?= htmlspecialchars($user['last_name']); ?>"
+                    value="<?= htmlspecialchars($user['last_name'], ENT_QUOTES, 'UTF-8'); ?>"  
                     required>
             </div>
             <div class="mb-4">
@@ -191,7 +345,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     type="email"
                     name="email"
                     class="form-control"
-                    value="<?= htmlspecialchars($user['email']); ?>"
+                    value="<?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8'); ?>"  
                     required>
             </div>
             <a href="dashboard.php?page=changepassword"
@@ -200,6 +354,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             </a>
             </br>
 
+            <div class="profile-buttons">
             <button
                 type="submit"
                 name="update_profile"
@@ -211,6 +366,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 class="btn btn-secondary">
                 Cancel
             </a>
+        </div>
         </form>
     </div>
 </div>

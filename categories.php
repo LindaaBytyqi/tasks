@@ -59,7 +59,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <section class="products-section">
 
 <h2>
-<?= htmlspecialchars($category['name']); ?>
+<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>">
 </h2>
 
 <div class="shop-layout">
@@ -139,7 +139,7 @@ Apply
 <div class="products-container">
 <?php foreach($products as $product): ?>
 <div class="product-card">
-<img src="images/<?= htmlspecialchars($product['image']); ?>">
+<img src="images/<?= htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') ?>">
 
 <h3>
 <?= htmlspecialchars($product['name']); ?>

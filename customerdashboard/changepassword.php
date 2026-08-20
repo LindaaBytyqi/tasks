@@ -1,5 +1,6 @@
 <?php
-
+include "../includes/user_auth.php";
+include "../includes/csrf.php";
 $user_id = $_SESSION['user_id'];
 
 if(isset($_POST['change_password'])){
@@ -83,7 +84,7 @@ if(isset($_POST['change_password'])){
 .password-card .card-body{
     padding:25px;
 }
-.form-label{
+/* .form-label{
     font-size:18px;
     font-weight:600;
 }
@@ -91,13 +92,13 @@ if(isset($_POST['change_password'])){
     height:50px;
     font-size:17px;
 }
-.btn-primary{
-    padding:12px 25px;
+.btn.btn-primary{
+    padding: 12px 22px;
     font-size:18px;
     border-radius:10px;
 }
-.btn-secondary{
-    padding:12px 25px;
+.btn.btn-secondary{
+    padding:12px 22px;
     font-size:18px;
     border-radius:10px;
 }
@@ -105,7 +106,7 @@ if(isset($_POST['change_password'])){
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active{
-    background:#2563eb;
+    background: #424446;
     border:none;
     box-shadow:none;
     outline:none;
@@ -114,7 +115,7 @@ if(isset($_POST['change_password'])){
 .btn-secondary:hover,
 .btn-secondary:focus,
 .btn-secondary:active{
-    background:#6c757d;
+    background: #424446;
     border:none;
     box-shadow:none;
     outline:none;
@@ -128,7 +129,108 @@ if(isset($_POST['change_password'])){
     cursor:pointer;
     font-size:22px;
     color:#6b7280;
+} */
+
+.password-card .form-label {
+    font-size: 18px;
+    font-weight: 600;
 }
+.password-card .form-control {
+    height: 50px;
+    font-size: 17px;
+}
+.password-card .btn-primary {
+    padding: 12px 22px;
+    font-size: 18px;
+    border-radius: 10px;
+    background: #e681b3;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.password-card .btn-primary:hover,
+.password-card .btn-primary:focus,
+.password-card .btn-primary:active {
+    background: #b1b4b6;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+.password-card .position-relative i {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 22px;
+    color: #6b7280;
+}
+
+.password-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+@media (max-width: 991px) {
+    .password-card {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .password-card .card-body {
+        padding: 20px;
+    }
+}
+@media (max-width: 767px) {
+
+    .password-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .password-card .card-header {
+        padding: 15px;
+    }
+
+    .password-card .card-header h4 {
+        font-size: 23px;
+    }
+
+    .password-card .card-body {
+        padding: 20px;
+    }
+
+    .password-card .form-label {
+        font-size: 16px;
+    }
+
+    .password-card .form-control {
+        width: 100%;
+        height: 46px;
+        font-size: 16px;
+    }
+
+    .password-card .position-relative i {
+        right: 15px;
+        font-size: 20px;
+    }
+
+    .password-buttons {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .password-buttons .btn {
+        flex: 1;
+        font-size: 16px;
+        padding: 10px 8px;
+    }
+}
+
 
 </style>
 <div class="card shadow-sm password-card">
@@ -137,26 +239,19 @@ if(isset($_POST['change_password'])){
         <h4 class="mb-0">
             Change Password
         </h4>
-
     </div>
-
     <div class="card-body">
         <?php
-
         if(isset($message)){
             echo $message;
         }
         ?>
        <form method="POST">
-
     <div class="mb-3">
-
         <label class="form-label">
             Current Password
         </label>
-
         <div class="position-relative">
-
             <input
                 type="password"
                 name="current_password"
@@ -167,19 +262,13 @@ if(isset($_POST['change_password'])){
             <i class="bi bi-eye-slash toggle-password"
                data-target="current_password">
             </i>
-
         </div>
-
     </div>
 
-
-
     <div class="mb-3">
-
         <label class="form-label">
             New Password
         </label>
-
         <div class="position-relative">
             <input
                 type="password"
@@ -192,7 +281,6 @@ if(isset($_POST['change_password'])){
             </i>
         </div>
     </div>
-
 
     <div class="mb-4">
         <label class="form-label">
@@ -210,6 +298,7 @@ if(isset($_POST['change_password'])){
             </i>
         </div>
     </div>
+    <div class="password-buttons">
      <button
                 type="submit"
                 name="change_password"
@@ -221,6 +310,7 @@ if(isset($_POST['change_password'])){
                 class="btn btn-primary">
                 Cancel
             </a>
+    </div>      
         </form>
     </div>
 

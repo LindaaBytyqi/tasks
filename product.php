@@ -1,38 +1,238 @@
-<?php if (!empty($products)): ?>
-<?php foreach($products as $product): ?>
+<?php
+include "includes/header.php";
+include "includes/database.php";
 
-<div class="product-card">
-<img src="images/<?= $product['image']; ?>">
-<h3>
-<?= htmlspecialchars($product['name']); ?>
-</h3>
+$sort = $_GET['sort'] ?? "newest";
+$min_price = $_GET['min_price'] ?? "";
+$max_price = $_GET['max_price'] ?? "";
 
 
-<p>
-<?= htmlspecialchars($product['description']); ?>
-</p>
+$sql = "SELECT * FROM products WHERE 1=1";
 
-<?php if($product['sale_price']): ?>
-    <span>
-        $<?= $product['sale_price']; ?>
-    </span>
-    <del>
-        $<?= $product['price']; ?>
-    </del>
-<?php else: ?>
-    <span>
-        $<?= $product['price']; ?>
-    </span>
-<?php endif; ?>
+$params = [];
+if ($min_price !== "") {
 
-<a href="product-details.php?id=<?= $product['id']; ?>">
-    View Product
-</a>
+    $sql .= " AND price >= :min_price";
 
-<button>
-    Add to Cart
-</button>
+    $params["min_price"] = $min_price;
+}
+if ($max_price !== "") {
 
-</div>
-<?php endforeach; ?>
-<?php endif; ?>
+    $sql .= " AND price <= :max_price";
+
+    $params["max_price"] = $max_price;
+}
+switch ($sort) {
+    case "low":
+        $sql .= " ORDER BY price ASC";
+        break;
+    case "high":
+        $sql .= " ORDER BY price DESC";
+        break;
+    case "az":
+        $sql .= " ORDER BY name ASC";
+        break;
+    case "za":
+        $sql .= " ORDER BY name DESC";
+        break;
+    default:
+        $sql .= " ORDER BY id DESC";
+        break;
+}
+
+$stmt = $conn->prepare($sql);
+$stmt->execute($params);
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+
+<section class="products-section">
+    <div class="shop-layout">
+        <div class="filter-sidebar">
+            <h3>
+                Filter
+            </h3>
+
+            <form
+                method="GET"
+                action="products.php"
+            >
+                <label>
+                    Sort By
+                </label>
+                <select name="sort">
+                    <option
+                        value="newest"
+                        <?= $sort === "newest" ? "selected" : ""; ?>
+                    >
+                        Newest
+                    </option>
+                    <option
+                        value="low"
+                        <?= $sort === "low" ? "selected" : ""; ?>
+                    >
+                        Price Low to High
+                    </option>
+                    <option
+                        value="high"
+                        <?= $sort === "high" ? "selected" : ""; ?>
+                    >
+                        Price High to Low
+                    </option>
+                    <option
+                        value="az"
+                        <?= $sort === "az" ? "selected" : ""; ?>
+                    >
+                        Alphabetically (A-Z)
+                    </option>
+
+                    <option
+                        value="za"
+                        <?= $sort === "za" ? "selected" : ""; ?>
+                    >
+                        Alphabetically (Z-A)
+                    </option>
+                </select>
+                <label>
+                    Min Price
+                </label>
+                <input
+                    type="number"
+                    name="min_price"
+                    value="<?= htmlspecialchars($min_price); ?>"
+                    min="0"
+                    step="0.01"
+                >
+                <label>
+                    Max Price
+                </label>
+
+                <input
+                    type="number"
+                    name="max_price"
+                    value="<?= htmlspecialchars($max_price); ?>"
+                    min="0"
+                    step="0.01"
+                >
+                <button
+                    type="submit"
+                    class="btn-apply"
+                >
+                    Apply
+                </button>
+            </form>
+        </div>
+        <div class="products-container">
+
+            <?php if (!empty($products)): ?>
+
+                <?php foreach ($products as $product): ?>
+
+                    <div class="product-card">
+                        <img
+                            src="images/<?= htmlspecialchars($product['image']); ?>"
+                            alt="<?= htmlspecialchars($product['name']); ?>"
+                        >
+
+
+                        <h3>
+                            <?= htmlspecialchars($product['name']); ?>
+                        </h3>
+
+
+                        <div class="price">
+
+
+                            <?php if (
+                                $product['sale_price'] !== null &&
+                                $product['sale_price'] < $product['price']
+                            ): ?>
+
+
+                                <span class="sale-price">
+
+                                    $<?= number_format(
+                                        $product['sale_price'],
+                                        2
+                                    ); ?>
+
+                                </span>
+
+
+                                <span class="old-price">
+
+                                    $<?= number_format(
+                                        $product['price'],
+                                        2
+                                    ); ?>
+
+                                </span>
+
+
+                            <?php else: ?>
+
+
+                                <span class="regular-price">
+
+                                    $<?= number_format(
+                                        $product['price'],
+                                        2
+                                    ); ?>
+
+                                </span>
+
+
+                            <?php endif; ?>
+
+
+                        </div>
+
+
+                        <?php if ($product['stock'] > 0): ?>
+
+
+                            <span class="stock">
+                                In Stock
+                            </span>
+
+
+                        <?php else: ?>
+
+
+                            <span class="stock">
+                                Out of Stock
+                            </span>
+
+
+                        <?php endif; ?>
+
+
+                        <div class="buttons">
+                            <a
+                                href="productdetails.php?id=<?= $product['id']; ?>"
+                            >
+                                View Product
+                            </a>
+                            <?php if ($product['stock'] > 0): ?>
+                                <a
+                                    href="cart.php?action=add&id=<?= $product['id']; ?>"
+                                    class="btn-add"
+                                >
+                                    Add to Cart
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>
+                    No products found.
+                </p>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<?php
+include "includes/footer.php";
+?>

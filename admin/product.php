@@ -157,14 +157,14 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?= $product['id']; ?>
             </td>
            <td>
-            <img src="../images/<?= htmlspecialchars($product['image']); ?>"
+            <img src="../images/<?= htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8'); ?>"
             width="80">
             </td>
             <td class="fw-semibold">
-                <?= htmlspecialchars($product['name']); ?>
+                <?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>
             </td>
             <td>    
-                <?= htmlspecialchars($product['category_name']); ?>
+                <?= htmlspecialchars($product['category_name'], ENT_QUOTES, 'UTF-8'); ?>"
             </td>
             <td>
                 $<?= number_format($product['price'], 2); ?>
@@ -173,7 +173,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?= $product['stock']; ?>
             </td>
             <td>
-                <?= htmlspecialchars($product['description']); ?>
+                <?= htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8'); ?>"
             </td>
             <td>
                 $<?= number_format($product['sale_price'], 2); ?>

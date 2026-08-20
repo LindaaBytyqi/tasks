@@ -1,4 +1,6 @@
 <?php
+include "../includes/user_auth.php";
+include "../includes/csrf.php";
 $user_id = $_SESSION['user_id'];
 
 $sql = "SELECT first_name, last_name, email
@@ -11,10 +13,9 @@ $stmt->execute([
 ]);
 
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
 ?>
 <style>
-    .profile-card{
+.profile-card{
     width:650px;
     margin-left: 300px;
 }
@@ -42,6 +43,42 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     font-size:17px;
     padding:12px 22px;
     border-radius:12px;
+}
+@media (max-width: 991px) {
+    .profile-card {
+        width: 100%;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .profile-card {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    .profile-card .card-header {
+        padding: 15px;
+    }
+    .profile-card .card-header h4 {
+        font-size: 23px;
+    }
+    .profile-card .card-body {
+        padding: 20px;
+    }
+    .profile-card h6 {
+        font-size: 18px;
+    }
+    .profile-card p {
+        font-size: 16px;
+    }
+    .profile-card .btn-primary {
+        width: 100%;
+        font-size: 16px;
+        padding: 11px 18px;
+    }
 }
 </style>
 <div class="card shadow-sm profile-card">

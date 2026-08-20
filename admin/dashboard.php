@@ -70,7 +70,7 @@ foreach ($categoryResults as $row) {
            <h3>DASHBOARD OVERVIEW</h3>
         </div>
     </div>
-<div class="row g-3 mb-4">
+<div class="row g-3 mb-5 pt-4">
 
 <div class="col-12 col-sm-6 col-lg">
     <div class="card border border-2 border-secondary-subtle shadow py-5 px-4 rounded-3">
@@ -145,7 +145,7 @@ foreach ($categoryResults as $row) {
 </div>
 
 
-<div class="row g-4 mb-4">
+<div class="row g-4 mb-4" style="margin-top: 80px !important;">
   <div class="col-12 col-lg-8">
     <div class="card border-0 shadow-sm p-4 h-100 rounded-3">
       <div class="d-flex justify-content-between align-items-center mb-3">

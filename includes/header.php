@@ -48,7 +48,7 @@ Home
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="/tasks/categories.php">
+<a class="nav-link" href="/tasks/product.php">
 Products
 </a>
 </li>

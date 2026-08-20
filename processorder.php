@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "includes/csrf.php";
 include "includes/database.php";
 
 if (!isset($_SESSION['user_id'])) {
@@ -16,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: checkout.php");
     exit;
 }
+verifyCsrfToken();
 
 $fullname = trim($_POST['fullName'] ?? '');
 $email = trim($_POST['email'] ?? '');

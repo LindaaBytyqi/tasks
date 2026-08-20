@@ -4,9 +4,9 @@ include "../tasks/includes/database.php";
 
 if(isset($_POST['register'])){
 
-    $first_name = $_POST['firstname'];
-    $last_name  = $_POST['lastname'];
-    $email      = $_POST['email'];
+    $first_name = trim($_POST['firstname'] ?? '');
+    $last_name  = trim($_POST['lastname'] ?? '');
+    $email      = trim($_POST['email'] ?? '');
     $password   = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role       = "user";
 

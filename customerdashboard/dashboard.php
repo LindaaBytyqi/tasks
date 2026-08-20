@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "../includes/user_auth.php";
 include "../includes/header.php";
 include "../includes/database.php";
 
@@ -34,6 +35,24 @@ $page = isset($_GET['page']) ? $_GET['page'] : "home";
 .welcome-card{
     width:900px;
     margin:50px auto;
+}
+@media (max-width: 991px) {
+    .account-sidebar {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 0 15px;
+        margin-bottom: 40px;
+    }
+    .account-content {
+        width: 100%;
+        padding: 0 15px;
+    }
+    .password-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
 }
 </style>
 <div class="container-fluid mt-5" style="min-height: 50vh;">

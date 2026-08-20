@@ -3,7 +3,7 @@ session_start();
 include "includes/header.php";
 include "includes/database.php";
 
-$order_id = $_GET['order_id'] ?? null;
+$order_id = filter_input(INPUT_GET, 'order_id', FILTER_VALIDATE_INT);
 
 if (!$order_id) {
     header("Location: index.php");
@@ -85,15 +85,15 @@ $payment_method = $order['payment_method'] == '0'
             </h4>
             <p>
                 <strong>Full Name:</strong>
-                <?= htmlspecialchars($order['fullname']); ?>
+                <?= htmlspecialchars($order['fullname'], ENT_QUOTES, 'UTF-8'); ?>
             </p>
             <p>
                 <strong>Email:</strong>
-                <?= htmlspecialchars($order['email']); ?>
+                <?= htmlspecialchars($order['email'], ENT_QUOTES, 'UTF-8'); ?>
             </p>
             <p>
                 <strong>Phone:</strong>
-                <?= htmlspecialchars($order['phone']); ?>
+                <?= htmlspecialchars($order['phone'], ENT_QUOTES, 'UTF-8'); ?>
             </p>
         </div>
     </div>
@@ -105,15 +105,15 @@ $payment_method = $order['payment_method'] == '0'
             </h4>
             <p>
                 <strong>Address:</strong>
-                <?= htmlspecialchars($order['address']); ?>
+                <?= htmlspecialchars($order['address'], ENT_QUOTES, 'UTF-8'); ?>
             </p>
             <p>
                 <strong>City:</strong>
-                <?= htmlspecialchars($order['city']); ?>
+                <?= htmlspecialchars($order['city'], ENT_QUOTES, 'UTF-8'); ?>
             </p>
             <p>
                 <strong>Zip Code:</strong>
-                <?= htmlspecialchars($order['zipcode']); ?>
+                <?= htmlspecialchars($order['zipcode'], ENT_QUOTES, 'UTF-8'); ?>
             </p>
         </div>
     </div>
@@ -129,7 +129,7 @@ $payment_method = $order['payment_method'] == '0'
             </p>
             <p>
                 <strong>Order Status:</strong>
-                <?= htmlspecialchars($order['status']); ?>
+                <?= htmlspecialchars($order['status'], ENT_QUOTES, 'UTF-8'); ?>
             </p>
         </div>
     </div>
@@ -147,19 +147,19 @@ $payment_method = $order['payment_method'] == '0'
                     <div class="d-flex align-items-center">
                         <?php if (!empty($item['image'])): ?>
                             <img 
-                                src="images/<?= htmlspecialchars($item['image']); ?>"
-                                alt="<?= htmlspecialchars($item['name']); ?>"
+                                src="images/<?= htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>"
+                                alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>"
                                 style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 15px;"
                             >
                         <?php endif; ?>
 
                         <div>
                             <strong>
-                                <?= htmlspecialchars($item['name']); ?>
+                                <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>"
                             </strong>
                             <br>
                             <small>
-                                Quantity: <?= htmlspecialchars($item['quantity']); ?>
+                                Quantity: <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>"
                             </small>
                         </div>
                         </div>

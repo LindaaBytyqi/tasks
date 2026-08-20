@@ -1,4 +1,5 @@
 <?php
+include "includes/user_auth.php";
 include "includes/header.php";
 include "includes/database.php";
 

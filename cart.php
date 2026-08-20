@@ -140,10 +140,10 @@ $total = $subtotal + $shipping;
                         <div class="col-md-6 mb-3 mb-md-0">
                             <div class="d-flex align-items-center">
                                 <div class="bg-light rounded-3 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 90px; height: 90px;">
-                                    <img src="images/<?= htmlspecialchars($item['image']); ?>" 
+                                    <img src="images/<?= htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>"  
                                          class="img-fluid rounded" 
                                          style="max-height: 100%; object-fit: contain;" 
-                                         alt="<?= htmlspecialchars($item['name']); ?>">
+                                         alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>"  >
                                 </div>
                                 <div>
                                     <h5 class="fw-bold mb-2 text-dark fs-5"><?= htmlspecialchars($item['name']); ?></h5>

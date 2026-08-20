@@ -1,5 +1,7 @@
 <?php
 session_start();
+include "includes/database.php";
+include "includes/csrf.php";
 $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
 ?>
@@ -31,6 +33,10 @@ $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
             <h2 class="pb-2 border-bottom">Checkout</h2>
             <h5 class="mt-4 mb-3 text-secondary">Personal Information</h5>
             <form action="processorder.php" method="POST" id="checkoutForm">
+                <input type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars(generateCsrfToken()) ?>">
+
                 <div class="mb-3">
                     <label for="fullName" class="form-label">Full Name</label>
                     <input type="text" class="form-control" id="fullName" name="fullName" required>
@@ -49,7 +55,6 @@ $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                         <input type="text" class="form-control" id="address" name="address" required>
                     </div>
                 </div>
-
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="city" class="form-label">City</label>

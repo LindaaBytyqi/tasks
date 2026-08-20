@@ -1,5 +1,6 @@
 <?php
 include "admin_auth.php";
+include "../includes/csrf.php";
 include "../includes/database.php";
 
 $user_id = $_GET['id'] ?? null;
