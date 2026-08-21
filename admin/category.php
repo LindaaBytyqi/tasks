@@ -42,11 +42,11 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?= $category['id']; ?></td>
 
                             <td class="fw-semibold">
-                                <?= htmlspecialchars($category['name']); ?>
+                                <?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>
                             </td>
 
                             <td>
-                                <?= htmlspecialchars($category['description']); ?>
+                                <?= htmlspecialchars($category['description'], ENT_QUOTES, 'UTF-8'); ?>
                             </td>
 
                             <td>

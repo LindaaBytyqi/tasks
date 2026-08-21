@@ -48,6 +48,7 @@ $payment_method = ($order['payment_method'] == '0')
     : 'Online Payment';
 ?>
 
+
 <div class="container" style="max-width: 700px; margin-top: 50px; margin-bottom: 80px;">
     
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -66,7 +67,7 @@ $payment_method = ($order['payment_method'] == '0')
         </div>
     </div>
 
-    <!-- Shipping Information -->
+
     <div class="card mb-3 shadow-sm">
         <div class="card-body">
             <h4 class="mb-3">Shipping Information</h4>
@@ -107,7 +108,7 @@ $payment_method = ($order['payment_method'] == '0')
                         <div>
                             <strong><?= htmlspecialchars($item['name']); ?></strong>
                             <br>
-                            <small class="text-muted">Quantity: <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>"  </small>
+                            <small class="text-muted">Quantity: <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>  </small>
                         </div>
                     </div>
                     <strong>€<?= number_format($item['price'] * $item['quantity'], 2); ?></strong>

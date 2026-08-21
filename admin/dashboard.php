@@ -28,7 +28,6 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $totalRevenue = $stmt->fetchColumn();
 
-
 $revenueLabels = [];
 $revenueData = [];
 
@@ -145,7 +144,7 @@ foreach ($categoryResults as $row) {
 </div>
 
 
-<div class="row g-4 mb-4" style="margin-top: 80px !important;">
+<div class="row g-4 mb-4" style="margin-top: 80px">
   <div class="col-12 col-lg-8">
     <div class="card border-0 shadow-sm p-4 h-100 rounded-3">
       <div class="d-flex justify-content-between align-items-center mb-3">

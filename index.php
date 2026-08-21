@@ -7,12 +7,10 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 $sql="SELECT * FROM products ORDER BY id DESC LIMIT 8";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 ?>
 
@@ -38,7 +36,7 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
         <img src="images/bodycare.png" class="slide">
         <img src="images/skincare2.png" class="slide">
     </div>
-</div>
+    </div>
     </div>
 </section>
 
@@ -53,7 +51,6 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
         <a href="saleproducts.php" class="category-link sale-link">
             Sale Products
         </a>
-
     </div>
 </section>
 

@@ -59,17 +59,17 @@ $payment_method = $order['payment_method'] == '0'
 
         <p class="mb-1">
             <strong>Full Name:</strong>
-            <?= htmlspecialchars($order['fullname'], ENT_QUOTES, 'UTF-8'); ?>"
+            <?= htmlspecialchars($order['fullname'], ENT_QUOTES, 'UTF-8'); ?>
         </p>
 
         <p class="mb-1">
             <strong>Email:</strong>
-            <?= htmlspecialchars($order['email'], ENT_QUOTES, 'UTF-8'); ?>"
+            <?= htmlspecialchars($order['email'], ENT_QUOTES, 'UTF-8'); ?>
         </p>
 
         <p class="mb-0">
             <strong>Phone:</strong>
-            <?= htmlspecialchars($order['phone'], ENT_QUOTES, 'UTF-8'); ?>"
+            <?= htmlspecialchars($order['phone'], ENT_QUOTES, 'UTF-8'); ?>
         </p>
     </div>
 </div>
@@ -125,12 +125,12 @@ $payment_method = $order['payment_method'] == '0'
 
                     <div>
                         <strong>
-                            <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>"
+                            <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>
                         </strong>
                         <br>
                         <small class="text-muted">
                             Quantity:
-                            <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>"
+                            <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>
                         </small>
                         <br>
                         <small class="text-muted">

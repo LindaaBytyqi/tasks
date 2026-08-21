@@ -4,10 +4,8 @@ include "../includes/csrf.php";
 include "../includes/database.php";
 
 $sql = "SELECT * FROM categories ORDER BY name ASC";
-
 $stmt = $conn->prepare($sql);
 $stmt->execute();
-
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if(isset($_GET['edit'])){
@@ -22,7 +20,6 @@ if(isset($_GET['edit'])){
 
 
 if(isset($_POST['update_product'])){
-
     verifyCsrfToken();
 
     $id = $_POST['id'];
@@ -36,9 +33,7 @@ if(isset($_POST['update_product'])){
         : null;
     $status = $_POST['status'];
 
-
           $image = $product['image'];
-
     $allowed_types = [
         'image/jpeg' => 'jpg',
         'image/png'  => 'png',
@@ -48,9 +43,7 @@ if(isset($_POST['update_product'])){
     if(!empty($_FILES['image']['name'])){
 
         if($_FILES['image']['error'] !== UPLOAD_ERR_OK){
-
             $errors[] = "Image upload failed.";
-
         } else {
             $max_file_size = 2 * 1024 * 1024;
             if($_FILES['image']['size'] > $max_file_size){

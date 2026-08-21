@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             name="id"
                             value="<?= $user['id']; ?>">
 
-                              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']); ?>">
+                              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']); ?>
 
                         <div class="mb-3">
 
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 type="text"
                                 name="first_name"
                                 class="form-control"
-                                value="<?= htmlspecialchars($user['first_name'], ENT_QUOTES, 'UTF-8'); ?>"
+                                value="<?= htmlspecialchars($user['first_name'], ENT_QUOTES, 'UTF-8'); ?>
                                 required
                             >
 
@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 type="text"
                                 name="last_name"
                                 class="form-control"
-                                value="<?= htmlspecialchars($user['last_name'], ENT_QUOTES, 'UTF-8'); ?>"
+                                value="<?= htmlspecialchars($user['last_name'], ENT_QUOTES, 'UTF-8'); ?>
                                 required
                             >
 
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 type="email"
                                 name="email"
                                 class="form-control"
-                                value="<?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8'); ?>"
+                                value="<?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8'); ?>
                                 required
                             >
 
@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input
                                 type="text"
                                 class="form-control"
-                                value="<?= htmlspecialchars($user['id']); ?>"
+                                value="<?= htmlspecialchars($user['id']); ?>
                                 disabled
                             >
 

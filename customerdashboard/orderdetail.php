@@ -50,7 +50,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="row align-items-center">
                         <div class="col-md-7">
                             <h5>
-                                Order #<?= htmlspecialchars($order['id'], ENT_QUOTES, 'UTF-8'); ?>"  
+                                Order #<?= htmlspecialchars($order['id'], ENT_QUOTES, 'UTF-8'); ?> 
                             </h5>
 
                             <p class="mb-1">
@@ -70,7 +70,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <p class="mb-0">
                                 <strong>Status:</strong>
                                 <span class="badge bg-warning text-dark">
-                                    <?= htmlspecialchars($order['status'], ENT_QUOTES, 'UTF-8'); ?>"  
+                                    <?= htmlspecialchars($order['status'], ENT_QUOTES, 'UTF-8'); ?>  
                                 </span>
                             </p>
                         </div>

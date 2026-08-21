@@ -24,7 +24,7 @@
 
         <div class="footer-links">
             <a href="/tasks/index.php">Home</a>
-            <a href="/tasks/products.php">Products</a>
+            <a href="/tasks/product.php">Products</a>
             <a href="#">Contact</a>
         </div>
 
