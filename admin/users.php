@@ -19,6 +19,14 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="container mt-5">
+
+     <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">Users</h2>
+        <span class="text-muted">
+            Total Users: <?= count($users); ?>
+        </span>
+    </div>
+
       <form method="GET" action="admindashboard.php" class="mb-4">
         <input type="hidden" name="page" value="users">
 
@@ -28,7 +36,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 name="search"
                 class="form-control"
                 placeholder="Search by ID, name or email..."
-                value="<?= htmlspecialchars($search); ?>
+                value="<?= htmlspecialchars($search); ?>"
             >
             <button type="submit" class="btn btn-primary">
                 <i class="bi bi-search"></i>
@@ -44,13 +52,6 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
     </form>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>Users</h3>
-        <span class="text-muted">
-            Total Users: <?= count($users); ?>
-        </span>
-    </div>
 
     <div class="card shadow-sm">
         <div class="card-body">

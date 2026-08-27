@@ -558,6 +558,17 @@ main{
     cursor:pointer;
     accent-color:#2563eb;
 }
+
+#togglePassword {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: #64748b;
+    cursor: pointer;
+    z-index: 2;
+}
 .terms-box label{
     cursor:pointer;
     user-select:none;
@@ -1713,7 +1724,7 @@ main{
 }
 
 
-@media (max-width: 380px) {
+/* @media (max-width: 380px) {
     .logo {
         font-size: 24px;
     }
@@ -1739,7 +1750,7 @@ main{
     .product-card img {
         height: 230px;
     }
-}
+} */
 
 
 @media (min-width: 993px) and (max-width: 1200px) {
@@ -1843,7 +1854,7 @@ main{
 }
 
 
-@media (max-width: 379px) {
+@media (max-width: 375px) {
     .filter-sidebar {
         width: 100%;
         max-width: 100%;
@@ -1865,5 +1876,409 @@ main{
         height: 37px;
         padding: 5px 8px;
         font-size: 12px;
+    }
+}
+
+
+@media (max-width: 375px) {
+    
+    body {
+        padding-top: 78px;
+        overflow-x: hidden;
+    }
+    .custom-navbar {
+        width: 100%;
+        padding: 10px 10px;
+        box-sizing: border-box;
+    }
+
+    .logo {
+        font-size: 21px;
+        white-space: nowrap;
+    }
+
+    .navbar-toggler {
+        padding: 5px;
+    }
+
+    .navbar-collapse {
+        margin-top: 10px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        gap: 2px;
+    }
+
+    .custom-navbar .nav-link {
+        font-size: 13px !important;
+        padding: 6px 5px;
+    }
+
+    .dropdown-item {
+        font-size: 13px;
+    }
+    .search-form {
+        width: 100%;
+        max-width: 100%;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+    .search-form input {
+        width: 100%;
+        height: 40px;
+        font-size: 13px;
+        padding-left: 37px;
+        padding-right: 30px;
+        box-sizing: border-box;
+    }
+    .search-form i {
+        left: 11px;
+        font-size: 15px;
+    }
+    .hero-section {
+        width: 100%;
+        padding: 18px 7px;
+        box-sizing: border-box;
+    }
+
+    .hero-card {
+        width: 100%;
+        padding: 20px 11px;
+        gap: 17px;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    .hero-content {
+        width: 100%;
+        min-width: 0;
+    }
+    .hero-content h5 {
+        font-size: 22px;
+        line-height: 1.25;
+        margin-bottom: 10px;
+        overflow-wrap: break-word;
+    }
+    .hero-content p {
+        font-size: 13px;
+        line-height: 1.45;
+        margin-bottom: 15px;
+    }
+
+    .hero-buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        font-size: 13px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .hero-image {
+        width: 100%;
+        min-width: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .slider {
+        width: 100%;
+        max-width: 255px;
+        height: 180px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-image img,
+    .slide {
+        width: 100%;
+        max-width: 255px;
+        height: 100%;
+        object-fit: cover;
+    }
+    .categories-menu {
+        width: 100%;
+        margin: 17px 0;
+        padding: 0 7px;
+        box-sizing: border-box;
+    }
+
+    .categories-nav {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .category-link {
+        width: 100%;
+        padding: 10px 7px;
+        font-size: 13px;
+        box-sizing: border-box;
+        white-space: normal;
+    }
+    .products-section {
+        width: 100%;
+        padding: 20px 7px;
+        box-sizing: border-box;
+    }
+    .products-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        box-sizing: border-box;
+    }
+    .product-card {
+        width: 100%;
+        min-width: 0;
+        padding: 8px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 145px;
+        display: block;
+        object-fit: cover;
+        border-radius: 9px;
+    }
+    .product-card h3 {
+        font-size: 13px;
+        line-height: 1.2;
+        margin: 8px 0 5px;
+        overflow-wrap: break-word;
+    }
+
+    .product-card p {
+        font-size: 12px;
+        line-height: 1.25;
+        margin-bottom: 6px;
+    }
+
+    .price {
+        gap: 3px;
+        flex-wrap: wrap;
+    }
+    .sale-price {
+        font-size: 15px;
+    }
+
+    .old-price {
+        font-size: 11px;
+    }
+    .product-card .buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .product-card .buttons a,
+    .product-card .buttons button {
+        width: 100%;
+        min-width: 0;
+        font-size: 11px;
+        padding: 7px 4px;
+        box-sizing: border-box;
+        white-space: normal;
+    }
+    .shop-layout {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        box-sizing: border-box;
+    }
+
+    .filter-sidebar {
+        width: 100%;
+        max-width: 100%;
+        padding: 13px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    .filter-sidebar h3 {
+        font-size: 17px;
+        margin-bottom: 12px;
+    }
+
+    .filter-sidebar label {
+        display: block;
+        font-size: 12px;
+        margin-top: 9px;
+        margin-bottom: 5px;
+    }
+
+    .filter-sidebar select,
+    .filter-sidebar input {
+        width: 100%;
+        height: 36px;
+        padding: 5px 8px;
+        font-size: 12px;
+        box-sizing: border-box;
+    }
+    .shop-layout .products-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        box-sizing: border-box;
+    }
+    .newsletter-section {
+        width: 100%;
+        padding: 27px 7px;
+        box-sizing: border-box;
+    }
+
+    .newsletter-card {
+        width: 100%;
+        padding: 22px 12px;
+        box-sizing: border-box;
+    }
+
+    .newsletter-card h2 {
+        font-size: 19px;
+        line-height: 1.3;
+    }
+
+    .newsletter-card h6 {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .newsletter-card form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .newsletter-card input,
+    .newsletter-card button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .footer {
+        width: 100%;
+        padding: 30px 10px 15px;
+        box-sizing: border-box;
+    }
+
+    .footerl {
+        font-size: 21px;
+    }
+
+    .footer-description {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .footer-links {
+        gap: 9px;
+    }
+
+    .footer-links a {
+        font-size: 13px;
+    }
+
+    .social-icons {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 340px) {
+    .custom-navbar {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .logo {
+        font-size: 20px;
+    }
+    .custom-navbar .nav-link {
+        font-size: 12px !important;
+        padding: 5px 4px;
+    }
+
+    .hero-section {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .hero-card {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+    .hero-content h5 {
+        font-size: 20px;
+    }
+    .hero-content p {
+        font-size: 12px;
+    }
+    .slider {
+        max-width: 235px;
+        height: 165px;
+    }
+    .hero-image img,
+    .slide {
+        max-width: 235px;
+    }
+
+    .products-section {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .products-container,
+    .shop-layout .products-container {
+        gap: 6px;
+    }
+    .product-card {
+        padding: 6px;
+    }
+    .product-card img {
+        height: 135px;
+    }
+    .product-card h3 {
+        font-size: 12px;
+    }
+    .product-card p {
+        font-size: 11px;
+    }
+    .sale-price {
+        font-size: 14px;
+    }
+    .old-price {
+        font-size: 10px;
+    }
+    .product-card .buttons a,
+    .product-card .buttons button {
+        font-size: 10px;
+        padding: 6px 3px;
+    }
+    .filter-sidebar {
+        padding: 11px;
+    }
+
+    .filter-sidebar h3 {
+        font-size: 16px;
+    }
+    .filter-sidebar label {
+        font-size: 11px;
+    }
+    .filter-sidebar select,
+    .filter-sidebar input {
+        font-size: 11px;
+        height: 35px;
+    }
+    .newsletter-card {
+        padding: 20px 10px;
     }
 }

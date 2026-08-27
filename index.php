@@ -13,7 +13,79 @@ $stmt->execute();
 $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-
+<style>
+.products-heading {
+    text-align: center;
+    margin: 50px auto 35px;
+    padding: 15px 0;
+    position: relative;
+}
+.products-heading::before,
+.products-heading::after {
+    content: "";
+    display: block;
+    width: 390px;
+    height: 3px;
+    background: #eb3f81;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+.products-heading::before {
+    margin-bottom: 15px;
+}
+.products-heading::after {
+    margin-top: 15px;
+}
+.products-heading h2 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    letter-spacing: 1px;
+}
+@media (min-width: 769px) and (max-width: 992px) {
+    .products-heading {
+        margin: 40px auto 30px;
+    }
+    .products-heading h2 {
+        font-size: 28px;
+    }
+    .products-heading p {
+        font-size: 15px;
+    }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+    .products-heading {
+        margin: 35px auto 25px;
+        padding: 0 15px;
+    }
+    .products-heading h2 {
+        font-size: 25px;
+    }
+    .products-heading p {
+        font-size: 14px;
+    }
+}
+@media (max-width: 480px) {
+    .products-heading {
+        margin: 30px auto 25px;
+        padding: 0 15px;
+    }
+    .products-heading h2 {
+        font-size: 23px;
+    }
+    .products-heading p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    .heading-line {
+        display: block;
+        width: 45px;
+        height: 3px;
+        margin: 10px auto;
+    }
+}
+</style>
 <section class="hero-section">
     <div class="hero-card">
         <div class="hero-content">
@@ -56,6 +128,10 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <section class="products-section">
+
+    <div class="products-heading">
+        <h2>TOP NEWEST PRODUCTS</h2>
+    </div>
     <div class="products-container">
         <?php foreach($products as $product): ?>
             <div class="product-card">
@@ -146,38 +222,6 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
         </form>
     </div>
 </section> 
-
-
-<!-- <?php if (isset($_SESSION["newsletter_error"])): ?>
-    <div class="popup-message error-popup">
-        <div class="popup-content">
-            <div class="popup-icon">
-                ✕
-            </div>
-            <p>
-                <?= htmlspecialchars($_SESSION["newsletter_error"]) ?>
-            </p>
-        </div>
-    </div>
-    <?php unset($_SESSION["newsletter_error"]); ?>
-<?php endif; ?>
-
-
-<?php if (isset($_SESSION["newsletter_success"])): ?>
-    <div class="popup-message success-popup">
-        <div class="popup-content">
-            <div class="popup-icon">
-                ✓
-            </div>
-            <p>
-                <?= htmlspecialchars($_SESSION["newsletter_success"]) ?>
-            </p>
-        </div>
-    </div>
-    <?php unset($_SESSION["newsletter_success"]); ?>
-<?php endif; ?> -->
-
-
 
 <?php
 include "includes/footer.php";

@@ -2,32 +2,29 @@
 include "includes/header.php";
 include "includes/database.php";
 
+
 $sort = $_GET['sort'] ?? "newest";
 $min_price = $_GET['min_price'] ?? "";
 $max_price = $_GET['max_price'] ?? "";
 
-
 $sql = "SELECT * FROM products WHERE 1=1";
-
 $params = [];
 if ($min_price !== "") {
 
-    $sql .= " AND price >= :min_price";
-
+    $sql .= " AND COALESCE(sale_price, price) >= :min_price";
     $params["min_price"] = $min_price;
 }
 if ($max_price !== "") {
 
-    $sql .= " AND price <= :max_price";
-
+    $sql .= " AND COALESCE(sale_price, price) <= :max_price";
     $params["max_price"] = $max_price;
 }
 switch ($sort) {
     case "low":
-        $sql .= " ORDER BY price ASC";
+        $sql .= " ORDER BY COALESCE(sale_price, price) ASC";
         break;
     case "high":
-        $sql .= " ORDER BY price DESC";
+        $sql .= " ORDER BY COALESCE(sale_price, price) DESC";
         break;
     case "az":
         $sql .= " ORDER BY name ASC";
@@ -55,7 +52,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <form
                 method="GET"
-                action="products.php"
+                action="product.php"
             >
                 <label>
                     Sort By

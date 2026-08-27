@@ -3,10 +3,10 @@ session_start();
 include "includes/csrf.php";
 include "includes/database.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
+// if (!isset($_SESSION['user_id'])) {
+//     header("Location: login.php");
+//     exit;
+// }
 
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     header("Location: cart.php");
@@ -75,6 +75,8 @@ try {
     $shipping = 2.5;
     $total += $shipping;
 
+     $user_id = $_SESSION['user_id'] ?? null;
+
     $sql = "INSERT INTO orders
             (
                 user_id,
@@ -107,7 +109,7 @@ try {
     $stmt = $conn->prepare($sql);
 
     $stmt->execute([
-        'user_id' => $_SESSION['user_id'],
+       'user_id' => $user_id,
         'fullname' => $fullname,
         'email' => $email,
         'phone' => $phone,
@@ -120,6 +122,7 @@ try {
     ]);
 
     $order_id = $conn->lastInsertId();
+    $_SESSION['last_order_id'] = $order_id;
     foreach ($_SESSION['cart'] as $product_id => $item) {
 
         $sql = "SELECT price, sale_price
@@ -133,6 +136,10 @@ try {
         ]);
 
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+           if (!$product) {
+            throw new Exception("Product not found.");
+        }
 
         $price = !empty($product['sale_price'])
             ? $product['sale_price']

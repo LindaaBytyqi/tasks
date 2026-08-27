@@ -44,6 +44,52 @@
         margin-top: 15px;
     }
 }
+
+@media (max-width: 1024px) {
+    .container-fluid {
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-top: 30px !important;
+        box-sizing: border-box;
+    }
+    .row {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .col-md-3,
+    .col-md-9 {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .account-sidebar,
+    .account-content {
+        width: 100%;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+    .sidebar-card {
+        width: 100%;
+        min-height: auto;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    .welcome-card {
+        width: 100%;
+        max-width: 900px;
+        margin: 0;
+        box-sizing: border-box;
+    }
+}
 </style>
 
 <div class="card shadow-sm sidebar-card">

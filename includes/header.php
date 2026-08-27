@@ -87,9 +87,17 @@ Products
 </li>
 
 <li class="nav-item ms-3">
-    <a class="nav-link position-relative" href="/tasks/customerdashboard/dashboard.php">
-        <i class="bi bi-cart3 fs-4"></i>
-    </a>
+    <?php if (isset($_SESSION['user_id'])): ?>
+         <a class="nav-link position-relative" href="/tasks/customerdashboard/dashboard.php">
+            <i class="bi bi-cart3 fs-4"></i>
+        </a>
+
+    <?php else: ?>
+        <a class="nav-link position-relative"
+           href="/tasks/myorder.php">
+            <i class="bi bi-cart3 fs-4"></i>
+        </a>
+    <?php endif; ?>
 </li>
 </ul>
 </div>

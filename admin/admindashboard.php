@@ -1,5 +1,10 @@
 <?php
 include "admin_auth.php";
+
+if (!isset($_GET['page'])) {
+    header("Location: admindashboard.php?page=dashboard");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>

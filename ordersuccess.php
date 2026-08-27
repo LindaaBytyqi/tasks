@@ -10,15 +10,22 @@ if (!$order_id) {
     exit;
 }
 
+if (
+    !isset($_SESSION['last_order_id']) ||
+    (int) $_SESSION['last_order_id'] !== (int) $order_id
+) {
+    header("Location: index.php");
+    exit;
+}
+
 $sql = "SELECT *
         FROM orders
-        WHERE id = :order_id
-        AND user_id = :user_id";
+        WHERE id = :order_id;
+        -- AND user_id = :user_id";
 
 $stmt = $conn->prepare($sql);
 $stmt->execute([
-    'order_id' => $order_id,
-    'user_id' => $_SESSION['user_id']
+    'order_id' => $order_id
 ]);
 
 $order = $stmt->fetch(PDO::FETCH_ASSOC);

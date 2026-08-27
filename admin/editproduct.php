@@ -144,7 +144,7 @@ required>
 <?php foreach($categories as $category): ?>
 <option value="<?= $category['id']; ?>"
 <?= $category['id']==$product['category_id'] ? "selected" : "" ?>>
-<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>"
+<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>
 </option>
 <?php endforeach; ?>
 </select>
@@ -176,7 +176,7 @@ value="<?= $product['stock']; ?>">
 Description
 </label>
 <textarea name="description"
-class="form-control"><?= htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8'); ?>"</textarea>
+class="form-control"><?= htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8'); ?></textarea>
 </div>
 
 <div class="mb-3">
@@ -211,7 +211,7 @@ Product Image
 <input type="file"
 name="image"
 class="form-control"
-aaccept=".jpg,.jpeg,.png,.webp">
+accept=".jpg,.jpeg,.png,.webp">
 </div>
 
 <button type="submit"

@@ -119,6 +119,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="d-flex justify-content-between align-items-center mb-4">
 
     <form class="search-form" action="admindashboard.php" method="GET">
+          <input type="hidden" name="page" value="products">
         <i class="bi bi-search"></i>
     <input 
         type="search"
@@ -164,7 +165,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>
             </td>
             <td>    
-                <?= htmlspecialchars($product['category_name'], ENT_QUOTES, 'UTF-8'); ?>"
+                <?= htmlspecialchars($product['category_name'], ENT_QUOTES, 'UTF-8'); ?>
             </td>
             <td>
                 $<?= number_format($product['price'], 2); ?>
@@ -173,7 +174,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?= $product['stock']; ?>
             </td>
             <td>
-                <?= htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8'); ?>"
+                <?= htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8'); ?>
             </td>
             <td>
                 $<?= number_format($product['sale_price'], 2); ?>
