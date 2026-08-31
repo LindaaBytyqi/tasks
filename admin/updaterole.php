@@ -10,6 +10,9 @@ if (!$user_id) {
     exit;
 }
 
+$current_user_id = $_SESSION['user_id'];
+$current_role = $_SESSION['role'];
+
 $sql = "SELECT role FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);
 $stmt->execute([
@@ -17,36 +20,49 @@ $stmt->execute([
 ]);
 
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
 if (!$user) {
     header("Location: admindashboard.php?page=users");
     exit;
 }
-//for last admin
-if ($user['role'] === 'admin') {
-    $sql = "SELECT COUNT(*)
-            FROM users
-            WHERE role = 'admin'
-            AND status = true";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
+$target_role = $user['role'];
 
-    $admin_count = (int) $stmt->fetchColumn();
+if ($current_role === 'user') {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit;
+}
+if ((int)$current_user_id === (int)$user_id) {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit;
+}
+if ($current_role === 'admin' && $target_role !== 'user') {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit;
+}
 
-    if ($admin_count <= 1) {
+if ($current_role === 'admin') {
+    $new_role = 'admin';
+} elseif ($current_role === 'superadmin') {
 
-        header("Location: admindashboard.php?page=users&error=last_admin");
+    if ($target_role === 'user') {
+        $new_role = 'admin';
+    } elseif ($target_role === 'admin') {
+        $new_role = 'user';
+    } else {
+        header("Location: admindashboard.php?page=users&error=no_permission");
         exit;
     }
+
+} else {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit;
 }
 
 
-
-$new_role = ($user['role'] === 'admin') ? 'user' : 'admin';
 $sql = "UPDATE users
         SET role = :role
         WHERE id = :id";
-
 $stmt = $conn->prepare($sql);
 $stmt->execute([
     'role' => $new_role,

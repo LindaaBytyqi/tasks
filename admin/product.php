@@ -124,8 +124,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <input 
         type="search"
         name="query"
+        id="searchBox"
         placeholder="Search products..."
-        value="<?= isset($_GET['query']) ? htmlspecialchars($_GET['query']) : ''; ?>"
+          value="<?= htmlspecialchars($search); ?>"
         >
     </form>
         <a href="admindashboard.php?page=addproduct" class="btn btn-primary">
@@ -236,6 +237,22 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
+<script>
+const searchInput = document.getElementById('searchBox');
+searchInput.addEventListener('input', function () {
+
+    const query = this.value.trim();
+    if (query.length >= 3 || query.length === 0) {
+        const url = new URL(window.location.href);
+
+        url.searchParams.set('page', 'products');
+        url.searchParams.set('query', query);
+        url.searchParams.set('page_number', '1');
+
+        window.location.href = url.toString();
+    }
+});
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

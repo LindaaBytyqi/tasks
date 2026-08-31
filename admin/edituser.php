@@ -10,6 +10,38 @@ if (!$id) {
     exit();
 }
 
+$current_user_id = $_SESSION['user_id'];
+$current_role = $_SESSION['role'];
+
+$sql = "SELECT role FROM users WHERE id = :id";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+    'id' => $id
+]);
+
+$target_user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$target_user) {
+    header("Location: admindashboard.php?page=users");
+    exit();
+}
+
+if ((int)$current_user_id === (int)$id) {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit();
+}
+
+if ($current_role === 'admin' && $target_user['role'] !== 'user') {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit();
+}
+
+if ($current_role === 'user') {
+    header("Location: ../index.php");
+    exit();
+}
+
 $sql = "SELECT id, first_name, last_name, email
         FROM users
         WHERE id = :id";

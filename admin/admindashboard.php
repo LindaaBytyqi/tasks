@@ -33,7 +33,6 @@ if (!isset($_GET['page'])) {
             box-shadow: 3px 0 15px rgba(0, 0, 0, 0.07);
             flex-shrink: 0;
         }
-
         .admin-logo {
             font-size: 30px;
             font-weight: 700;
@@ -41,13 +40,11 @@ if (!isset($_GET['page'])) {
             text-align: center;
             margin-bottom: 70px;
         }
-
         .admin-nav {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-
         .admin-nav .nav-link {
             display: flex;
             align-items: center;
@@ -118,6 +115,11 @@ if (!isset($_GET['page'])) {
             <a href="admindashboard.php?page=newsletter" class="nav-link">
                 <i class="bi bi-envelope"></i>
                 <span>Subscribers</span>
+            </a>
+            <a href="../logout.php" class="nav-link">
+                <!-- <i class="bi bi-person-circle"></i> -->
+                 <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
             </a>
         </nav>
     </aside>

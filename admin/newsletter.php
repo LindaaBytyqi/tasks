@@ -40,6 +40,7 @@ $newsletter_subscribers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <input
                 type="text"
                 name="search"
+                id="searchBox"
                 class="form-control"
                 placeholder="Search by email..."
                 value="<?= htmlspecialchars($search); ?>"
@@ -118,3 +119,22 @@ $newsletter_subscribers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
 </div>
+
+<script>
+const searchInput = document.getElementById('searchBox');
+
+searchInput.addEventListener('input', function () {
+
+    const search = this.value.trim();
+
+    if (search.length >= 3 || search.length === 0) {
+
+        const url = new URL(window.location.href);
+
+        url.searchParams.set('page', 'newsletter');
+        url.searchParams.set('search', search);
+
+        window.location.href = url.toString();
+    }
+});
+</script>

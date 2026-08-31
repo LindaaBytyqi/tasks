@@ -3,29 +3,49 @@ include "admin_auth.php";
 include "../includes/database.php";
 
 $search = trim($_GET['search'] ?? '');
+$status = $_GET['status'] ?? '';
 
-$sql = "SELECT *
-        FROM orders";
+$sql = "SELECT * FROM orders where 1=1";
 
-if ($search !== '') {
-    $sql .= " WHERE
-                CAST(id AS TEXT) ILIKE :search
-                OR fullname ILIKE :search
-                OR email ILIKE :search
-                OR status ILIKE :search";
+$params = [];
+
+if ($search !== '') { 
+    $sql .= " AND (
+                CAST(id AS TEXT) ILIKE :search 
+                OR fullname ILIKE :search 
+                OR email ILIKE :search 
+                OR status ILIKE :search
+              )";
+
+    $params[':search'] = '%' . $search . '%';
 }
 
+if ($status !== '') {
+    $sql .= " AND status = :status";
+    $params[':status'] = $status;
+}
+ 
 $sql .= " ORDER BY id DESC";
-$stmt = $conn->prepare($sql);
 
-if ($search !== '') {
-    $stmt->execute([
-        ':search' => '%' . $search . '%'
-    ]);
-} else {
-    $stmt->execute();
-}
+$stmt = $conn->prepare($sql); 
+$stmt->execute($params);
+
+
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$count_sql = "SELECT status, COUNT(*) AS total
+              FROM orders
+              GROUP BY status";
+
+$count_stmt = $conn->prepare($count_sql);
+$count_stmt->execute();
+$status_counts = [];
+
+while ($row = $count_stmt->fetch(PDO::FETCH_ASSOC)) {
+    $status_counts[$row['status']] = $row['total'];
+}
+$total_orders = array_sum($status_counts);
+
 ?>
 
 
@@ -35,31 +55,73 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2 class="fw-bold mb-0">Orders</h2>
     </div>
     <form method="GET" action="admindashboard.php" class="mb-4">
-        <input type="hidden" name="page" value="orders">
+    <input type="hidden" name="page" value="orders">
 
-        <div class="input-group">
-            <input
-                type="text"
-                name="search"
-                class="form-control"
-                placeholder="Search by order ID, customer, email or status..."
-                value="<?= htmlspecialchars($search); ?>"
-            >
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-search"></i>
-                Search
-            </button>
-            <?php if ($search !== ''): ?>
-                <a
-                    href="admindashboard.php?page=orders"
-                    class="btn btn-secondary"
-                >
-                    Clear
-                </a>
-            <?php endif; ?>
+    <div class="d-flex gap-2">
+        <div style="flex: 0 0 65%; position: relative;">
+
+    <input
+        type="text"
+        name="search"
+        id="searchBox"
+        class="form-control pe-5"
+        placeholder="Search by order ID, customer or email..."
+        value="<?= htmlspecialchars($search); ?>"
+    >
+
+    <?php if ($search !== ''): ?>
+        <a
+            href="admindashboard.php?page=orders"
+            class="btn btn-sm position-absolute top-50 end-0 translate-middle-y me-2"
+            title="Clear search"
+        >
+            <i class="bi bi-x-lg"></i>
+        </a>
+    <?php endif; ?>
         </div>
-    </form>
 
+        <div style="flex: 0 0 calc(35% - 0.5rem);">
+
+            <select
+                name="status"
+                id="statusFilter"
+                class="form-select"
+            >
+                <option value="">
+                    All Status (<?= $total_orders; ?>)
+                </option>
+
+                <option value="pending"
+                    <?= $status === 'pending' ? 'selected' : ''; ?>>
+                    Pending (<?= $status_counts['pending'] ?? 0; ?>)
+                </option>
+
+                <option value="processing"
+                    <?= $status === 'processing' ? 'selected' : ''; ?>>
+                    Processing (<?= $status_counts['processing'] ?? 0; ?>)
+                </option>
+
+                <option value="shipped"
+                    <?= $status === 'shipped' ? 'selected' : ''; ?>>
+                    Shipped (<?= $status_counts['shipped'] ?? 0; ?>)
+                </option>
+
+                <option value="completed"
+                    <?= $status === 'completed' ? 'selected' : ''; ?>>
+                    Completed (<?= $status_counts['completed'] ?? 0; ?>)
+                </option>
+
+                <option value="cancelled"
+                    <?= $status === 'cancelled' ? 'selected' : ''; ?>>
+                    Cancelled (<?= $status_counts['cancelled'] ?? 0; ?>)
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+</form>
     <div class="card shadow-sm">
         <div class="card-body">
             <table class="table table-hover align-middle mb-0">
@@ -154,3 +216,33 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
+
+<script>
+const searchInput = document.getElementById('searchBox');
+const statusFilter = document.getElementById('statusFilter');
+
+searchInput.addEventListener('input', function () {
+    const search = this.value.trim();
+    if (search.length >= 3 || search.length === 0) {
+
+        const url = new URL(window.location.href);
+
+        url.searchParams.set('page', 'orders');
+        url.searchParams.set('search', search);
+        url.searchParams.set('status', statusFilter.value);
+
+        window.location.href = url.toString();
+    }
+});
+
+statusFilter.addEventListener('change', function () {
+    const url = new URL(window.location.href);
+
+    url.searchParams.set('page', 'orders');
+    url.searchParams.set('search', searchInput.value.trim());
+    url.searchParams.set('status', this.value);
+
+    window.location.href = url.toString();
+});
+
+</script>

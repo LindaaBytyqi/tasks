@@ -22,6 +22,29 @@ if (isset($_GET['id'])) {
         exit();
     }
 
+    $current_user_id = $_SESSION['user_id'];
+$current_role = $_SESSION['role'];
+
+if ((int)$current_user_id === (int)$id) {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit();
+}
+
+if ($current_role === 'user') {
+    header("Location: ../index.php");
+    exit();
+}
+
+if ($current_role === 'admin' && $user['role'] !== 'user') {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit();
+}
+
+if ($current_role === 'superadmin' && $user['role'] === 'superadmin') {
+    header("Location: admindashboard.php?page=users&error=no_permission");
+    exit();
+}
+
     $current_status = ($user['status'] === true || $user['status'] === 't');
     if ($user['role'] === 'admin' && $current_status === true) {
 
