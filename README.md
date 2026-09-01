@@ -15,6 +15,9 @@ The application is designed for an online skincare store and allows users to:
 * Subscribe to the newsletter
 
 The project also includes an **admin panel** for managing products, categories, users, orders, and dashboard statistics.
+### 📸 Project Preview
+<img width="1902" height="951" alt="image" src="https://github.com/user-attachments/assets/5253264c-202e-401f-890a-6d22c854d89d" />
+<img width="1898" height="953" alt="image" src="https://github.com/user-attachments/assets/d330154a-270e-4560-9470-10884a827609" />
 
 ---
 
