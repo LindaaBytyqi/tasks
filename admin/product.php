@@ -217,7 +217,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 >
                     <?= $i; ?>
                 </a>
-
             </li>
 
         <?php endfor; ?>

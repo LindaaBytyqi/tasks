@@ -135,7 +135,6 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?= htmlspecialchars($product['name']); ?>
                         </h3>
 
-
                         <div class="price">
 
                             <span class="sale-price">

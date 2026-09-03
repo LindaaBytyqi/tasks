@@ -84,17 +84,17 @@ $payment_method = $order['payment_method'] == '0'
 
         <p class="mb-1">
             <strong>Address:</strong>
-            <?= htmlspecialchars($order['address'], ENT_QUOTES, 'UTF-8'); ?>"
+            <?= htmlspecialchars($order['address'], ENT_QUOTES, 'UTF-8'); ?>
         </p>
 
         <p class="mb-1">
             <strong>City:</strong>
-            <?= htmlspecialchars($order['city'], ENT_QUOTES, 'UTF-8'); ?>"
+            <?= htmlspecialchars($order['city'], ENT_QUOTES, 'UTF-8'); ?>
         </p>
 
         <p class="mb-0">
             <strong>Zip Code:</strong>
-            <?= htmlspecialchars($order['zipcode'], ENT_QUOTES, 'UTF-8'); ?>"
+            <?= htmlspecialchars($order['zipcode'], ENT_QUOTES, 'UTF-8'); ?>
         </p>
     </div>
 </div>
@@ -111,8 +111,8 @@ $payment_method = $order['payment_method'] == '0'
                 <div class="d-flex align-items-center">
                     <?php if (!empty($item['image'])): ?>
                         <img
-                            src="../images/<?= htmlspecialchars($item['image']); ?>"
-                            alt="<?= htmlspecialchars($item['name']); ?>"
+                            src="../images/<?= htmlspecialchars($item['image']); ?>
+                            alt="<?= htmlspecialchars($item['name']); ?>
                             style="
                                 width:70px;
                                 height:70px;

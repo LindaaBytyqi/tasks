@@ -56,7 +56,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 name="search"
                 class="form-control"
                 id="searchBox"
-                placeholder="Search by ID, name or email..."
+                placeholder="Search by name or email..."
                 value="<?= htmlspecialchars($search); ?>"
             >
             <button type="submit" class="btn btn-primary">

@@ -200,8 +200,9 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
 
-<section class="newsletter-section" id="newsletter">
+<section class="newsletter-section newsletter-popup-overlay" id="newsletter">
     <div class="newsletter-card">
+       <span class="newsletter-popup-close" id="closeNewsletterPopup">×</span>
         <div class="newsletter-icon">
             ✉
         </div>
@@ -220,8 +221,11 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
                 Subscribe
             </button>
         </form>
+        
     </div>
 </section> 
+
+
 
 <?php
 include "includes/footer.php";
@@ -247,6 +251,7 @@ setInterval(() => {
 }, 3000);
 
 
+
 const newsletterForm = document.getElementById("newsletterForm");
 newsletterForm.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -255,13 +260,13 @@ newsletterForm.addEventListener("submit", function(event) {
         method: "POST",
         body: formData
     })
+
     .then(response => response.json())
     .then(data => {
         const oldPopup = document.querySelector(".popup-message");
         if (oldPopup) {
             oldPopup.remove();
         }
-
         const popup = document.createElement("div");
         popup.className = data.success
             ? "popup-message success-popup"
@@ -269,7 +274,6 @@ newsletterForm.addEventListener("submit", function(event) {
 
         popup.innerHTML = `
             <div class="popup-content">
-
                 <div class="popup-icon">
                     ${data.success ? "✓" : "✕"}
                 </div>
@@ -277,10 +281,10 @@ newsletterForm.addEventListener("submit", function(event) {
                 <p>
                     ${data.message}
                 </p>
-
             </div>
         `;
         newsletterForm.parentElement.appendChild(popup);
+
         setTimeout(function() {
 
             popup.style.opacity = "0";
@@ -289,10 +293,14 @@ newsletterForm.addEventListener("submit", function(event) {
             setTimeout(function() {
                 popup.remove();
             }, 500);
+
         }, 3000);
 
         if (data.success) {
             newsletterForm.reset();
+            setTimeout(function() {
+                newsletterPopup.classList.remove("show");
+            }, 1000);
         }
     })
     .catch(error => {
@@ -300,5 +308,28 @@ newsletterForm.addEventListener("submit", function(event) {
     });
 });
 
+
+
+
+
+
+const newsletterPopup = document.getElementById("newsletter");
+const closeNewsletterPopup = document.getElementById("closeNewsletterPopup");
+
+setTimeout(function () {
+    newsletterPopup.classList.add("show");
+}, 7000);
+
+closeNewsletterPopup.addEventListener("click", function () {
+    newsletterPopup.classList.remove("show");
+});
+
+newsletterPopup.addEventListener("click", function (event) {
+    if (event.target === newsletterPopup) {
+        newsletterPopup.classList.remove("show");
+
+    }
+
+});
 
 </script>

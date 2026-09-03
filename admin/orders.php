@@ -65,7 +65,7 @@ $total_orders = array_sum($status_counts);
         name="search"
         id="searchBox"
         class="form-control pe-5"
-        placeholder="Search by order ID, customer or email..."
+        placeholder="Search by customer or email..."
         value="<?= htmlspecialchars($search); ?>"
     >
 

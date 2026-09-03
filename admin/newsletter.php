@@ -84,7 +84,7 @@ $newsletter_subscribers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?= $newsletter_subscriber['id']; ?></td>
 
                             <td class="fw-semibold">
-                                <?= htmlspecialchars($newsletter_subscriber['email'], ENT_QUOTES, 'UTF-8'); ?>"
+                                <?= htmlspecialchars($newsletter_subscriber['email'], ENT_QUOTES, 'UTF-8'); ?>
                             </td>
 
                             <td>
