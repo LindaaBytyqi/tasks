@@ -75,7 +75,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="filter-sidebar">
         
             <div class="sidebar-widget">
-                <h3 class="widget-title">Categories</h3>
+                <h2 class="widget-title">Categories</h2>
                 <ul class="sidebar-categories-list">
                     <li>
                         <a href="product.php" class="<?= empty($category_id) ? 'active' : '' ?>">
@@ -123,8 +123,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </select>
 </div>
 
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Filter</h3>
+        <div class="sidebar-widget">
+            <h3 class="widget-title">Filter</h3>
                     
         <div class="range-slider-wrapper">
             <div class="slider-track"></div>

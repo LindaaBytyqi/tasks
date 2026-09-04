@@ -51,8 +51,6 @@ if(session_status() === PHP_SESSION_NONE){
                                 Home
                             </a>
                         </li>
-
-
                         <li class="nav-item">
                             <a
                                 class="nav-link"
@@ -70,16 +68,12 @@ if(session_status() === PHP_SESSION_NONE){
                             >
                                 Contact
                             </a>
-
                         </li>
-
                     </ul>
-
                 </div>
 
                 <div class="navbar-right">
                     <div class="nav-item dropdown search-dropdown">
-
                         <a
                             class="nav-link search-toggle-btn"
                             href="#"
@@ -90,17 +84,13 @@ if(session_status() === PHP_SESSION_NONE){
                         >
                             <i class="bi bi-search search-icon"></i>
                         </a>
-
                         <div class="dropdown-menu dropdown-menu-end search-dropdown-box p-3 shadow-sm">
-
                             <form
                                 action="search.php"
                                 method="GET"
                                 class="m-0"
                             >
-
                                 <div class="search-input-wrapper">
-
                                     <input
                                         type="search"
                                         name="query"

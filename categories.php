@@ -84,8 +84,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="shop-layout"> 
         <div class="filter-sidebar"> 
-         
-            <!-- Listimi i kategorive -->
+
             <div class="sidebar-widget"> 
                 <h3 class="widget-title">Categories</h3> 
                 <ul class="sidebar-categories-list"> 

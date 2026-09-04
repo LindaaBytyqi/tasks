@@ -200,6 +200,24 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
 
+<section class="brands-section">
+    <div class="brands-track">
+        <div class="brand-item"><img src="images/147.png" alt="Brand 1"></div>
+        <div class="brand-item"><img src="images/345.png" alt="Brand 2"></div>
+        <div class="brand-item"><img src="images/anas.png" alt="Brand 3"></div>
+        <div class="brand-item"><img src="images/beautyj.png" alt="Brand 4"></div>
+        <div class="brand-item"><img src="images/dior.png" alt="Brand 5"></div>
+
+        <div class="brand-item"><img src="images/147.png" alt="Brand 1"></div>
+        <div class="brand-item"><img src="images/345.png" alt="Brand 2"></div>
+        <div class="brand-item"><img src="images/anas.png" alt="Brand 3"></div>
+        <div class="brand-item"><img src="images/beautyj.png" alt="Brand 4"></div>
+        <div class="brand-item"><img src="images/dior.png" alt="Brand 5"></div>
+
+    </div>
+</section>
+
+
 <section class="newsletter-section newsletter-popup-overlay" id="newsletter">
     <div class="newsletter-card">
        <span class="newsletter-popup-close" id="closeNewsletterPopup">×</span>
@@ -310,15 +328,17 @@ newsletterForm.addEventListener("submit", function(event) {
 
 
 
-
-
-
 const newsletterPopup = document.getElementById("newsletter");
 const closeNewsletterPopup = document.getElementById("closeNewsletterPopup");
 
-setTimeout(function () {
-    newsletterPopup.classList.add("show");
-}, 7000);
+let newsletterShown = false;
+
+// setTimeout(function () {
+//     if (!newsletterShown) {
+//         newsletterPopup.classList.add("show");
+//         newsletterShown = true;
+//     }
+// }, 7000);
 
 closeNewsletterPopup.addEventListener("click", function () {
     newsletterPopup.classList.remove("show");
@@ -327,9 +347,19 @@ closeNewsletterPopup.addEventListener("click", function () {
 newsletterPopup.addEventListener("click", function (event) {
     if (event.target === newsletterPopup) {
         newsletterPopup.classList.remove("show");
-
     }
-
 });
+
+
+
+const brandsTrack=document.getElementById("brandsTrack");
+
+if(brandsTrack){
+   const items = Array.from(brandsTrack.children); 
+   items.forEach(items=>{
+        const clone = item.cloneNode(true);
+        brandsTrack.appendChild(clone);
+   });
+}
 
 </script>

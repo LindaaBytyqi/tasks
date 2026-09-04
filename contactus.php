@@ -29,16 +29,18 @@ include "includes/header.php";
       margin-bottom: 6rem !important;
     }
     .contact-card {
+      position: relative;
       background: #ffffff;
       padding: 2.1rem 3rem;
       border-radius: 20px;
-      border: 1px solid #e2e8f0;
+      border: 2px solid #e2e8f0;
       box-shadow: 0 12px 35px rgba(15, 23, 42, 0.04);
       transition: all 0.3s ease;
       height: 100%;
     }
     .contact-card:hover {
-      transform: translateY(-2px);
+      border-color: #eb259f;
+      transform: translateY(-4px);
       box-shadow: 0 20px 50px rgba(15, 23, 42, 0.09);
     }
     .icon-wrapper {
@@ -403,7 +405,7 @@ include "includes/header.php";
   <section class="contact-form-section py-5">
     <div class="container my-4">
       <div class="row g-5 align-items-center">
-        
+  
         <div class="col-lg-6">
           <div class="map-container">
             <iframe 
@@ -456,3 +458,7 @@ include "includes/header.php";
   </section>
 </body>
 </html>
+
+<?php 
+include  "includes/footer.php"
+?>
