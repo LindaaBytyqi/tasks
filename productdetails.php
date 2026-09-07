@@ -21,9 +21,13 @@ if (!$product) {
 
 <style>
 .product-details-main {
-    padding: 30px 0 55px;
+    /* padding: 30px 0 55px;
     background: #fff;
-    margin-top: 50px;
+    margin-top: 50px; */
+   padding: 40px 0;   
+    margin-top: 0;    
+    background: transparent;
+
 }
 .product-details-box {
     width: 85%; 
@@ -201,12 +205,6 @@ if (!$product) {
     }
 }
 
-
-/* =========================
-   TABLET
-   769px - 992px
-   ========================= */
-
 @media (min-width: 769px) and (max-width: 992px) {
 
     .product-details-main {
@@ -254,13 +252,6 @@ if (!$product) {
         font-size: 17px;
     }
 }
-
-
-/* =========================
-   MOBILE
-   481px - 768px
-   ========================= */
-
 @media (min-width: 481px) and (max-width: 768px) {
 
     .product-details-main {

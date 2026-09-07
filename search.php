@@ -32,33 +32,68 @@ Search results for:
 <?php else: ?>
 
 <?php foreach($products as $product): ?>
-<div class="product-card">
+    <div class="product-card">
 
-    <img src="images/<?= htmlspecialchars($product['image']); ?>"
-         alt="<?= htmlspecialchars($product['name']); ?>">
+        <img
+            src="images/<?= htmlspecialchars($product['image']); ?>"
+            alt="<?= htmlspecialchars($product['name']); ?>"
+        >
+        <h3>
+            <?= htmlspecialchars($product['name']); ?>
+        </h3>
 
-    <h3>
-        <?= htmlspecialchars($product['name']); ?>
-    </h3>
+        <div class="price">
+            <?php if (
+                $product['sale_price'] !== null &&
+                $product['sale_price'] < $product['price']
+            ): ?>
+                <span class="sale-price">
+                    $<?= number_format($product['sale_price'], 2); ?>
+                </span>
 
-    <p>
-        <?= htmlspecialchars($product['description']); ?>
-    </p>
+                <span class="old-price">
+                    $<?= number_format($product['price'], 2); ?>
+                </span>
 
-    <div class="price">
-        $<?= number_format($product['price'],2); ?>
+            <?php else: ?>
+                <span class="regular-price">
+                    $<?= number_format($product['price'], 2); ?>
+                </span>
+            <?php endif; ?>
+
+        </div>
+        <?php if ($product['stock'] > 0): ?>
+
+            <span class="stock">
+                In Stock
+            </span>
+
+        <?php else: ?>
+
+            <span class="stock">
+                Out of Stock
+            </span>
+
+        <?php endif; ?>
+        <div class="buttons">
+            <a
+                href="productdetails.php?id=<?= $product['id']; ?>"
+            >
+                View Product
+            </a>
+            <?php if ($product['stock'] > 0): ?>
+                <a
+                    href="cart.php?action=add&id=<?= $product['id']; ?>"
+                    class="btn-add"
+                >
+                    Add to Cart
+                </a>
+            <?php endif; ?>
+        </div>
     </div>
-    <div class="buttons">
-        <a href="product-details.php?id=<?= $product['id']; ?>">
-            View Product
-        </a>
-
-        <button>
-            Add to Cart
-        </button>
-    </div>
-</div>
 <?php endforeach; ?>
+
+
 <?php endif; ?>
 </div>
 </section>

@@ -9,9 +9,10 @@
 <style>
 .site-footer {
     width: 100%;
-    background: #f5f5f5;
+    background: #e9e8e8;
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: #111;
+    margin-top: 100px;
 }
 .footer-main {
     padding: 65px 0 80px;
@@ -40,7 +41,8 @@
 }
 .footer-line {
     height: 4px;
-    background: #d9d9d9;
+    /* background: #d9d9d9; */
+    background: #6d6a6a;
     flex: 1;
     margin: 0 45px;
 }

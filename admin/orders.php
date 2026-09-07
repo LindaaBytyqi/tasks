@@ -16,23 +16,19 @@ if ($search !== '') {
                 OR email ILIKE :search 
                 OR status ILIKE :search
               )";
-
     $params[':search'] = '%' . $search . '%';
 }
-
 if ($status !== '') {
     $sql .= " AND status = :status";
     $params[':status'] = $status;
 }
  
 $sql .= " ORDER BY id DESC";
-
 $stmt = $conn->prepare($sql); 
 $stmt->execute($params);
 
 
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 $count_sql = "SELECT status, COUNT(*) AS total
               FROM orders
               GROUP BY status";
@@ -50,7 +46,6 @@ $total_orders = array_sum($status_counts);
 
 
 <div class="container mt-5">
-
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold mb-0">Orders</h2>
     </div>
@@ -115,11 +110,8 @@ $total_orders = array_sum($status_counts);
                     <?= $status === 'cancelled' ? 'selected' : ''; ?>>
                     Cancelled (<?= $status_counts['cancelled'] ?? 0; ?>)
                 </option>
-
             </select>
-
         </div>
-
     </div>
 </form>
     <div class="card shadow-sm">

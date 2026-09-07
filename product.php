@@ -69,7 +69,11 @@ $stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
+<!-- <style>
+    .products-section {
+        padding-top: 200px !important;
+    }
+</style> -->
 <section class="products-section">
     <div class="shop-layout">
             <div class="filter-sidebar">

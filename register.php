@@ -72,6 +72,14 @@ if(isset($_POST['register'])){
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <title>Register</title>
+<style>
+    body {
+    background-image: url("images/register1.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+</style>
 </head>
 <body>
     <div class="register-container">

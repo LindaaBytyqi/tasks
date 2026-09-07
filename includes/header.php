@@ -188,6 +188,7 @@ if(session_status() === PHP_SESSION_NONE){
     </nav>
 </div>
 
+<div class="header-spacer <?= basename($_SERVER['PHP_SELF']) === 'index.php' ? 'home-spacer' : '' ?>"></div>
 
 
 <script>

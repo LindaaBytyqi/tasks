@@ -106,7 +106,7 @@ Description
 </label>
 <textarea name="description"
 class="form-control"
-rows="4"><?= htmlspecialchars($category['description'], ENT_QUOTES, 'UTF-8'); ?>"</textarea>
+rows="4"><?= htmlspecialchars($category['description'], ENT_QUOTES, 'UTF-8'); ?></textarea>
 </div>
 <button type="submit"
 name="update_category"

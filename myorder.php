@@ -15,7 +15,7 @@ if (!isset($_SESSION['last_order_id'])) {
             You have not placed an order yet.
         </p>
 
-        <a href="/tasks/index.php"
+        <a href="/tasks/product.php"
            class="btn btn-primary mt-3">
 
             Continue Shopping

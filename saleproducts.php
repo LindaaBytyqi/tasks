@@ -1,5 +1,4 @@
-<?php
-include "includes/user_auth.php";
+<!-- <?php
 include "includes/header.php";
 include "includes/database.php";
 
@@ -22,6 +21,16 @@ if($max_price != ""){
     $sql .= " AND sale_price <= :max_price";
     $params["max_price"] = $max_price;
 }
+
+$cat_sql = "SELECT c.*, COUNT(p.id) AS total_products
+            FROM categories c
+            LEFT JOIN products p ON c.id = p.category_id
+            GROUP BY c.id
+            ORDER BY c.id ASC";
+
+$cat_stmt = $conn->prepare($cat_sql);
+$cat_stmt->execute();
+$categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 switch($sort){
@@ -53,73 +62,69 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         Sale Products
     </h2>
     <div class="shop-layout">
-        <div class="filter-sidebar">
-            <h3>
-                Filter
-            </h3>
-            <form method="GET">
-                <label>
-                    Sort By
-                </label>
+<div class="filter-sidebar">
 
-                <select name="sort">
-                    <option 
-                        value="newest"
-                        <?= $sort == "newest" ? "selected" : ""; ?>>
-                        Newest
-                    </option>
+    <h3>Filter</h3>
 
-                    <option 
-                        value="low"
-                        <?= $sort == "low" ? "selected" : ""; ?>>
-                        Price Low to High
-                    </option>
+    <form method="GET">
+        <label>Sort By</label>
 
-                    <option 
-                        value="high"
-                        <?= $sort == "high" ? "selected" : ""; ?>>
-                        Price High to Low
-                    </option>
+        <select name="sort" onchange="this.form.submit()">
 
-                    <option 
-                        value="az"
-                        <?= $sort == "az" ? "selected" : ""; ?>>
-                        Alphabetically (A-Z)
-                    </option>
+            <option value="newest"
+                <?= $sort == "newest" ? "selected" : ""; ?>>
+                Newest
+            </option>
 
-                    <option 
-                        value="za"
-                        <?= $sort == "za" ? "selected" : ""; ?>>
-                        Alphabetically (Z-A)
-                    </option>
-                </select>
-                <label>
-                    Min Sale Price
-                </label>
-                <input 
-                    type="number"
-                    step="0.01"
-                    name="min_price"
-                    value="<?= htmlspecialchars($min_price); ?>"
-                >
-                <label>
-                    Max Sale Price
-                </label>
+            <option value="low"
+                <?= $sort == "low" ? "selected" : ""; ?>>
+                Price: Low to High
+            </option>
 
-                <input 
-                    type="number"
-                    step="0.01"
-                    name="max_price"
-                    value="<?= htmlspecialchars($max_price); ?>"
-                >
+            <option value="high"
+                <?= $sort == "high" ? "selected" : ""; ?>>
+                Price: High to Low
+            </option>
 
-                <button 
-                    type="submit" 
-                    class="btn-apply">
-                    Apply
-                </button>
-            </form>
-        </div>
+            <option value="az"
+                <?= $sort == "az" ? "selected" : ""; ?>>
+                Name: A-Z
+            </option>
+
+            <option value="za"
+                <?= $sort == "za" ? "selected" : ""; ?>>
+                Name: Z-A
+            </option>
+
+        </select>
+
+        <label>Min Sale Price</label>
+
+        <input
+            type="number"
+            step="0.01"
+            name="min_price"
+            value="<?= htmlspecialchars($min_price); ?>"
+            placeholder="Min price"
+        >
+
+        <label>Max Sale Price</label>
+
+        <input
+            type="number"
+            step="0.01"
+            name="max_price"
+            value="<?= htmlspecialchars($max_price); ?>"
+            placeholder="Max price"
+        >
+
+        <button type="submit" class="btn-apply">
+            Apply
+        </button>
+
+    </form>
+
+</div>
 
         <div class="products-container">
             <?php foreach($saleProducts as $product): ?>
@@ -180,4 +185,507 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
 
-<?php include "includes/footer.php"; ?>
+<?php include "includes/footer.php"; ?> -->
+
+
+
+
+<?php
+include "includes/header.php";
+include "includes/database.php";
+
+$sort = $_GET['sort'] ?? "newest";
+$min_price = $_GET['min_price'] ?? "";
+$max_price = $_GET['max_price'] ?? "";
+$stock_status = $_GET['stock'] ?? "";
+
+
+/* =========================
+   MAX SALE PRICE
+========================= */
+
+$max_price_sql = "SELECT MAX(sale_price) as highest_price
+                  FROM products
+                  WHERE sale_price IS NOT NULL
+                  AND sale_price < price";
+
+$max_price_stmt = $conn->prepare($max_price_sql);
+$max_price_stmt->execute();
+
+$max_price_row = $max_price_stmt->fetch(PDO::FETCH_ASSOC);
+
+$db_max_price = !empty($max_price_row['highest_price'])
+    ? ceil($max_price_row['highest_price'])
+    : 500;
+
+
+/* =========================
+   SALE PRODUCTS
+========================= */
+
+$sql = "SELECT * FROM products
+        WHERE sale_price IS NOT NULL
+        AND sale_price < price";
+
+$params = [];
+
+
+/* STOCK */
+
+if ($stock_status === "instock") {
+
+    $sql .= " AND stock > 0";
+
+} elseif ($stock_status === "outofstock") {
+
+    $sql .= " AND stock <= 0";
+}
+
+
+/* MIN PRICE */
+
+if ($min_price !== "") {
+
+    $sql .= " AND sale_price >= :min_price";
+
+    $params["min_price"] = $min_price;
+}
+
+
+/* MAX PRICE */
+
+if ($max_price !== "") {
+
+    $sql .= " AND sale_price <= :max_price";
+
+    $params["max_price"] = $max_price;
+}
+
+
+/* =========================
+   SORT
+========================= */
+
+switch ($sort) {
+
+    case "low":
+        $sql .= " ORDER BY sale_price ASC";
+        break;
+
+    case "high":
+        $sql .= " ORDER BY sale_price DESC";
+        break;
+
+    case "az":
+        $sql .= " ORDER BY name ASC";
+        break;
+
+    case "za":
+        $sql .= " ORDER BY name DESC";
+        break;
+
+    default:
+        $sql .= " ORDER BY id DESC";
+        break;
+}
+
+
+$stmt = $conn->prepare($sql);
+$stmt->execute($params);
+
+$saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
+<style>
+    .products-section {
+        padding-top: 200px !important;
+    }
+</style>
+
+
+<section class="products-section">
+
+    <h2>
+        Sale Products
+    </h2>
+
+
+    <div class="shop-layout">
+
+
+        <!-- =========================
+             FILTER SIDEBAR
+        ========================== -->
+
+        <div class="filter-sidebar">
+
+            <form
+                method="GET"
+                action="saleproducts.php"
+                class="filter-form"
+            >
+
+
+                <!-- SORT BY -->
+
+                <div class="sidebar-widget">
+
+                    <label
+                        class="widget-title"
+                        for="sort-select"
+                    >
+                        Sort By
+                    </label>
+
+                    <select
+                        name="sort"
+                        id="sort-select"
+                        class="styled-select"
+                        onchange="this.form.submit()"
+                    >
+
+                        <option
+                            value="newest"
+                            <?= $sort === "newest" ? "selected" : ""; ?>
+                        >
+                            Newest
+                        </option>
+
+                        <option
+                            value="low"
+                            <?= $sort === "low" ? "selected" : ""; ?>
+                        >
+                            Price Low to High
+                        </option>
+
+                        <option
+                            value="high"
+                            <?= $sort === "high" ? "selected" : ""; ?>
+                        >
+                            Price High to Low
+                        </option>
+
+                        <option
+                            value="az"
+                            <?= $sort === "az" ? "selected" : ""; ?>
+                        >
+                            Alphabetically (A-Z)
+                        </option>
+
+                        <option
+                            value="za"
+                            <?= $sort === "za" ? "selected" : ""; ?>
+                        >
+                            Alphabetically (Z-A)
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- AVAILABILITY -->
+
+                <div class="sidebar-widget">
+
+                    <label
+                        class="widget-title"
+                        for="stock-select"
+                    >
+                        Availability
+                    </label>
+
+                    <select
+                        name="stock"
+                        id="stock-select"
+                        class="styled-select"
+                        onchange="this.form.submit()"
+                    >
+
+                        <option value="">
+                            All Products
+                        </option>
+
+                        <option
+                            value="instock"
+                            <?= $stock_status === "instock" ? "selected" : ""; ?>
+                        >
+                            In Stock
+                        </option>
+
+                        <option
+                            value="outofstock"
+                            <?= $stock_status === "outofstock" ? "selected" : ""; ?>
+                        >
+                            Out of Stock
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PRICE FILTER -->
+
+                <div class="sidebar-widget">
+
+                    <h3 class="widget-title">
+                        Filter
+                    </h3>
+
+
+                    <div class="range-slider-wrapper">
+
+                        <div class="slider-track"></div>
+
+
+                        <input
+                            type="range"
+                            id="range-min"
+                            min="0"
+                            max="<?= $db_max_price; ?>"
+                            value="<?= $min_price !== '' ? htmlspecialchars($min_price) : '0'; ?>"
+                            step="1"
+                        >
+
+
+                        <input
+                            type="range"
+                            id="range-max"
+                            min="0"
+                            max="<?= $db_max_price; ?>"
+                            value="<?= $max_price !== '' ? htmlspecialchars($max_price) : $db_max_price; ?>"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <input
+                        type="hidden"
+                        name="min_price"
+                        id="min_price_input"
+                        value="<?= htmlspecialchars($min_price); ?>"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="max_price"
+                        id="max_price_input"
+                        value="<?= htmlspecialchars($max_price); ?>"
+                    >
+
+
+                    <div class="price-range-text">
+
+                        Price:
+                        $<span id="min-price-display">0</span>
+
+                        &mdash;
+
+                        $<span id="max-price-display">
+                            <?= $db_max_price; ?>
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn-filter-blue"
+                    >
+                        Filter
+
+                        <span class="arrow">
+                            &rarr;
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- =========================
+             SALE PRODUCTS
+        ========================== -->
+
+        <div class="products-container">
+
+            <?php if (!empty($saleProducts)): ?>
+
+                <?php foreach ($saleProducts as $product): ?>
+
+                    <div class="product-card">
+
+                        <img
+                            src="images/<?= htmlspecialchars($product['image']); ?>"
+                            alt="<?= htmlspecialchars($product['name']); ?>"
+                        >
+
+
+                        <h3>
+                            <?= htmlspecialchars($product['name']); ?>
+                        </h3>
+
+
+                        <div class="price">
+
+                            <span class="sale-price">
+
+                                $<?= number_format(
+                                    $product['sale_price'],
+                                    2
+                                ); ?>
+
+                            </span>
+
+
+                            <span class="old-price">
+
+                                $<?= number_format(
+                                    $product['price'],
+                                    2
+                                ); ?>
+
+                            </span>
+
+                        </div>
+
+
+                        <?php if ($product['stock'] > 0): ?>
+
+                            <span class="stock">
+                                In Stock
+                            </span>
+
+                        <?php else: ?>
+
+                            <span class="stock">
+                                Out of Stock
+                            </span>
+
+                        <?php endif; ?>
+
+
+                        <div class="buttons">
+
+                            <a
+                                href="productdetails.php?id=<?= $product['id']; ?>"
+                            >
+                                View Product
+                            </a>
+
+
+                            <?php if ($product['stock'] > 0): ?>
+
+                                <a
+                                    href="cart.php?action=add&id=<?= $product['id']; ?>"
+                                    class="btn-add"
+                                >
+                                    Add to Cart
+                                </a>
+
+                            <?php endif; ?>
+
+                        </div>
+
+                    </div>
+
+                <?php endforeach; ?>
+
+            <?php else: ?>
+
+                <p>
+                    No sale products found.
+                </p>
+
+            <?php endif; ?>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+const minRange = document.getElementById('range-min');
+const maxRange = document.getElementById('range-max');
+
+const minDisplay = document.getElementById('min-price-display');
+const maxDisplay = document.getElementById('max-price-display');
+
+const minInput = document.getElementById('min_price_input');
+const maxInput = document.getElementById('max_price_input');
+
+const track = document.querySelector('.slider-track');
+
+
+function updateSlider() {
+
+    let minVal = parseInt(minRange.value);
+    let maxVal = parseInt(maxRange.value);
+
+    const maxLimit = parseInt(minRange.max) || 1;
+
+
+    if (minVal >= maxVal) {
+
+        minVal = maxVal - 1;
+
+        if (minVal < 0) {
+            minVal = 0;
+        }
+
+        minRange.value = minVal;
+    }
+
+
+    minDisplay.textContent = minVal;
+    maxDisplay.textContent = maxVal;
+
+    minInput.value = minVal;
+    maxInput.value = maxVal;
+
+
+    const percentMin =
+        (minVal / maxLimit) * 100;
+
+    const percentMax =
+        (maxVal / maxLimit) * 100;
+
+
+    track.style.left =
+        percentMin + "%";
+
+    track.style.width =
+        (percentMax - percentMin) + "%";
+}
+
+
+minRange.addEventListener(
+    'input',
+    updateSlider
+);
+
+maxRange.addEventListener(
+    'input',
+    updateSlider
+);
+
+
+updateSlider();
+
+</script>
+
+
+<?php
+include "includes/footer.php";
+?>
