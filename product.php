@@ -5,23 +5,66 @@ include "includes/database.php";
 $sort = $_GET['sort'] ?? "newest";
 $min_price = $_GET['min_price'] ?? "";
 $max_price = $_GET['max_price'] ?? "";
-$category_id  = $_GET['category'] ?? "";     
+$category_id = $_GET['category'] ?? "";
 $stock_status = $_GET['stock'] ?? "";
 
 $max_price_sql = "SELECT MAX(COALESCE(sale_price, price)) as highest_price FROM products";
+
 $max_price_stmt = $conn->prepare($max_price_sql);
 $max_price_stmt->execute();
-$max_price_row = $max_price_stmt->fetch(PDO::FETCH_ASSOC);
-$db_max_price = !empty($max_price_row['highest_price']) ? ceil($max_price_row['highest_price']) : 500;
 
-$cat_sql = "SELECT c.*, COUNT(p.id) AS total_products 
-            FROM categories c 
-            LEFT JOIN products p ON c.id = p.category_id 
+$max_price_row = $max_price_stmt->fetch(PDO::FETCH_ASSOC);
+
+$db_max_price = !empty($max_price_row['highest_price'])
+    ? ceil($max_price_row['highest_price'])
+    : 500;
+
+$cat_sql = "SELECT c.*, COUNT(p.id) AS total_products
+            FROM categories c
+            LEFT JOIN products p ON c.id = p.category_id
             GROUP BY c.id";
+
 $cat_stmt = $conn->prepare($cat_sql);
 $cat_stmt->execute();
+
 $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$products_per_page = 9;
+
+$page = isset($_GET['page']) && is_numeric($_GET['page'])
+    ? (int) $_GET['page']
+    : 1;
+$page = max($page, 1);
+
+$offset = ($page - 1) * $products_per_page;
+$count_sql = "SELECT COUNT(*) FROM products WHERE 1=1";
+$count_params = [];
+
+if (!empty($category_id)) {
+    $count_sql .= " AND category_id = :category_id";
+    $count_params["category_id"] = $category_id;
+}
+
+if ($stock_status === "instock") {
+    $count_sql .= " AND stock > 0";
+} elseif ($stock_status === "outofstock") {
+    $count_sql .= " AND stock <= 0";
+}
+
+if ($min_price !== "") {
+    $count_sql .= " AND COALESCE(sale_price, price) >= :min_price";
+    $count_params["min_price"] = $min_price;
+}
+
+if ($max_price !== "") {
+    $count_sql .= " AND COALESCE(sale_price, price) <= :max_price";
+    $count_params["max_price"] = $max_price;
+}
+
+$count_stmt = $conn->prepare($count_sql);
+$count_stmt->execute($count_params);
+$total_products = (int) $count_stmt->fetchColumn();
+$total_pages = (int) ceil($total_products / $products_per_page);
 $sql = "SELECT * FROM products WHERE 1=1";
 $params = [];
 
@@ -37,15 +80,15 @@ if ($stock_status === "instock") {
 }
 
 if ($min_price !== "") {
-
     $sql .= " AND COALESCE(sale_price, price) >= :min_price";
     $params["min_price"] = $min_price;
 }
-if ($max_price !== "") {
 
+if ($max_price !== "") {
     $sql .= " AND COALESCE(sale_price, price) <= :max_price";
     $params["max_price"] = $max_price;
 }
+
 switch ($sort) {
     case "low":
         $sql .= " ORDER BY COALESCE(sale_price, price) ASC";
@@ -64,16 +107,21 @@ switch ($sort) {
         break;
 }
 
+$sql .= " LIMIT :limit OFFSET :offset";
 $stmt = $conn->prepare($sql);
-$stmt->execute($params);
+
+foreach ($params as $key => $value) {
+    $stmt->bindValue(":$key", $value);
+}
+
+$stmt->bindValue(":limit", $products_per_page, PDO::PARAM_INT);
+$stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+
+$stmt->execute();
+
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<!-- <style>
-    .products-section {
-        padding-top: 200px !important;
-    }
-</style> -->
 <section class="products-section">
     <div class="shop-layout">
             <div class="filter-sidebar">
@@ -150,7 +198,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             </form>
         </div>
+    
 
+    <div class="products-area">
         <div class="products-container">
             <?php if (!empty($products)): ?>
                 <?php foreach ($products as $product): ?>
@@ -230,6 +280,34 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </p>
             <?php endif; ?>
         </div>
+            <?php if ($total_pages > 1): ?>
+            <div class="pagination">
+                <?php if ($page > 1): ?>
+                    <a class="pagination-arrow"
+                        href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                <?php endif; ?>
+
+
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <a 
+                        href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"
+                        class="<?= $i == $page ? 'active' : '' ?>"
+                    >
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+
+
+               <?php if ($page < $total_pages): ?>
+                    <a class="pagination-arrow"
+                         href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>">
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+               <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 

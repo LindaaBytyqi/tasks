@@ -84,53 +84,6 @@ if(isset($_POST['change_password'])){
 .password-card .card-body{
     padding:25px;
 }
-/* .form-label{
-    font-size:18px;
-    font-weight:600;
-}
-.form-control{
-    height:50px;
-    font-size:17px;
-}
-.btn.btn-primary{
-    padding: 12px 22px;
-    font-size:18px;
-    border-radius:10px;
-}
-.btn.btn-secondary{
-    padding:12px 22px;
-    font-size:18px;
-    border-radius:10px;
-}
-.btn-primary,
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active{
-    background: #424446;
-    border:none;
-    box-shadow:none;
-    outline:none;
-}
-.btn-secondary,
-.btn-secondary:hover,
-.btn-secondary:focus,
-.btn-secondary:active{
-    background: #424446;
-    border:none;
-    box-shadow:none;
-    outline:none;
-    color: white;
-}
-.position-relative i{
-    position:absolute;
-    right:18px;
-    top:50%;
-    transform:translateY(-50%);
-    cursor:pointer;
-    font-size:22px;
-    color:#6b7280;
-} */
-
 .password-card .form-label {
     font-size: 18px;
     font-weight: 600;

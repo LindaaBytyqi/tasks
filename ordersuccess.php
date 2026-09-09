@@ -166,7 +166,7 @@ $payment_method = $order['payment_method'] == '0'
                             </strong>
                             <br>
                             <small>
-                                Quantity: <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>"
+                                Quantity: <?= htmlspecialchars($item['quantity'], ENT_QUOTES, 'UTF-8'); ?>
                             </small>
                         </div>
                         </div>

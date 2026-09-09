@@ -7,10 +7,20 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$sql="SELECT * FROM products ORDER BY id DESC LIMIT 8";
+$sql="SELECT * FROM products ORDER BY id DESC LIMIT 6";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$cat_sql = "SELECT c.*, COUNT(p.id) AS total_products  
+            FROM categories c  
+            LEFT JOIN products p ON c.id = p.category_id  
+            GROUP BY c.id"; 
+$cat_stmt = $conn->prepare($cat_sql); 
+$cat_stmt->execute(); 
+$categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC); 
+
 
 ?>
 <style>
@@ -150,15 +160,10 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 .hero-tag {
     color: #ffffff;
     font-size: 13px;
-
     font-weight: 700;
-
     letter-spacing: 3px;
-
     margin-bottom: 20px;
-
     position: relative;
-
     padding-left: 38px;
 }
 
@@ -304,14 +309,12 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 .hero-dot.active {
     width: 30px;
-
     background: #eb3f81;
 }
 
-
-
 .why-shop-section {
-    padding: 150px 30px;
+    margin-top: 80px;
+    padding: 100px 30px;
     background: #ffffff;
 }
 .why-shop-container {
@@ -342,7 +345,7 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 .why-shop-heading p {
     margin: 0;
     color: #777;
-    font-size: 18px;
+    font-size: 19px;
     line-height: 1.7;
 }
 .why-shop-grid {
@@ -359,10 +362,10 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 .why-shop-item:not(:last-child)::after {
     content: "";
     position: absolute;
-    top: 35px;
+    top: 40px;
     right: 0;
     width: 1px;
-    height: 100px;
+    height: calc(100% - 80px);
     background: #eeeeee;
 }
 .why-icon {
@@ -394,7 +397,7 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
     max-width: 210px;
     margin: 0 auto;
     color: #888;
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.7;
 }
 
@@ -479,7 +482,7 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
     <div class="hero-slide"
-         style="background-image: url('images/back4.jfif');">
+         style="background-image: url('images/herobanner.png');">
 
         <div class="hero-overlay"></div>
 
@@ -559,7 +562,7 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-<section class="categories-menu">
+<!-- <section class="categories-menu">
     <div class="categories-nav">
         <?php foreach($categories as $category): ?>
             <a href="categories.php?id=<?= $category['id']; ?>" class="category-link">
@@ -570,11 +573,37 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
             Sale Products
         </a>
     </div>
+</section> -->
+
+
+
+<section class="shop-by-category">
+    <h2 class="category-title">Shop By Category</h2>
+    
+   <div class="categories-grid">
+        <?php foreach($categories as $category): ?>
+            <a href="categories.php?id=<?= $category['id']; ?>" class="category-card">
+                <div class="category-image-wrapper">
+                    <img src="images/categories/category-<?= $category['id']; ?>.png" alt="<?= htmlspecialchars($category['name']); ?>">
+                </div>
+                <h3 class="category-name"><?= htmlspecialchars($category['name']); ?></h3>
+                <span class="category-count"><?= $category['total_products']; ?> Items</span>
+            </a>
+        <?php endforeach; ?>
+
+        <a href="saleproducts.php" class="category-card sale-card">
+            <div class="category-image-wrapper">
+                <img src="images/sale1.png" alt="Sale Products">
+            </div>
+            <h3 class="category-name">Sale Products</h3>
+            <span class="category-count">Special Offers</span>
+        </a>
+    </div>
 </section>
 
 
-<section class="products-section">
 
+<section class="products-section">
     <div class="products-heading">
         <h2>TOP NEWEST PRODUCTS</h2>
     </div>
@@ -647,6 +676,91 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
+<section class="beauty-banner">
+    <div class="beauty-banner-image">
+        <img src="images/products.png"
+             alt="Woman applying skincare">
+
+        <div class="image-badge">
+            <i class="bi bi-stars"></i>
+            <span>BEAUTY ESSENTIALS</span>
+        </div>
+    </div>
+
+    <div class="beauty-banner-content">
+        <span class="beauty-banner-label">
+            ELEVATE YOUR ROUTINE
+        </span>
+        <h2>
+            Your skin
+            <span>deserves the best.</span>
+        </h2>
+        <p>
+            Thoughtfully selected skincare essentials
+            for your everyday glow.
+        </p>
+        <a href="product.php" class="beauty-banner-btn">
+            <span>Discover Skincare</span>
+            <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+</section>
+
+
+
+<section class="tips-section">
+  <h2 class="section-title">EXPERT TIPS AND INSPIRATION</h2>
+
+  <div class="cards-container">
+
+    <div class="tip-card" onclick="window.location.href='tips1.php'">
+      <div class="card-category">SKINCARE</div>
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500" alt="Skincare Tips">
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">10 Skincare Tips for a Healthy Glow from Glowify</h3>
+        <div class="card-footer">
+          <span class="meta-item"><i class="far fa-clock"></i> May 5, 2026</span>
+          <span class="meta-item"><i class="far fa-user"></i> Loprem Ipsum</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-card" onclick="window.location.href='tips2.php'">
+      <div class="card-category">MAKEUP</div>
+      <div class="card-image">
+        <img src="images/makeu.png" alt="Makeup Guide">
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">The Ultimate Guide to Makeup Application</h3>
+        <div class="card-footer">
+          <span class="meta-item"><i class="far fa-clock"></i> April 20, 2026</span>
+          <span class="meta-item"><i class="far fa-user"></i> Lorem Ipsum</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-card" onclick="window.location.href='tips3.php'">
+      <div class="card-category">HairCare</div>
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500" alt="Foundation Shade">
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">How to Choose the Perfect Product for Hair</h3>
+        <div class="card-footer">
+          <span class="meta-item"><i class="far fa-clock"></i> March 15, 2026</span>
+          <span class="meta-item"><i class="far fa-user"></i> Lorem Ipsum</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
 <section class="why-shop-section">
     <div class="why-shop-container">
 
@@ -688,11 +802,13 @@ $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <h3>Made With Care</h3>
                 <p>We choose beauty essentials with you in mind.</p>
             </div>
-
         </div>
-
     </div>
 </section>
+
+
+
+
 
 <section class="brands-section">
     <div class="brands-track">
@@ -744,26 +860,6 @@ include "includes/footer.php";
 ?>
 
 <script>
-const slides = document.querySelectorAll(".slide");
-let currentSlide = 0;
-
-function showSlide(index) {
-    slides.forEach(slide => {
-        slide.classList.remove("active");
-    });
-    slides[index].classList.add("active");
-}
-
-setInterval(() => {
-    currentSlide++;
-    if (currentSlide >= slides.length) {
-        currentSlide = 0;
-    }
-    showSlide(currentSlide);
-}, 3000);
-
-
-
 const newsletterForm = document.getElementById("newsletterForm");
 newsletterForm.addEventListener("submit", function(event) {
     event.preventDefault();

@@ -12,10 +12,10 @@
     background: #e9e8e8;
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: #111;
-    margin-top: 100px;
+    margin-top: 10px;
 }
 .footer-main {
-    padding: 65px 0 80px;
+    padding: 65px 0 65px;
 }
 .footer-container {
     width: 100%;

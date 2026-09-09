@@ -199,11 +199,6 @@ $min_price = $_GET['min_price'] ?? "";
 $max_price = $_GET['max_price'] ?? "";
 $stock_status = $_GET['stock'] ?? "";
 
-
-/* =========================
-   MAX SALE PRICE
-========================= */
-
 $max_price_sql = "SELECT MAX(sale_price) as highest_price
                   FROM products
                   WHERE sale_price IS NOT NULL
@@ -219,40 +214,22 @@ $db_max_price = !empty($max_price_row['highest_price'])
     : 500;
 
 
-/* =========================
-   SALE PRODUCTS
-========================= */
-
 $sql = "SELECT * FROM products
         WHERE sale_price IS NOT NULL
         AND sale_price < price";
-
 $params = [];
 
 
-/* STOCK */
-
 if ($stock_status === "instock") {
-
     $sql .= " AND stock > 0";
-
 } elseif ($stock_status === "outofstock") {
-
     $sql .= " AND stock <= 0";
 }
 
-
-/* MIN PRICE */
-
 if ($min_price !== "") {
-
     $sql .= " AND sale_price >= :min_price";
-
     $params["min_price"] = $min_price;
 }
-
-
-/* MAX PRICE */
 
 if ($max_price !== "") {
 
@@ -262,28 +239,19 @@ if ($max_price !== "") {
 }
 
 
-/* =========================
-   SORT
-========================= */
-
 switch ($sort) {
-
     case "low":
         $sql .= " ORDER BY sale_price ASC";
         break;
-
     case "high":
         $sql .= " ORDER BY sale_price DESC";
         break;
-
     case "az":
         $sql .= " ORDER BY name ASC";
         break;
-
     case "za":
         $sql .= " ORDER BY name DESC";
         break;
-
     default:
         $sql .= " ORDER BY id DESC";
         break;
@@ -296,28 +264,18 @@ $stmt->execute($params);
 $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-
-<style>
+<!-- <style>
     .products-section {
         padding-top: 200px !important;
     }
-</style>
+</style> -->
 
 
 <section class="products-section">
-
     <h2>
         Sale Products
     </h2>
-
-
     <div class="shop-layout">
-
-
-        <!-- =========================
-             FILTER SIDEBAR
-        ========================== -->
-
         <div class="filter-sidebar">
 
             <form
@@ -326,32 +284,25 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 class="filter-form"
             >
 
-
-                <!-- SORT BY -->
-
                 <div class="sidebar-widget">
-
                     <label
                         class="widget-title"
                         for="sort-select"
                     >
                         Sort By
                     </label>
-
                     <select
                         name="sort"
                         id="sort-select"
                         class="styled-select"
                         onchange="this.form.submit()"
                     >
-
                         <option
                             value="newest"
                             <?= $sort === "newest" ? "selected" : ""; ?>
                         >
                             Newest
                         </option>
-
                         <option
                             value="low"
                             <?= $sort === "low" ? "selected" : ""; ?>
@@ -384,61 +335,44 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 </div>
 
-
-                <!-- AVAILABILITY -->
-
                 <div class="sidebar-widget">
-
                     <label
                         class="widget-title"
                         for="stock-select"
                     >
                         Availability
                     </label>
-
                     <select
                         name="stock"
                         id="stock-select"
                         class="styled-select"
                         onchange="this.form.submit()"
                     >
-
                         <option value="">
                             All Products
                         </option>
-
                         <option
                             value="instock"
                             <?= $stock_status === "instock" ? "selected" : ""; ?>
                         >
                             In Stock
                         </option>
-
                         <option
                             value="outofstock"
                             <?= $stock_status === "outofstock" ? "selected" : ""; ?>
                         >
                             Out of Stock
                         </option>
-
                     </select>
-
                 </div>
 
-
-                <!-- PRICE FILTER -->
-
                 <div class="sidebar-widget">
-
                     <h3 class="widget-title">
                         Filter
                     </h3>
 
-
                     <div class="range-slider-wrapper">
-
                         <div class="slider-track"></div>
-
 
                         <input
                             type="range"
@@ -448,7 +382,6 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             value="<?= $min_price !== '' ? htmlspecialchars($min_price) : '0'; ?>"
                             step="1"
                         >
-
 
                         <input
                             type="range"
@@ -460,15 +393,12 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         >
 
                     </div>
-
-
                     <input
                         type="hidden"
                         name="min_price"
                         id="min_price_input"
                         value="<?= htmlspecialchars($min_price); ?>"
                     >
-
 
                     <input
                         type="hidden"
@@ -477,20 +407,15 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         value="<?= htmlspecialchars($max_price); ?>"
                     >
 
-
                     <div class="price-range-text">
 
                         Price:
                         $<span id="min-price-display">0</span>
-
                         &mdash;
-
                         $<span id="max-price-display">
                             <?= $db_max_price; ?>
                         </span>
-
                     </div>
-
 
                     <button
                         type="submit"
@@ -510,44 +435,28 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         </div>
 
-
-        <!-- =========================
-             SALE PRODUCTS
-        ========================== -->
-
         <div class="products-container">
-
             <?php if (!empty($saleProducts)): ?>
-
                 <?php foreach ($saleProducts as $product): ?>
-
                     <div class="product-card">
-
                         <img
                             src="images/<?= htmlspecialchars($product['image']); ?>"
                             alt="<?= htmlspecialchars($product['name']); ?>"
                         >
 
-
                         <h3>
                             <?= htmlspecialchars($product['name']); ?>
                         </h3>
 
-
                         <div class="price">
-
                             <span class="sale-price">
-
                                 $<?= number_format(
                                     $product['sale_price'],
                                     2
                                 ); ?>
-
                             </span>
 
-
                             <span class="old-price">
-
                                 $<?= number_format(
                                     $product['price'],
                                     2
@@ -598,21 +507,14 @@ $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                 <?php endforeach; ?>
-
             <?php else: ?>
-
                 <p>
                     No sale products found.
                 </p>
-
             <?php endif; ?>
-
         </div>
-
     </div>
-
 </section>
-
 
 <script>
 
@@ -624,9 +526,7 @@ const maxDisplay = document.getElementById('max-price-display');
 
 const minInput = document.getElementById('min_price_input');
 const maxInput = document.getElementById('max_price_input');
-
 const track = document.querySelector('.slider-track');
-
 
 function updateSlider() {
 
@@ -647,28 +547,22 @@ function updateSlider() {
         minRange.value = minVal;
     }
 
-
     minDisplay.textContent = minVal;
     maxDisplay.textContent = maxVal;
-
     minInput.value = minVal;
     maxInput.value = maxVal;
-
 
     const percentMin =
         (minVal / maxLimit) * 100;
 
     const percentMax =
         (maxVal / maxLimit) * 100;
-
-
     track.style.left =
         percentMin + "%";
 
     track.style.width =
         (percentMax - percentMin) + "%";
 }
-
 
 minRange.addEventListener(
     'input',
@@ -682,9 +576,7 @@ maxRange.addEventListener(
 
 
 updateSlider();
-
 </script>
-
 
 <?php
 include "includes/footer.php";

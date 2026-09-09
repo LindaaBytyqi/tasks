@@ -422,7 +422,7 @@ include "includes/header.php";
         <div class="col-lg-6">
           <div class="ps-lg-3">
             <span class="subtitle text-uppercase fw-bold mb-3">Contact Us</span>
-            <h2 class="main-heading my-3">Have Any Questions?</h2>
+            <h2 class="main-heading my-3">Any Questions?</h2>
             
             <form class="mt-4">
               <div class="row g-4 mb-4">
