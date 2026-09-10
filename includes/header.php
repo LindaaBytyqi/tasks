@@ -64,6 +64,16 @@ if(session_status() === PHP_SESSION_NONE){
                         <li class="nav-item">
                             <a
                                 class="nav-link"
+                                href="/tasks/aboutus.php"
+                            >
+                                About
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
                                 href="/tasks/contactus.php"
                             >
                                 Contact
@@ -187,8 +197,8 @@ if(session_status() === PHP_SESSION_NONE){
         </div>
     </nav>
 </div>
-
-<div class="header-spacer <?= basename($_SERVER['PHP_SELF']) === 'index.php' ? 'home-spacer' : '' ?>"></div>
+<!-- 
+<div class="header-spacer <?= basename($_SERVER['PHP_SELF']) === 'index.php' ? 'home-spacer' : '' ?>"></div> -->
 
 
 <script>

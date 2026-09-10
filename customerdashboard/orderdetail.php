@@ -41,7 +41,6 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <a href="../index.php" class="btn btn-primary">
             Start Shopping
         </a>
-
     <?php else: ?>
 
         <?php foreach ($orders as $order): ?>

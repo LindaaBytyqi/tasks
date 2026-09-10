@@ -13,17 +13,17 @@ include "includes/header.php";
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      /* font-family: 'Plus Jakarta Sans', sans-serif; */
       color: #2b303a;
       background-color: #f8fafc;
     }
     .contact-section {
-      padding-top: 10rem;
+      padding-top: 13rem;
       padding-bottom: 17rem;
     }
     .contact-title {
       font-size: 3rem;
-      font-weight: 700;
+      font-weight: 600;
       color: #0f172a;
       letter-spacing: -1px;
       margin-bottom: 6rem !important;
@@ -65,7 +65,7 @@ include "includes/header.php";
       margin-bottom: 1rem;
     }
     .contact-card p {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: #505863;
       line-height: 1.7;
     }

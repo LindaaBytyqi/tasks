@@ -27,7 +27,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : "home";
 .sidebar-card {
     width: 100%;
     min-height: 500px;
-    margin: 0;
+    margin-top: 130px;
+    /* margin: 0; */
 }
 
 .sidebar-item {

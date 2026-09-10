@@ -121,7 +121,11 @@ $stmt->execute();
 
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
+<style>
+    .products-section{
+        margin-top: 130px;
+    }
+</style>
 <section class="products-section">
     <div class="shop-layout">
             <div class="filter-sidebar">

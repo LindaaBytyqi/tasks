@@ -22,17 +22,17 @@ main {
     justify-content: center;    
     z-index: 1000;
 }
-.header-spacer {
+/* .header-spacer {
     height: 100px;
 }
 
 .header-spacer.home-spacer {
     height: 0;
-}
+} */
 .custom-navbar {
     background: #ffffff !important;
     width: 82% !important;
-    max-width: 1300px;
+    max-width: 1400px;
     padding: 22px 18px !important;
     border-radius: 90px !important;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.07);
@@ -46,7 +46,7 @@ main {
 }
 .custom-navbar .logo {
     position: absolute;
-    left: 50%;
+    left: 60%;
     top: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
@@ -1384,20 +1384,16 @@ main {
 
 
 @media (max-width: 450px) {
-
     .beauty-banner {
         width: calc(100% - 20px);
     }
-
     .beauty-banner-image {
         height: 300px;
         min-height: 300px;
     }
-
     .beauty-banner-content {
         padding: 38px 24px 42px;
     }
-
     .beauty-banner-content h2 {
         font-size: 34px;
     }
@@ -1450,7 +1446,6 @@ main {
 .tip-card:hover {
   opacity: 0.95;
 }
-
 .card-category {
   background-color: #fcf0f4;
   color: #e06d88;
@@ -1468,14 +1463,12 @@ main {
   overflow: hidden;
   border-bottom: 1px solid #1a1a1a; 
 }
-
 .card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-
 .card-body {
   padding: 20px 18px 15px 18px;
   display: flex;
@@ -1558,12 +1551,10 @@ main {
 .brand-item img:hover {
     transform: scale(1.01);
 }
-
 .brand-item img:hover {
     filter: grayscale(0%);
     opacity: 1;
 }
-
 @keyframes smoothScroll {
     0% {
         transform: translateX(0);
@@ -1636,12 +1627,12 @@ main {
 }
 
 @media (min-width: 993px) and (max-width: 1200px) {
-    .hero-section {
-        width: 100%;
-        padding: 45px 25px;
-        box-sizing: border-box;
-    }
-    .hero-card {
+.hero-section {
+    width: 100%;
+    padding: 45px 25px;
+    box-sizing: border-box;
+}
+.hero-card {
     width: 100%;
     max-width: 1150px;
     min-height: 500px;
@@ -1652,13 +1643,12 @@ main {
     justify-content: space-between;
     gap: 30px;
     box-sizing: border-box;
-    }
+}
 .hero-content {
     flex: 0 1 50%;
     width: 50%;
     min-width: 0;
 }
-
 .hero-content h5 {
     font-size: 40px;
     line-height: 1.25;
@@ -1827,26 +1817,6 @@ main {
         padding-top: 95px;
         overflow-x: hidden;
     }
-    .categories-menu {
-        width: 100%;
-        margin: 30px auto;
-        padding: 0 20px;
-        box-sizing: border-box;
-    }
-    .categories-nav {
-        width: 100%;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        flex-wrap: wrap;
-    }
-    .category-link {
-        padding: 13px 18px;
-        font-size: 16px;
-        white-space: nowrap;
-    }
     .products-section {
         width: 100%;
         padding: 35px 20px;
@@ -1980,33 +1950,6 @@ main {
     body {
         padding-top: 85px;
         overflow-x: hidden;
-    }
-    .categories-menu {
-        width: 100%;
-        margin: 25px 0;
-        padding: 0 12px;
-        box-sizing: border-box;
-    }
-
-    .categories-nav {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    .category-link {
-        width: 100%;
-        padding: 13px;
-        font-size: 16px;
-        text-align: center;
-        border-right: none;
-        border-bottom: 1px solid rgba(0,0,0,.1);
-        box-sizing: border-box;
-    }
-    .category-link:last-child {
-        border-bottom: none;
     }
     .products-section {
         width: 100%;
@@ -2403,24 +2346,6 @@ main {
         max-width: 255px;
         height: 100%;
         object-fit: cover;
-    }
-    .categories-menu {
-        width: 100%;
-        margin: 17px 0;
-        padding: 0 7px;
-        box-sizing: border-box;
-    }
-    .categories-nav {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    .category-link {
-        width: 100%;
-        padding: 10px 7px;
-        font-size: 13px;
-        box-sizing: border-box;
-        white-space: normal;
     }
     .products-section {
         width: 100%;

@@ -12,7 +12,6 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 $cat_sql = "SELECT c.*, COUNT(p.id) AS total_products  
             FROM categories c  
             LEFT JOIN products p ON c.id = p.category_id  
@@ -107,7 +106,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     overflow: hidden;
     background: #eeeae8;
 }
-
 .hero-slide {
     position: absolute;
     inset: 0;
@@ -118,16 +116,15 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     background-position: center center;
     opacity: 0;
     visibility: hidden;
-    transform: scale(1.02);
+    transform: translateX(100%);
     transition:
-        opacity 1s ease-in-out,
-        visibility 1s ease-in-out,
-        transform 6s ease;
+        transform 0.55s cubic-bezier(.4, 0, .2, 1),
+        opacity 0.4s ease;
 }
 .hero-slide.active {
     opacity: 1;
     visibility: visible;
-    transform: scale(1);
+    transform: translateX(0);
 }
 .hero-overlay {
     position: absolute;
@@ -270,20 +267,16 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
 .hero-arrow:hover {
     background: #eb3f81;
     border-color: #eb3f81;
 }
-
 .hero-prev {
     left: 25px;
 }
-
 .hero-next {
     right: 25px;
 }
-
 .hero-dots {
     position: absolute;
     z-index: 5;
@@ -292,10 +285,8 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-
     gap: 8px;
 }
-
 .hero-dot {
     width: 8px;
     height: 8px;
@@ -306,11 +297,305 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     cursor: pointer;
     transition: all 0.35s ease;
 }
-
 .hero-dot.active {
     width: 30px;
     background: #eb3f81;
 }
+
+.skincare-hero {
+    cursor: grab;
+    user-select: none;
+}
+.skincare-hero.is-dragging {
+    cursor: grabbing;
+}
+.skincare-hero.is-dragging .hero-slide {
+    transition: none !important;
+}
+
+@media (max-width: 1200px) {
+    .skincare-hero {
+        height: 80vh;
+        min-height: 650px;
+    }
+    .hero-content {
+        max-width: 100%;
+        padding: 0 80px;
+        transform: translateX(0);
+    }
+    .hero-content h1 {
+        font-size: 58px;
+    }
+    .hero-content p {
+        max-width: 480px;
+        font-size: 18px !important;
+    }
+    .hero-arrow {
+        width: 44px;
+        height: 44px;
+    }
+    .hero-prev {
+        left: 20px;
+    }
+    .hero-next {
+        right: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .skincare-hero {
+        height: 75vh;
+        min-height: 600px;
+    }
+    .hero-content {
+        padding: 0 60px;
+        transform: translateX(0);
+    }
+    .hero-tag {
+        font-size: 12px;
+        letter-spacing: 2.5px;
+        margin-bottom: 16px;
+    }
+    .hero-content h1 {
+        font-size: 52px;
+        line-height: 1.08;
+        letter-spacing: -1.5px;
+    }
+    .hero-content p {
+        max-width: 440px;
+        margin: 22px 0 28px;
+        font-size: 17px !important;
+        line-height: 1.65;
+    }
+    .hero-btn {
+        min-width: 135px;
+        height: 47px;
+        padding: 0 20px;
+        font-size: 16px;
+    }
+    .hero-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 15px;
+    }
+    .hero-prev {
+        left: 15px;
+    }
+
+    .hero-next {
+        right: 15px;
+    }
+
+    .hero-dots {
+        bottom: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .skincare-hero {
+        height: 75vh;
+        min-height: 560px;
+        max-height: 700px;
+    }
+    .hero-slide {
+        background-position: center center;
+    }
+    .hero-overlay {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(25, 22, 22, 0.70) 0%,
+                rgba(25, 22, 22, 0.50) 45%,
+                rgba(25, 22, 22, 0.18) 100%
+            );
+    }
+    .hero-content {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        padding: 0 55px;
+        justify-content: center;
+        align-items: flex-start;
+        transform: translateX(0);
+    }
+
+    .hero-tag {
+        font-size: 11px;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+        padding-left: 30px;
+    }
+
+    .hero-tag::before {
+        width: 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 43px;
+        line-height: 1.08;
+        letter-spacing: -1px;
+    }
+    .hero-content p {
+        max-width: 390px;
+        margin: 20px 0 26px;
+
+        font-size: 16px !important;
+        line-height: 1.6;
+    }
+    .hero-buttons {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .hero-btn {
+        min-width: 125px;
+        height: 45px;
+        padding: 0 17px;
+        font-size: 15px;
+        border-radius: 5px;
+    }
+    .hero-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 14px;
+    }
+    .hero-prev {
+        left: 12px;
+    }
+    .hero-next {
+        right: 12px;
+    }
+    .hero-dots {
+        bottom: 22px;
+        gap: 7px;
+    }
+
+    .hero-dot {
+        width: 7px;
+        height: 7px;
+    }
+    .hero-dot.active {
+        width: 25px;
+    }
+}
+@media (max-width: 576px) {
+    .skincare-hero {
+        height: 72vh;
+        min-height: 520px;
+        max-height: 620px;
+    }
+    .hero-slide {
+        background-position: center center;
+    }
+    .hero-content {
+        padding: 0 42px;
+    }
+    .hero-tag {
+        font-size: 10px;
+        letter-spacing: 1.7px;
+        margin-bottom: 13px;
+        padding-left: 27px;
+    }
+    .hero-tag::before {
+        width: 18px;
+    }
+    .hero-content h1 {
+        font-size: 37px;
+        line-height: 1.08;
+        letter-spacing: -0.8px;
+    }
+    .hero-content p {
+        max-width: 330px;
+        margin: 17px 0 23px;
+
+        font-size: 14px !important;
+        line-height: 1.55;
+    }
+    .hero-buttons {
+        gap: 9px;
+    }
+    .hero-btn {
+        min-width: 115px;
+        height: 43px;
+        padding: 0 14px;
+        font-size: 14px;
+        gap: 7px;
+    }
+
+    .hero-arrow {
+        width: 34px;
+        height: 34px;
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .hero-prev {
+        left: 9px;
+    }
+
+    .hero-next {
+        right: 9px;
+    }
+
+    .hero-dots {
+        bottom: 18px;
+    }
+}
+
+@media (max-width: 380px) {
+    .skincare-hero {
+        height: 70vh;
+        min-height: 490px;
+        max-height: 570px;
+    }
+    .hero-content {
+        padding: 0 35px;
+    }
+    .hero-tag {
+        font-size: 9px;
+        letter-spacing: 1.4px;
+        padding-left: 24px;
+    }
+    .hero-tag::before {
+        width: 16px;
+    }
+    .hero-content h1 {
+        font-size: 32px;
+        letter-spacing: -0.5px;
+    }
+    .hero-content p {
+        max-width: 285px;
+        font-size: 13px !important;
+        line-height: 1.5;
+        margin: 15px 0 20px;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .hero-btn {
+        min-width: 125px;
+        height: 40px;
+        font-size: 13px;
+    }
+    .hero-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 11px;
+    }
+    .hero-prev {
+        left: 7px;
+    }
+    .hero-next {
+        right: 7px;
+    }
+    .hero-dots {
+        bottom: 15px;
+    }
+}
+
+
+
 
 .why-shop-section {
     margin-top: 80px;
@@ -334,7 +619,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     font-weight: 700;
     letter-spacing: 3px;
 }
-
 .why-shop-heading h2 {
     margin: 0 0 15px;
     color: #222;
@@ -438,16 +722,38 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     .why-shop-item:not(:last-child)::after {
         display: none;
     }
-
     .why-shop-item:last-child {
         border-bottom: none;
     }
 }
+
+
+
+.about-promise {
+    background-color: white;
+    max-width: 850px;
+    margin: auto;
+    padding: 135px 30px;
+    text-align: center;
+}
+.about-promise h2 {
+    margin: 18px 0 22px;
+    font-size: clamp(43px, 5vw, 65px);
+    line-height: 1.04;
+    letter-spacing: -2.5px;
+}
+.about-promise p {
+    max-width: 650px;
+    margin: 0 auto 35px;
+    color: #777;
+    line-height: 1.9;
+    font-size: 16px;
+}
+
 </style>
 
 
 <section class="skincare-hero">
-
     <div class="hero-slide active"
          style="background-image: url('images/back3.png');">
 
@@ -827,6 +1133,29 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </section>
 
+<!-- <section class="about-promise">
+    <span class="about-section-label">
+        OUR PROMISE
+    </span>
+    <h2>
+        Beauty Should Feel
+        <span>Good.</span>
+    </h2>
+    <p>
+        We're committed to creating a shopping experience
+        that feels simple, inspiring and trustworthy — from
+        discovering your next favorite product to receiving
+        it at your door.
+    </p>
+</section> -->
+
+
+    <!-- <a href="categories.php"
+       class="about-primary-btn">
+        START SHOPPING
+        <i class="bi bi-arrow-right"></i>
+    </a> -->
+
 
 <section class="newsletter-section newsletter-popup-overlay" id="newsletter">
     <div class="newsletter-card">
@@ -849,7 +1178,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
                 Subscribe
             </button>
         </form>
-        
     </div>
 </section> 
 
@@ -952,27 +1280,31 @@ if(brandsTrack){
 }
 
 
-
 document.addEventListener("DOMContentLoaded", function () {
+
     const slides = document.querySelectorAll(".hero-slide");
     const dots = document.querySelectorAll(".hero-dot");
 
     const prevButton = document.querySelector(".hero-prev");
     const nextButton = document.querySelector(".hero-next");
+    const hero = document.querySelector(".skincare-hero");
 
     let currentSlide = 0;
-
     let autoSlide;
+
+
     function showSlide(index) {
 
         if (index >= slides.length) {
             index = 0;
         }
+
         if (index < 0) {
             index = slides.length - 1;
         }
 
         currentSlide = index;
+
         slides.forEach((slide, i) => {
             slide.classList.toggle(
                 "active",
@@ -986,48 +1318,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 i === currentSlide
             );
         });
-
     }
 
     function nextSlide() {
         showSlide(currentSlide + 1);
     }
-
     function previousSlide() {
         showSlide(currentSlide - 1);
     }
-
-    nextButton.addEventListener(
-        "click",
-        function () {
-            nextSlide();
-            restartAutoSlide();
-
-        }
-    );
-
-
-    prevButton.addEventListener(
-        "click",
-        function () {
-            previousSlide();
-            restartAutoSlide();
-        }
-    );
+    nextButton.addEventListener("click", function () {
+        nextSlide();
+        restartAutoSlide();
+    });
+    prevButton.addEventListener("click", function () {
+        previousSlide();
+        restartAutoSlide();
+    });
 
     dots.forEach((dot) => {
-        dot.addEventListener(
-            "click",
-            function () {
-                const slideNumber =
-                    Number(this.dataset.slide);
-                showSlide(slideNumber);
-                restartAutoSlide();
-            }
-        );
+
+        dot.addEventListener("click", function () {
+            const slideNumber =
+                Number(this.dataset.slide);
+            showSlide(slideNumber);
+            restartAutoSlide();
+        });
+
     });
 
     function startAutoSlide() {
+
         autoSlide = setInterval(
             nextSlide,
             5500
@@ -1039,23 +1359,89 @@ document.addEventListener("DOMContentLoaded", function () {
         startAutoSlide();
     }
 
+    hero.addEventListener("mouseenter", function () {
+        clearInterval(autoSlide);
+    });
+
+    hero.addEventListener("mouseleave", function () {
+        startAutoSlide();
+    });
+
+    let isDragging = false;
+    let startX = 0;
+    let currentX = 0;
+    let dragDistance = 0;
+
+    hero.addEventListener("mousedown", function (e) {
+        if ( e.target.closest("button") ||  e.target.closest("a")) {
+            return;
+        }
+
+        isDragging = true;
+
+        startX = e.clientX;
+        currentX = e.clientX;
+
+        hero.classList.add("is-dragging");
+        clearInterval(autoSlide);
+
+        e.preventDefault();
+    });
+
+    hero.addEventListener("mousemove", function (e) {
+
+        if (!isDragging) return;
+        currentX = e.clientX;
+        dragDistance = currentX - startX;
+        const current = slides[currentSlide];
+        current.style.transition = "none";
+        current.style.transform =
+            `translateX(${dragDistance}px) scale(1)`;
+
+    });
+
+    hero.addEventListener("mouseup", function () {
+        if (!isDragging) return;
+        isDragging = false;
+
+        hero.classList.remove("is-dragging");
+        const current = slides[currentSlide];
+        current.style.transition =
+            "transform 0.5s ease, opacity 0.5s ease";
+        if (Math.abs(dragDistance) > 100) {
+
+            if (dragDistance < 0) {
+                nextSlide();
+            } else {
+                previousSlide();
+            }
+        } else {
+            current.style.transform =
+                "translateX(0) scale(1)";
+        }
+
+        dragDistance = 0;
+        restartAutoSlide();
+    });
+
+    hero.addEventListener("mouseleave", function () {
+        if (!isDragging) return;
+
+        isDragging = false;
+        hero.classList.remove("is-dragging");
+
+        const current = slides[currentSlide];
+        current.style.transition =
+            "transform 0.5s ease";
+        current.style.transform =
+            "translateX(0) scale(1)";
+        dragDistance = 0;
+        startAutoSlide();
+    });
+
     showSlide(0);
     startAutoSlide();
 
-    const hero =
-        document.querySelector(".skincare-hero");
-    hero.addEventListener(
-        "mouseenter",
-        function () {
-            clearInterval(autoSlide);
-        }
-    );
-
-    hero.addEventListener(
-        "mouseleave",
-        function () {
-            startAutoSlide();
-        }
-    );
 });
+
 </script>

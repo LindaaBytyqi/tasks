@@ -12,7 +12,7 @@
     background: #e9e8e8;
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: #111;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 .footer-main {
     padding: 65px 0 65px;
@@ -155,252 +155,357 @@
     margin-right: 7px;
     font-size: 21px;
 }
-
-@media (max-width: 1100px) {
-    .footer-container {
-        max-width: 100%;
-        padding: 0 40px;
-    }
-    .footer-line {
-        margin: 0 30px;
-    }
-    .footer-columns {
-        column-gap: 50px;
-    }
-    .footer-column h3 {
-        font-size: 19px;
-    }
-    .footer-column p,
-    .footer-column a,
-    .contact-column span,
-    .contact-column .contact-link {
-        font-size: 16px;
-    }
-}
-@media (max-width: 768px) {
-    .footer-main {
-        padding: 50px 0 60px;
-    }
-    .footer-container {
-        padding: 0 30px;
-    }
-    .footer-top {
-        flex-wrap: wrap;
-        margin-bottom: 50px;
-        gap: 25px;
-    }
-    .footer-logo {
-        font-size: 38px;
-        min-width: auto;
-    }
-
-    .footer-socials {
-        margin-left: auto;
-    }
-    .footer-line {
-        order:3;
-        flex-basis: 100%;
-        width: 100%;
-        margin: 0;
-        height: 3px;
-    }
-    .footer-columns {
-        grid-template-columns: 1fr 1fr;
-        column-gap: 50px;
-        row-gap: 45px;
-    }
-    .contact-column {
-        grid-column: 1 / -1;
-    }
-    .footer-column h3 {
-        font-size: 19px;
-        margin-bottom: 18px;
-    }
-    .footer-column p,
-    .footer-column a {
-        font-size: 16px;
-    }
-    .contact-column span {
-        font-size: 16px;
-    }
-    .contact-column .contact-link {
-        font-size: 17px;
-    }
-    .footer-bottom {
-        min-height: 90px;
-    }
-    .footer-bottom-container {
-        padding: 0 25px;
-    }
-
-    .footer-bottom p {
-        font-size: 17px;
-    }
-}
-
+ .accordion-title {
+     display: none;
+} 
+.accordion-content {
+     max-height: none; 
+     overflow: visible;
+      opacity: 1; 
+    } 
 @media (max-width: 576px) {
-    .footer-main {
-        padding: 40px 0 50px;
+    .site-footer {
+    margin-top: 0;
     }
+  .footer-columns .accordion-title {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+        background: none;
+        border: none;
+        color: #111 !important;
+        font-family: inherit !important;
+        font-size: 17px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        opacity: 1 !important;
+        cursor: pointer;
+        text-align: left;
+    }
+    .footer-columns .accordion-title span {
+        color: #111 !important;
+        font-family: inherit !important;
+        font-size: 17px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+    }
+    .footer-columns .accordion-title i {
+        color: #111 !important;
+        font-size: 16px !important;
+        margin: 0 !important;
+    }
+    .footer-main { 
+        padding: 30px 0 20px;
+    } 
     .footer-container {
         padding: 0 20px;
-    }
-    .footer-top {
+    } 
+    .footer-top { 
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-        gap: 22px;
-        margin-bottom: 40px;
-    }
+        justify-content: center;
+        gap: 14px;
+        margin-bottom: 25px; 
+    } 
     .footer-logo {
-        font-size: 36px;
-        text-align: center;
-    }
-    .footer-socials {
+        font-size: 32px;
+        letter-spacing: -1.5px;
+        min-width: auto; 
+    } 
+    .footer-socials { 
         margin: 0;
-        gap: 10px;
-    }
-    .footer-socials a {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-    .footer-line {
+        gap: 13px;
+    } 
+    .footer-socials a { 
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    } 
+    .footer-line { 
         order: 3;
         width: 100%;
-        margin-top: 5px;
-    }
-    .footer-columns {
-        grid-template-columns: 1fr;
-        gap: 35px;
-        justify-items: center;
-        text-align: center;
-    }
+        height: 2px;
+        margin: 8px 0 0; 
+    } 
+    .footer-columns { 
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0; 
+    } 
     .footer-column {
         width: 100%;
+        align-items: flex-start;
+        text-align: left; 
+    } 
+    .accordion-column {
+        border-bottom: 1px solid #c8c6c5; 
+    } 
+    .accordion-title { 
+        display: flex;
+        width: 100%;
         align-items: center;
-        text-align: center;
-    }
-    .contact-column {
-        grid-column: auto;
-    }
-    .footer-column h3 {
-        font-size: 19px;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-    .footer-column p {
-        font-size: 16px;
-        text-align: center;
-    }
-    .footer-column a {
-        font-size: 16px;
-        margin-bottom: 13px;
-        text-align: center;
-    }
-    .second-location {
-        margin-top: 25px !important;
-    }
-    .contact-column span {
+        justify-content: space-between;
+        padding: 16px 0;
+        background: none;
+        border: none;
+        color: #111;
+        font-family: inherit; 
+        font-size: 17px;
+        font-weight: 600;
+        cursor: pointer; 
+        text-align: left;
+    }  
+    .accordion-title i { 
+        font-size: 14px;
+        transition: transform 0.3s ease;
+    } 
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        padding: 0; 
+        transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease; } 
+         
+    .accordion-column.active .accordion-content { 
+        max-height: 300px; 
+        opacity: 1; 
+        padding: 0 0 16px; 
+    } 
+    .accordion-column.active .accordion-title i {
+         transform: rotate(180deg); 
+    } 
+    .accordion-content h3 { 
+        margin: 0 0 7px;
         font-size: 15px;
-        text-align: center;
-    }
-    .contact-column .contact-link {
-        font-size: 16px;
-        margin-bottom: 22px;
-        text-align: center;
-    }
+        font-weight: 600;
+        color: #111; 
+    } 
+    .accordion-content h3 i { 
+        margin-right: 6px; 
+        color: #111; 
+        font-size: 15px; 
+    } 
+    .accordion-content p { 
+        margin: 0; 
+        font-size: 14px; 
+        line-height: 1.5; 
+        color: #26364a; 
+    } 
+    .accordion-content .second-location { 
+        margin-top: 18px !important; 
+    }  
+    .accordion-content a { 
+        display: block;
+        margin-bottom: 11px;
+        font-size: 15px;
+        color: #26364a;
+        text-decoration: none;
+        transition: color 0.3s ease; 
+    } 
+    .accordion-content a:last-child {
+        margin-bottom: 0; 
+    } 
+    .accordion-content a:hover { 
+        color: #eb3f81;
+     } 
+    .contact-column .accordion-content span {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #777; 
+    } 
+    .contact-column .accordion-content span i {
+        margin-right: 6px;
+        color: #111;
+        font-size: 14px;
+    } 
+    .contact-column .accordion-content .contact-link { 
+        display: block;
+        margin-bottom: 15px;
+        font-size: 15px; 
+        color: #111; 
+    } 
+    .contact-column .accordion-content .contact-link:last-child {
+        margin-bottom: 0;
+    } 
     .footer-bottom {
-        min-height: 80px;
-    }
+        min-height: 65px;
+    } 
     .footer-bottom-container {
         padding: 0 15px;
         justify-content: center;
         text-align: center;
-    }
-    .footer-bottom p {
-        font-size: 14px;
-        line-height: 1.5;
-        text-align: center;
-    }
-}
-
-@media (max-width: 380px) {
+    } 
+    .footer-bottom p { 
+        margin: 0;
+        font-size: 12px; 
+        line-height: 1.4; 
+        text-align: center; 
+        
+    } 
+} 
+@media (max-width: 380px) { 
+    .footer-main { 
+        padding: 25px 0 18px;
+    } 
+    .footer-container {
+        padding: 0 18px;
+    } 
     .footer-logo {
-        font-size: 32px;
+        font-size: 29px;
     }
+    .footer-socials {
+        gap: 10px; 
+    } 
     .footer-socials a {
-        width: 37px;
-        height: 37px;
-        font-size: 15px;
-    }
-    .footer-bottom p {
+        width: 32px;
+        height: 32px;
+        font-size: 16px; 
+    } 
+    .accordion-title { 
+        padding: 14px 0; 
+        font-size: 16px; 
+    } 
+    .accordion-title i { 
+        font-size: 13px;
+    } 
+    .accordion-content a { 
+        font-size: 14px;
+    } 
+    .accordion-content p { 
         font-size: 13px;
     }
+    .footer-bottom { 
+        min-height: 60px;
+    } 
+     .footer-bottom p {
+         font-size: 11px;
+    } 
 }
 
 </style>
 </head>
 <body>
-    
 <footer class="site-footer">
     <div class="footer-main">
         <div class="footer-container">
             <div class="footer-top">
                 <div class="footer-logo">
-                   MyShop
+                    MyShop
                 </div>
 
                 <div class="footer-line"></div>
+
                 <div class="footer-socials">
                     <a href="#"><i class="bi bi-facebook"></i></a>
                     <a href="#"><i class="bi bi-twitter"></i></a>
                     <a href="#"><i class="bi bi-instagram"></i></a>
                     <a href="#"><i class="bi bi-pinterest"></i></a>
                 </div>
-            </div>
 
+            </div>
             <div class="footer-columns">
-                <div class="footer-column">
-                    <h3><i class="bi bi-geo-alt-fill"></i> Georgia</h3>
-                         <p>
+
+                <div class="footer-column accordion-column">
+                    <button class="accordion-title" type="button">
+                        <span>Locations</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+
+                    <div class="accordion-content">
+
+                        <h3>
+                            <i class="bi bi-geo-alt-fill"></i>
+                            Georgia
+                        </h3>
+
+                        <p>
                             105 Rigby Dr Warner<br>
                             Usain Robins
                         </p>
 
                         <h3 class="second-location">
-                            <i class="bi bi-geo-alt-fill"></i> Texas
+                            <i class="bi bi-geo-alt-fill"></i>
+                            Texas
                         </h3>
                         <p>
                             12111 Gulf Fwy Byon<br>
                             Houston
                         </p>
+                    </div>
                 </div>
 
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <a href="index.php">Home</a>
-                    <a href="product.php">Shop Now</a>
-                    <a href="contactus.php">Contact</a>
-                    <a href="register.php">Account</a>
+
+
+                <div class="footer-column accordion-column">
+
+                    <button class="accordion-title" type="button">
+                        <span>Quick Links</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+
+                    <div class="accordion-content">
+
+                        <h3>Quick Links</h3>
+
+                        <a href="index.php">
+                            Home
+                        </a>
+
+                        <a href="product.php">
+                            Shop Now
+                        </a>
+
+                        <a href="contactus.php">
+                            Contact
+                        </a>
+
+                        <a href="aboutus.php">
+                            AboutUs
+                        </a>
+
+                        <a href="register.php">
+                            Account
+                        </a>
+                    </div>
                 </div>
 
-                <div class="footer-column contact-column">
-                    <h3>Contact Info</h3>
+                <div class="footer-column contact-column accordion-column">
+                    <button class="accordion-title" type="button">
+                        <span>Contact Info</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
 
-                     <span>
-                        <i class="bi bi-envelope-fill"></i> Email Us
-                    </span>
-                    <a href="mailto:hello@posh.com" class="contact-link">
-                        info@yoursite.com
-                    </a>
+                    <div class="accordion-content">
 
-                    <span class="phone-title">
-                        <i class="bi bi-telephone-fill"></i> Phone
-                    </span>
-                    <a href="tel:+16787726710" class="contact-link">
-                        +383 49 123 456
-                    </a>
+                        <h3>Contact Info</h3>
+
+                        <span>
+                            <i class="bi bi-envelope-fill"></i>
+                            Email Us
+                        </span>
+
+                        <a href="mailto:info@yoursite.com"
+                           class="contact-link">
+                            info@yoursite.com
+                        </a>
+
+                        <span>
+                            <i class="bi bi-telephone-fill"></i>
+                            Phone
+                        </span>
+
+                        <a href="tel:+38349123456"
+                           class="contact-link">
+                            +383 49 123 456
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -410,10 +515,30 @@
         <div class="footer-bottom-container">
             <p>
                 © Copyright 2026 MyShop. All Rights Reserved
-            </p>  
+            </p>
         </div>
     </div>
-
 </footer>
+
+
+<script>
+document.querySelectorAll('.accordion-title').forEach(button => {
+    button.addEventListener('click', function () {
+        const current = this.closest('.accordion-column');
+
+        document.querySelectorAll('.accordion-column').forEach(column => {
+
+            if (column !== current) {
+                column.classList.remove('active');
+            }
+
+        });
+        current.classList.toggle('active');
+
+    });
+
+});
+
+</script>
 </body>
 </html>

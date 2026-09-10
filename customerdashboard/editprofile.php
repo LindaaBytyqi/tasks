@@ -88,70 +88,11 @@ $stmt->execute([
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 <style>
-/* 
-.edit-card{
-    width:650px;
-    margin-left:300px;
-}
-.edit-card .card-header{
-    padding:18px;
-}
-.edit-card .card-header h4{
-    font-size:30px;
-}
-.edit-card .card-body{
-    padding:25px;
-}
-.form-label{
-    font-size:18px;
-    font-weight:600;
-}
-.form-control{
-    height:50px;
-    font-size:17px;
-}
-.btn.btn-primary{
-    padding:12px 22px;
-    font-size:18px;
-    border-radius:10px;
-}
-.btn.btn-secondary{
-    padding:11px 20px;
-    font-size:18px;
-    border-radius:10px;
-}
-.btn-primary,
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active{
-    background:#2563eb;
-    border:none;
-    box-shadow:none;
-    outline:none;
-}
-
-.btn-secondary,s
-.btn-secondary:hover,
-.btn-secondary:focus,
-.btn-secondary:active{
-    background:whitesmoke;
-    border:none;
-    box-shadow:none;
-    outline:none;
-    color: white;
-}
-.text-primary{
-    font-size:20px;
-    color:black !important;
-    text-decoration:none;
-    display:inline-block;
-    margin-bottom:30px;
-} */
-
- .edit-card {
+.edit-card {
     width: 100%;
     max-width: 650px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
+    margin-top: 130px;
 }
 .edit-card .card-header {
     padding: 18px;

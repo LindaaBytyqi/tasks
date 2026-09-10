@@ -264,11 +264,11 @@ $stmt->execute($params);
 $saleProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<!-- <style>
-    .products-section {
-        padding-top: 200px !important;
+<style>
+    .products-section{
+        margin-top: 130px;
     }
-</style> -->
+</style>
 
 
 <section class="products-section">

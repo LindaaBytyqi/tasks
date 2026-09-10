@@ -78,7 +78,11 @@ $stmt = $conn->prepare($sql);
 $stmt->execute($params); 
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 ?> 
-
+<style>
+    .products-section{
+        margin-top: 130px;
+    }
+</style>
 <section class="products-section"> 
     <h2><?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?></h2> 
 
