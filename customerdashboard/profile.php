@@ -117,9 +117,9 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             </p>
         </div>
 
-        <a href="dashboard.php?page=editprofile"
+        <!-- <a href="dashboard.php?page=editprofile"
            class="btn btn-primary">
             Edit Information
-        </a>
+        </a> -->
     </div>
 </div>

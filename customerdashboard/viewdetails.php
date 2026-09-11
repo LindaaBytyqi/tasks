@@ -49,7 +49,7 @@ $payment_method = ($order['payment_method'] == '0')
 ?>
 
 
-<div class="container" style="max-width: 700px; margin-top: 50px; margin-bottom: 80px;">
+<div class="container" style="max-width: 700px; margin-top: 200px; margin-bottom: 80px;">
     
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Order Details #<?= htmlspecialchars($order['id']); ?></h2>

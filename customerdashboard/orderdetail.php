@@ -76,7 +76,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         <div class="col-md-4 text-md-end mt-3 mt-md-0">
                              <a
-                            href="viewdetails.php?order_id=<?= $order['id']; ?>"
+                             href="viewdetails.php?order_id=<?= $order['id']; ?>"
                             class="btn btn-outline-primary"
                             >
                              View Details

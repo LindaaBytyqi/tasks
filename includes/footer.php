@@ -451,7 +451,6 @@
                     </button>
 
                     <div class="accordion-content">
-
                         <h3>Quick Links</h3>
 
                         <a href="index.php">

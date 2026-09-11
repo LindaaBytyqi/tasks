@@ -1,6 +1,6 @@
 <?php
-include "../includes/user_auth.php";
-include "../includes/csrf.php";
+// include "../includes/user_auth.php";
+// include "../includes/csrf.php";
 $user_id = $_SESSION['user_id'];
 
 if(isset($_POST['change_password'])){
@@ -58,10 +58,11 @@ if(isset($_POST['change_password'])){
 
         $_SESSION['success'] = "Password changed successfully.";
 
-        echo "
-        <script>
-            window.location='dashboard.php?page=profile';
-        </script>";
+        // echo "
+        // <script>
+        //     window.location='dashboard.php?page=profile';
+        // </script>";
+        header("Location: dashboard.php");
 
         exit();
     }
@@ -72,8 +73,9 @@ if(isset($_POST['change_password'])){
 <style>
 
 .password-card{
-    width:650px;
-    margin-left:300px;
+    width: 100%;
+    max-width: 650px;
+    margin: 25px auto 0 auto;
 }
 .password-card .card-header{
     padding:18px;
@@ -259,7 +261,7 @@ if(isset($_POST['change_password'])){
                 Save Changes
             </button>
             <a
-                href="dashboard.php?page=profile"
+                href="dashboard.php"
                 class="btn btn-primary">
                 Cancel
             </a>

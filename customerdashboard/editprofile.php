@@ -1,6 +1,6 @@
 <?php
-include "../includes/user_auth.php";
-include "../includes/csrf.php";
+// include "../includes/user_auth.php";
+// include "../includes/csrf.php";
 $user_id = $_SESSION['user_id'];
 
 if(isset($_POST['update_profile'])){
@@ -26,38 +26,29 @@ if(isset($_POST['update_profile'])){
         $message = "<div class='alert alert-danger'>
                         Invalid email address.
                     </div>";
-
     }else{
 
         $sql = "SELECT id
                 FROM users
                 WHERE email = :email
                 AND id != :id";
-
         $stmt = $conn->prepare($sql);
-
         $stmt->execute([
             "email" => $email,
             "id"    => $user_id
         ]);
 
-
         if($stmt->fetch()){
-
             $message = "<div class='alert alert-danger'>
                             Email already exists.
                         </div>";
-
         }else{
-
             $sql = "UPDATE users
                     SET first_name = :first_name,
                         last_name = :last_name,
                         email = :email
                     WHERE id = :id";
-
             $stmt = $conn->prepare($sql);
-
             $stmt->execute([
                 "first_name" => $first_name,
                 "last_name"  => $last_name,
@@ -67,7 +58,6 @@ if(isset($_POST['update_profile'])){
 
             $_SESSION['name'] = $first_name;
             $_SESSION['success'] = "Profile updated successfully.";
-
             echo "
             <script>
                 window.location='dashboard.php?page=profile';
@@ -289,10 +279,10 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     value="<?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8'); ?>"  
                     required>
             </div>
-            <a href="dashboard.php?page=changepassword"
+            <!-- <a href="dashboard.php?page=changepassword"
             class="text-primary">
             Change Password
-            </a>
+            </a> -->
             </br>
 
             <div class="profile-buttons">

@@ -99,7 +99,7 @@ foreach ($_SESSION['cart'] as $item) {
 $shipping = 2.5;
 $total = $subtotal + $shipping;
 ?>
-<div class="container my-5">
+<div class="container" style="margin-top: 140px; margin-bottom: 80px;">
     <h2 class="fw-bold mb-4">Shopping Cart</h2>
     <?php if (empty($_SESSION['cart'])): ?>
         <div class="card border-0 shadow-sm text-center py-5 rounded-4">

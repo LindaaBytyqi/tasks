@@ -24,7 +24,7 @@ if (!$product) {
     /* padding: 30px 0 55px;
     background: #fff;
     margin-top: 50px; */
-   padding: 40px 0;   
+   padding: 200px 0;   
     margin-top: 0;    
     background: transparent;
 

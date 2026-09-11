@@ -1,356 +1,195 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
 include "includes/header.php";
 include "includes/database.php";
+?>
+<style>
+
+.empty-order-page {
+    width: 100%;
+    min-height: 620px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 200px 20px 120px;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+.empty-order-content {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.empty-order-icon {
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e2e2;
+    border-radius: 50%;
+    background: #fff;
+    color: #e681b3;
+    font-size: 32px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+}
+
+.empty-order-label {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #999;
+}
+
+.empty-order-content h1 {
+    margin: 0;
+    font-size: clamp(38px, 4vw, 52px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    color: #171717;
+}
+
+.empty-order-content p {
+    max-width: 450px;
+    margin: 18px auto 0;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #858585;
+}
+
+.empty-order-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 32px;
+    padding: 14px 24px;
+    background: #e681b3;
+    color: #fff !important;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition:
+        background .3s ease,
+        box-shadow .3s ease,
+        transform .3s ease;
+}
+
+.empty-order-button span {
+    display: inline-block;
+    font-size: 21px;
+    font-weight: 300;
+    transition: transform .3s ease;
+}
+
+.empty-order-button:hover {
+    background: #d96fa5;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(230, 129, 179, .22);
+}
+
+.empty-order-button:hover span {
+    transform: translateX(5px);
+}
+
+@media (max-width: 991px) {
+    .empty-order-page {
+        min-height: 560px;
+        padding: 90px 25px 100px;
+    }
+
+}
+
+
+@media (max-width: 767px) {
+    .empty-order-page {
+        min-height: 500px;
+        padding: 80px 20px 100px;
+    }
+
+    .empty-order-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 22px;
+        font-size: 27px;
+    }
+
+    .empty-order-label {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+
+    .empty-order-content h1 {
+        font-size: 36px;
+    }
+
+    .empty-order-content p {
+        max-width: 350px;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .empty-order-button {
+        margin-top: 27px;
+        padding: 13px 20px;
+        font-size: 14px;
+    }
+}
+</style>
+
+<?php
+
 if (!isset($_SESSION['last_order_id'])) {
     ?>
-    <div class="container text-center"
-         style="margin-top:150px; margin-bottom:100px;">
+    <section class="empty-order-page">
 
-        <h2>No order found</h2>
+        <div class="empty-order-content">
 
-        <p class="text-muted mt-3">
-            You have not placed an order yet.
-        </p>
-
-        <a href="/tasks/product.php"
-           class="btn btn-primary mt-3">
-
-            Continue Shopping
-        </a>
-
-    </div>
-    <?php
-    include "includes/footer.php";
-    exit;
-}
-
-
-$order_id = (int) $_SESSION['last_order_id'];
-$sql = "SELECT *
-        FROM orders
-        WHERE id = :order_id";
-$stmt = $conn->prepare($sql);
-$stmt->execute([
-    'order_id' => $order_id
-]);
-
-$order = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$order) {
-    unset($_SESSION['last_order_id']);
-    header("Location: index.php");
-    exit;
-}
-$sql = "SELECT
-            order_items.quantity,
-            order_items.price,
-            products.name,
-            products.image
-        FROM order_items
-        JOIN products
-            ON products.id = order_items.product_id
-        WHERE order_items.order_id = :order_id";
-
-$stmt = $conn->prepare($sql);
-
-$stmt->execute([
-    'order_id' => $order_id
-]);
-
-$order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$payment_method = ($order['payment_method'] == '0')
-    ? 'Cash on Delivery'
-    : 'Online Payment';
-
-?>
-<div class="container"
-     style="max-width:700px; margin-top:120px; margin-bottom:80px;">
-    <div class="text-center mb-4">
-
-        <div style="font-size:55px;">
-            ✓
-        </div>
-
-        <h1>
-            Order Details
-        </h1>
-
-        <p class="lead">
-
-            Thank you,
-            <?= htmlspecialchars(
-                $order['fullname'],
-                ENT_QUOTES,
-                'UTF-8'
-            ); ?>!
-
-        </p>
-
-        <p>
-            Order ID:
-            <strong>
-                #<?= htmlspecialchars(
-                    $order['id'],
-                    ENT_QUOTES,
-                    'UTF-8'
-                ); ?>
-            </strong>
-        </p>
-
-        <p>
-
-            <strong>
-                Order Date & Time:
-            </strong>
-
-            <?= date(
-                'd M Y, H:i',
-                strtotime($order['created_at'])
-            ); ?>
-
-        </p>
-
-    </div>
-
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-
-            <h4 class="mb-3">
-                Customer Information
-            </h4>
-
-            <p class="mb-1">
-
-                <strong>
-                    Full Name:
-                </strong>
-
-                <?= htmlspecialchars(
-                    $order['fullname'],
-                    ENT_QUOTES,
-                    'UTF-8'
-                ); ?>
-
-            </p>
-
-            <p class="mb-1">
-
-                <strong>
-                    Email:
-                </strong>
-
-                <?= htmlspecialchars(
-                    $order['email'],
-                    ENT_QUOTES,
-                    'UTF-8'
-                ); ?>
-
-            </p>
-
-            <p class="mb-0">
-
-                <strong>
-                    Phone:
-                </strong>
-
-                <?= htmlspecialchars(
-                    $order['phone'],
-                    ENT_QUOTES,
-                    'UTF-8'
-                ); ?>
-
-            </p>
-        </div>
-    </div>
-    <div class="card mb-3 shadow-sm">
-
-        <div class="card-body">
-
-            <h4 class="mb-3">
-                Shipping Information
-            </h4>
-
-            <p class="mb-1">
-
-                <strong>
-                    Address:
-                </strong>
-
-                <?= htmlspecialchars(
-                    $order['address'],
-                    ENT_QUOTES,
-                    'UTF-8'
-                ); ?>
-
-            </p>
-
-            <p class="mb-1">
-
-                <strong>
-                    City:
-                </strong>
-
-                <?= htmlspecialchars(
-                    $order['city'],
-                    ENT_QUOTES,
-                    'UTF-8'
-                ); ?>
-
-            </p>
-
-            <p class="mb-0">
-
-                <strong>
-                    Zip Code:
-                </strong>
-
-                <?= htmlspecialchars(
-                    $order['zipcode'],
-                    ENT_QUOTES,
-                    'UTF-8'
-                ); ?>
-
-            </p>
-
-        </div>
-
-    </div>
-
-    <div class="card mb-3 shadow-sm">
-
-        <div class="card-body">
-
-            <h4 class="mb-3">
-                Payment
-            </h4>
-
-            <p class="mb-1">
-
-                <strong>
-                    Payment Method:
-                </strong>
-
-                <?= htmlspecialchars(
-                    $payment_method,
-                    ENT_QUOTES,
-                    'UTF-8'
-                ); ?>
-
-            </p>
-
-            <p class="mb-0">
-
-                <strong>
-                    Order Status:
-                </strong>
-
-                <span class="badge bg-warning text-dark">
-
-                    <?= htmlspecialchars(
-                        $order['status'],
-                        ENT_QUOTES,
-                        'UTF-8'
-                    ); ?>
-
-                </span>
-
-            </p>
-        </div>
-    </div>
-
-    <div class="card mb-3 shadow-sm">
-
-        <div class="card-body">
-
-            <h4 class="mb-3">
-                Order Items
-            </h4>
-
-
-            <?php foreach ($order_items as $item): ?>
-
-                <div class="d-flex align-items-center justify-content-between border-bottom py-3">
-
-                    <div class="d-flex align-items-center">
-
-
-                        <?php if (!empty($item['image'])): ?>
-
-                            <img
-                                src="images/<?= htmlspecialchars(
-                                    $item['image'],
-                                    ENT_QUOTES,
-                                    'UTF-8'
-                                ); ?>"
-                                alt="<?= htmlspecialchars(
-                                    $item['name'],
-                                    ENT_QUOTES,
-                                    'UTF-8'
-                                ); ?>"
-                                style="
-                                    width:70px;
-                                    height:70px;
-                                    object-fit:cover;
-                                    border-radius:8px;
-                                    margin-right:15px;
-                                "
-                            >
-                        <?php endif; ?>
-                        <div>
-                            <strong>
-                                <?= htmlspecialchars(
-                                    $item['name'],
-                                    ENT_QUOTES,
-                                    'UTF-8'
-                                ); ?>
-                            </strong>
-                            <br>
-                            <small class="text-muted">
-                                Quantity:
-                                <?= htmlspecialchars(
-                                    $item['quantity'],
-                                    ENT_QUOTES,
-                                    'UTF-8'
-                                ); ?>
-
-                            </small>
-                        </div>
-                    </div>
-                    <strong>
-
-                        €<?= number_format(
-                            $item['price'] * $item['quantity'],
-                            2
-                        ); ?>
-
-                    </strong>
-
-                </div>
-
-            <?php endforeach; ?>
-            <div class="d-flex justify-content-between mt-4">
-                <h4>
-                    Total:
-                </h4>
-                <h4 class="text-primary">
-                    €<?= number_format(
-                        $order['total'],
-                        2
-                    ); ?>
-                </h4>
+            <div class="empty-order-icon">
+                <i class="bi bi-bag"></i>
             </div>
+
+            <span class="empty-order-label">
+                MY ORDERS
+            </span>
+
+            <h1>
+                No orders yet
+            </h1>
+
+            <p>
+                You haven't placed an order yet.
+                Discover something beautiful and start shopping.
+            </p>
+
+            <a href="/tasks/product.php"
+               class="empty-order-button">
+
+                Continue Shopping
+
+                <span>→</span>
+
+            </a>
+
         </div>
-    </div>
-    <div class="text-center mt-4">
-        <a href="/tasks/index.php"
-           class="btn btn-primary">
-            Continue Shopping
-        </a>
-    </div>
-</div>
+
+    </section>
+
+    <?php
+
+
+}
+   ?>
+
 <?php
 include "includes/footer.php";
 ?>
