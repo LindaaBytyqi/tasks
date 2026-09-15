@@ -184,7 +184,7 @@ $total = $subtotal + $shipping;
 
         <div class="row align-items-start justify-content-between g-4">
             <div class="col-md-6">
-                <a href="index.php" class="btn btn-link text-decoration-none text-secondary p-0 fw-medium">
+                <a href="product.php" class="btn btn-link text-decoration-none text-secondary p-0 fw-medium">
                     <i class="bi bi-arrow-left me-2"></i>Continue Shopping
                 </a>
             </div>

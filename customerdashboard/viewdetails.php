@@ -1,33 +1,50 @@
 <?php
-include "../includes/user_auth.php";
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-include "../includes/header.php";
+
+include "../includes/user_auth.php";
 include "../includes/database.php";
 
 $order_id = $_GET['order_id'] ?? null;
+
 if (!$order_id) {
-    header("Location: index.php");
+    header("Location: dashboard.php?page=orderdetail");
     exit;
 }
+
+$user_id = $_SESSION['user_id'];
+
+$user_stmt = $conn->prepare("SELECT email FROM users WHERE id = :id");
+$user_stmt->execute([
+    'id' => $user_id
+]);
+
+$user = $user_stmt->fetch(PDO::FETCH_ASSOC);
+$user_email = $user['email'] ?? '';
 
 $sql = "SELECT *
         FROM orders
         WHERE id = :order_id
-        AND user_id = :user_id";
+        AND (email = :email OR user_id = :user_id)";
+
 $stmt = $conn->prepare($sql);
+
 $stmt->execute([
     'order_id' => $order_id,
-    'user_id'  => $_SESSION['user_id']
+    'email'    => $user_email,
+    'user_id'  => $user_id
 ]);
+
 $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
 if (!$order) {
-    header("Location: index.php");
+    header("Location: dashboard.php?page=orderdetail");
     exit;
 }
 
-$sql = "SELECT 
+$sql = "SELECT
             order_items.quantity,
             order_items.price,
             products.name,
@@ -38,14 +55,19 @@ $sql = "SELECT
         WHERE order_items.order_id = :order_id";
 
 $stmt = $conn->prepare($sql);
+
 $stmt->execute([
     'order_id' => $order_id
 ]);
 
 $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$payment_method = ($order['payment_method'] == '0') 
-    ? 'Cash on Delivery' 
+
+$payment_method = ($order['payment_method'] == '0')
+    ? 'Cash on Delivery'
     : 'Online Payment';
+
+include "../includes/header.php";
+
 ?>
 
 

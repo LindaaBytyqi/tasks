@@ -22,13 +22,5 @@ foreach ($subscribers as $subscriber) {
     fputcsv($output, $subscriber);
 }
 
-// fputcsv($output, ['ID', 'Email', 'Status']);
-// foreach ($subscribers as $subscriber) {
-//      fputcsv($output,
-//       [ $subscriber['id'],
-//        $subscriber['email'], 
-//        $subscriber['status'] ? 'Active' : 'Inactive' ]);
-// }
-
 fclose($output);
 exit();

@@ -1136,7 +1136,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             e.preventDefault();
 
-            // Mbyll security nëse është hapur
+
             const securitySection = document.getElementById("security-section");
 
             if (securitySection) {

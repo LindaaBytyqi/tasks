@@ -112,6 +112,16 @@ if (!isset($_GET['page'])) {
                 <span>Users</span>
             </a>
 
+             <a href="admindashboard.php?page=contact" class="nav-link">
+                <i class="bi bi-people"></i>
+                <span>ContactUs</span>
+            </a>
+
+            <a href="admindashboard.php?page=hero" class="nav-link">
+                <i class="bi bi-people"></i>
+                <span>HeroSlides</span>
+            </a>
+
             <a href="admindashboard.php?page=newsletter" class="nav-link">
                 <i class="bi bi-envelope"></i>
                 <span>Subscribers</span>
@@ -186,7 +196,40 @@ if (!isset($_GET['page'])) {
 
                 include "deletenewsletter.php";
 
-            } else {
+            } elseif($page == "contact") {
+
+                include "contact.php";
+
+            } elseif($page == "editcontact") {
+
+                include "editcontact.php";
+
+            } elseif($page == "deletecontact") {
+
+                include "deletecontact.php";
+
+            }elseif($page == "addcontact") {
+
+                include "addcontact.php";
+
+            } elseif($page == "hero") {
+
+                include "hero.php";
+
+            }elseif($page == "editslides") {
+
+                include "editslides.php";
+
+            }elseif($page == "addslides") {
+
+                include "addslides.php";
+
+            } elseif($page == "deleteslides") {
+
+                include "deleteslides.php";
+
+            }
+             else {
 
                 echo "<h2>Page not found</h2>";
 

@@ -1,5 +1,17 @@
 <?php
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION['last_order_id'])) {
+    header(
+        "Location: ordersuccess.php?order_id=" .
+        (int) $_SESSION['last_order_id']
+    );
+    exit;
+}
+
 include "includes/header.php";
 include "includes/database.php";
 ?>

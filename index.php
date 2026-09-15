@@ -12,6 +12,17 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $products= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
+$sql = "SELECT * FROM hero_slides
+    WHERE status = true
+    ORDER BY sort_order ASC, id ASC
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$slides = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 $cat_sql = "SELECT c.*, COUNT(p.id) AS total_products  
             FROM categories c  
             LEFT JOIN products p ON c.id = p.category_id  
@@ -599,7 +610,7 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 .why-shop-section {
     margin-top: 80px;
-    padding: 100px 30px;
+    padding: 90px 30px;
     background: #ffffff;
 }
 .why-shop-container {
@@ -753,118 +764,85 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 </style>
 
 
+
 <section class="skincare-hero">
-    <div class="hero-slide active"
-         style="background-image: url('images/back3.png');">
+    <?php foreach ($slides as $index => $slide): ?>
+        <div
+            class="hero-slide <?= $index === 0 ? 'active' : ''; ?>"
+            style="background-image: url('images/<?= htmlspecialchars($slide['image'], ENT_QUOTES, 'UTF-8'); ?>');"
+        >
 
-        <div class="hero-overlay"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <span class="hero-tag">
+                    <?= htmlspecialchars($slide['tag'], ENT_QUOTES, 'UTF-8'); ?>
+                </span>
 
-        <div class="hero-content">
-            <span class="hero-tag">PREMIUM SKINCARE</span>
+                <h1>
+                    <?= htmlspecialchars($slide['title_line1'], ENT_QUOTES, 'UTF-8'); ?>
 
-            <h1>
-                Your Skin.<br>
-                <span>Your Glow.</span>
-            </h1>
+                    <?php if (!empty($slide['title_line2'])): ?>
+                        <br>
+                        <span>
+                            <?= htmlspecialchars($slide['title_line2'], ENT_QUOTES, 'UTF-8'); ?>
+                        </span>
+                    <?php endif; ?>
+                </h1>
 
-            <p>
-                Discover carefully selected skincare essentials
-                created to nourish, hydrate and reveal your
-                natural glow.
-            </p>
+                <p>
+                    <?= htmlspecialchars($slide['description'], ENT_QUOTES, 'UTF-8'); ?>
+                </p>
 
-            <div class="hero-buttons">
-                <a href="product.php" class="hero-btn hero-btn-primary">
-                    Shop Now
-                    <i class="bi bi-arrow-right"></i>
-                </a>
+                <div class="hero-buttons">
+                    <a
+                        href="<?= htmlspecialchars($slide['primary_button_link'], ENT_QUOTES, 'UTF-8'); ?>"
+                        class="hero-btn hero-btn-primary"
+                    >
+                        <?= htmlspecialchars($slide['primary_button_text'], ENT_QUOTES, 'UTF-8'); ?>
 
-                <a href="contactus.php" class="hero-btn hero-btn-outline">
-                    Learn More
-                </a>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+
+                    <a
+                        href="<?= htmlspecialchars($slide['secondary_button_link'], ENT_QUOTES, 'UTF-8'); ?>"
+                        class="hero-btn hero-btn-outline"
+                    >
+                        <?= htmlspecialchars($slide['secondary_button_text'], ENT_QUOTES, 'UTF-8'); ?>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+    <?php endforeach; ?>
 
+    <?php if (count($slides) > 1): ?>
+        <button
+            class="hero-arrow hero-prev"
+            aria-label="Previous slide"
+        >
+            <i class="bi bi-chevron-left"></i>
+        </button>
 
-    <div class="hero-slide"
-         style="background-image: url('images/herobanner.png');">
+        <button
+            class="hero-arrow hero-next"
+            aria-label="Next slide"
+        >
+            <i class="bi bi-chevron-right"></i>
+        </button>
 
-        <div class="hero-overlay"></div>
-
-        <div class="hero-content">
-            <span class="hero-tag">YOUR DAILY RITUAL</span>
-
-            <h1>
-                Care For<br>
-                <span>Your Skin.</span>
-            </h1>
-
-            <p>
-                Turn your everyday routine into a moment
-                of self-care with products your skin will love.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="product.php" class="hero-btn hero-btn-primary">
-                    Shop Skincare
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-
-                <a href="about.php" class="hero-btn hero-btn-outline">
-                    Discover More
-                </a>
-            </div>
+        <div class="hero-dots">
+            <?php foreach ($slides as $index => $slide): ?>
+                <button
+                    class="hero-dot <?= $index === 0 ? 'active' : ''; ?>"
+                    data-slide="<?= $index; ?>"
+                    aria-label="Go to slide <?= $index + 1; ?>"
+                ></button>
+            <?php endforeach; ?>
         </div>
-    </div>
-
-
-    <div class="hero-slide"
-         style="background-image: url('images/back2.png');">
-
-        <div class="hero-overlay"></div>
-
-        <div class="hero-content">
-            <span class="hero-tag">NATURAL BEAUTY</span>
-
-            <h1>
-                Let Your Skin<br>
-                <span>Shine.</span>
-            </h1>
-
-            <p>
-                Beautiful skin starts with the right care.
-                Find everything you need for your perfect glow.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="product.php" class="hero-btn hero-btn-primary">
-                    Shop Now
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-
-                <a href="about.php" class="hero-btn hero-btn-outline">
-                    Our Story
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <button class="hero-arrow hero-prev" aria-label="Previous slide">
-        <i class="bi bi-chevron-left"></i>
-    </button>
-
-    <button class="hero-arrow hero-next" aria-label="Next slide">
-        <i class="bi bi-chevron-right"></i>
-    </button>
-
-    <div class="hero-dots">
-        <button class="hero-dot active" data-slide="0"></button>
-        <button class="hero-dot" data-slide="1"></button>
-        <button class="hero-dot" data-slide="2"></button>
-    </div>
-
+    <?php endif; ?>
 </section>
+
+
 
 
 
@@ -1005,12 +983,14 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
             Thoughtfully selected skincare essentials
             for your everyday glow.
         </p>
-        <a href="product.php" class="beauty-banner-btn">
+        <a href="beauty-quiz.php" class="beauty-banner-btn">
             <span>Discover Skincare</span>
             <i class="bi bi-arrow-right"></i>
         </a>
     </div>
 </section>
+
+
 
 
 
@@ -1246,10 +1226,13 @@ newsletterForm.addEventListener("submit", function(event) {
 
 
 
-const newsletterPopup = document.getElementById("newsletter");
-const closeNewsletterPopup = document.getElementById("closeNewsletterPopup");
 
-let newsletterShown = false;
+
+
+// const newsletterPopup = document.getElementById("newsletter");
+// const closeNewsletterPopup = document.getElementById("closeNewsletterPopup");
+
+// let newsletterShown = false;
 
 // setTimeout(function () {
 //     if (!newsletterShown) {
@@ -1258,15 +1241,40 @@ let newsletterShown = false;
 //     }
 // }, 7000);
 
-closeNewsletterPopup.addEventListener("click", function () {
-    newsletterPopup.classList.remove("show");
-});
+// closeNewsletterPopup.addEventListener("click", function () {
+//     newsletterPopup.classList.remove("show");
+// });
 
-newsletterPopup.addEventListener("click", function (event) {
-    if (event.target === newsletterPopup) {
-        newsletterPopup.classList.remove("show");
+// newsletterPopup.addEventListener("click", function (event) {
+//     if (event.target === newsletterPopup) {
+//         newsletterPopup.classList.remove("show");
+//     }
+// });
+
+const newsletterPopup = document.getElementById("newsletter");
+const closeNewsletterPopup = document.getElementById("closeNewsletterPopup");
+
+if (newsletterPopup && closeNewsletterPopup) {
+
+    if (sessionStorage.getItem("newsletterShown") !== "true") {
+
+        setTimeout(function () {
+            newsletterPopup.classList.add("show");
+            sessionStorage.setItem("newsletterShown", "true");
+        }, 7000);
     }
-});
+
+    closeNewsletterPopup.addEventListener("click", function () {
+        newsletterPopup.classList.remove("show");
+    });
+
+    newsletterPopup.addEventListener("click", function (event) {
+        if (event.target === newsletterPopup) {
+            newsletterPopup.classList.remove("show");
+        }
+    });
+}
+
 
 
 

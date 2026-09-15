@@ -657,12 +657,12 @@ main {
 
 .shop-by-category {
     max-width: 1600px;
-    margin: 160px auto;
+    margin: 150px auto;
     padding: 0 20px;
     text-align: center;
 }
 .category-title {
-    font-size: 36px;
+    font-size: 37px;
     color: #2c3038;
     margin-bottom: 40px;
     font-weight: 700;
@@ -687,14 +687,15 @@ main {
     transform: translateY(-5px);
 }
 .category-image-wrapper {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     background-color: #f2f2f2;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 15px;
+    margin-top: 80px;
     overflow: hidden;
     transition: background-color 0.4s ease;
     clip-path: circle(50% at 50% 50%);
@@ -2859,4 +2860,97 @@ main {
         font-size: 16px !important;
         padding: 8px 11px !important;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+.beauty-routine-section {
+    max-width: 1300px;
+    margin: 100px auto;
+    padding: 70px 80px;
+    background: #fff4f8;
+    border-radius: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+
+    overflow: hidden;
+}
+
+.beauty-routine-content {
+    flex: 1;
+    max-width: 560px;
+}
+
+.beauty-routine-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #eb3f81;
+    margin-bottom: 18px;
+}
+
+.beauty-routine-content h2 {
+    font-size: 46px;
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 22px;
+    color: #222;
+}
+
+.beauty-routine-content h2 span {
+    color: #eb3f81;
+}
+
+.beauty-routine-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #777;
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.beauty-routine-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: #eb3f81;
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    transition: .3s ease;
+}
+
+.beauty-routine-btn:hover {
+    background: #d92f70;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.beauty-routine-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.beauty-routine-image img {
+    width: 100%;
+    max-width: 480px;
+    height: 380px;
+    object-fit: contain;
 }
