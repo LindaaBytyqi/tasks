@@ -7,6 +7,7 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
 $sql="SELECT * FROM products ORDER BY id DESC LIMIT 6";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -21,6 +22,19 @@ $sql = "SELECT * FROM hero_slides
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $slides = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$sql = "
+    SELECT id, title, describe, published_at, main_image
+    FROM blogs
+    WHERE status = TRUE
+    ORDER BY published_at ASC
+    LIMIT 3
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 $cat_sql = "SELECT c.*, COUNT(p.id) AS total_products  
@@ -164,6 +178,16 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     transform: translateX(-290px);
 }
 
+.hero-content-right {
+    margin-left: auto;
+    margin-right: 0;
+    transform: translateX(290px);
+}
+
+.hero-slide {
+    background-size: cover;
+    background-position: center center;
+}
 
 .hero-tag {
     color: #ffffff;
@@ -761,59 +785,65 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     font-size: 16px;
 }
 
+
+
 </style>
 
 
 
 <section class="skincare-hero">
-    <?php foreach ($slides as $index => $slide): ?>
-        <div
-            class="hero-slide <?= $index === 0 ? 'active' : ''; ?>"
-            style="background-image: url('images/<?= htmlspecialchars($slide['image'], ENT_QUOTES, 'UTF-8'); ?>');"
-        >
+    <?php foreach ($slides as $index => $slide): ?> 
+    <div 
+        class="hero-slide <?= $index === 0 ? 'active' : ''; ?>" 
+        style="background-image: url('images/<?= htmlspecialchars($slide['image'], ENT_QUOTES, 'UTF-8'); ?>');"
+    >
 
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <span class="hero-tag">
-                    <?= htmlspecialchars($slide['tag'], ENT_QUOTES, 'UTF-8'); ?>
-                </span>
+        <div class="hero-overlay"></div>
+        <div class="hero-content <?= $index === 1 ? 'hero-content-right' : ''; ?>">
 
-                <h1>
-                    <?= htmlspecialchars($slide['title_line1'], ENT_QUOTES, 'UTF-8'); ?>
+            <span class="hero-tag">
+                <?= htmlspecialchars($slide['tag'], ENT_QUOTES, 'UTF-8'); ?>
+            </span>
 
-                    <?php if (!empty($slide['title_line2'])): ?>
-                        <br>
-                        <span>
-                            <?= htmlspecialchars($slide['title_line2'], ENT_QUOTES, 'UTF-8'); ?>
-                        </span>
-                    <?php endif; ?>
-                </h1>
+            <h1>
+                <?= htmlspecialchars($slide['title_line1'], ENT_QUOTES, 'UTF-8'); ?>
 
-                <p>
-                    <?= htmlspecialchars($slide['description'], ENT_QUOTES, 'UTF-8'); ?>
-                </p>
+                <?php if (!empty($slide['title_line2'])): ?>
+                    <br>
+                    <span>
+                        <?= htmlspecialchars($slide['title_line2'], ENT_QUOTES, 'UTF-8'); ?>
+                    </span>
+                <?php endif; ?>
+            </h1>
 
-                <div class="hero-buttons">
-                    <a
-                        href="<?= htmlspecialchars($slide['primary_button_link'], ENT_QUOTES, 'UTF-8'); ?>"
-                        class="hero-btn hero-btn-primary"
-                    >
-                        <?= htmlspecialchars($slide['primary_button_text'], ENT_QUOTES, 'UTF-8'); ?>
+            <p>
+                <?= htmlspecialchars($slide['description'], ENT_QUOTES, 'UTF-8'); ?>
+            </p>
 
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+            <div class="hero-buttons">
 
+                <a
+                    href="<?= htmlspecialchars($slide['primary_button_link'], ENT_QUOTES, 'UTF-8'); ?>"
+                    class="hero-btn hero-btn-primary"
+                >
+                    <?= htmlspecialchars($slide['primary_button_text'], ENT_QUOTES, 'UTF-8'); ?>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
 
-                    <a
-                        href="<?= htmlspecialchars($slide['secondary_button_link'], ENT_QUOTES, 'UTF-8'); ?>"
-                        class="hero-btn hero-btn-outline"
-                    >
-                        <?= htmlspecialchars($slide['secondary_button_text'], ENT_QUOTES, 'UTF-8'); ?>
-                    </a>
-                </div>
+                <a
+                    href="<?= htmlspecialchars($slide['secondary_button_link'], ENT_QUOTES, 'UTF-8'); ?>"
+                    class="hero-btn hero-btn-outline"
+                >
+                    <?= htmlspecialchars($slide['secondary_button_text'], ENT_QUOTES, 'UTF-8'); ?>
+                </a>
+
             </div>
+
         </div>
-    <?php endforeach; ?>
+    </div>
+<?php endforeach; ?>
+
+
 
     <?php if (count($slides) > 1): ?>
         <button
@@ -841,8 +871,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     <?php endif; ?>
 </section>
-
-
 
 
 
@@ -956,7 +984,8 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
     </div>
-</section>
+</section> 
+
 
 
 
@@ -992,57 +1021,62 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-
-
 <section class="tips-section">
-  <h2 class="section-title">EXPERT TIPS AND INSPIRATION</h2>
+    <h2 class="section-title">
+        EXPERT TIPS AND INSPIRATION
+    </h2>
 
-  <div class="cards-container">
+    <div class="cards-container">
+        <?php foreach ($blogs as $blog): ?>
+            <div
+                class="tip-card"
+                onclick="window.location.href='blogdetails.php?id=<?= (int)$blog['id']; ?>'"
+            >
+                <div class="card-category">
+                    CARE
+                </div>
 
-    <div class="tip-card" onclick="window.location.href='tips1.php'">
-      <div class="card-category">SKINCARE</div>
-      <div class="card-image">
-        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500" alt="Skincare Tips">
-      </div>
-      <div class="card-body">
-        <h3 class="card-title">10 Skincare Tips for a Healthy Glow from Glowify</h3>
-        <div class="card-footer">
-          <span class="meta-item"><i class="far fa-clock"></i> May 5, 2026</span>
-          <span class="meta-item"><i class="far fa-user"></i> Loprem Ipsum</span>
-        </div>
-      </div>
+                <div class="card-image">
+                    <?php if (!empty($blog['main_image'])): ?>
+                        <img
+                            src="images/<?= htmlspecialchars(
+                                $blog['main_image'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>"
+                            alt="<?= htmlspecialchars(
+                                $blog['title'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>"
+                        >
+                    <?php endif; ?>
+                </div>
+
+
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <?= htmlspecialchars(
+                            $blog['title'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+                    </h3>
+
+                    <div class="card-footer">
+                        <span class="meta-item">
+                            <i class="far fa-clock"></i>
+                            <?= date(
+                                'M d, Y',
+                                strtotime($blog['published_at'])
+                            ); ?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-
-    <div class="tip-card" onclick="window.location.href='tips2.php'">
-      <div class="card-category">MAKEUP</div>
-      <div class="card-image">
-        <img src="images/makeu.png" alt="Makeup Guide">
-      </div>
-      <div class="card-body">
-        <h3 class="card-title">The Ultimate Guide to Makeup Application</h3>
-        <div class="card-footer">
-          <span class="meta-item"><i class="far fa-clock"></i> April 20, 2026</span>
-          <span class="meta-item"><i class="far fa-user"></i> Lorem Ipsum</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tip-card" onclick="window.location.href='tips3.php'">
-      <div class="card-category">HairCare</div>
-      <div class="card-image">
-        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500" alt="Foundation Shade">
-      </div>
-      <div class="card-body">
-        <h3 class="card-title">How to Choose the Perfect Product for Hair</h3>
-        <div class="card-footer">
-          <span class="meta-item"><i class="far fa-clock"></i> March 15, 2026</span>
-          <span class="meta-item"><i class="far fa-user"></i> Lorem Ipsum</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
-
 
 
 
@@ -1224,32 +1258,6 @@ newsletterForm.addEventListener("submit", function(event) {
     });
 });
 
-
-
-
-
-
-// const newsletterPopup = document.getElementById("newsletter");
-// const closeNewsletterPopup = document.getElementById("closeNewsletterPopup");
-
-// let newsletterShown = false;
-
-// setTimeout(function () {
-//     if (!newsletterShown) {
-//         newsletterPopup.classList.add("show");
-//         newsletterShown = true;
-//     }
-// }, 7000);
-
-// closeNewsletterPopup.addEventListener("click", function () {
-//     newsletterPopup.classList.remove("show");
-// });
-
-// newsletterPopup.addEventListener("click", function (event) {
-//     if (event.target === newsletterPopup) {
-//         newsletterPopup.classList.remove("show");
-//     }
-// });
 
 const newsletterPopup = document.getElementById("newsletter");
 const closeNewsletterPopup = document.getElementById("closeNewsletterPopup");

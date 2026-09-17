@@ -25,7 +25,6 @@ if (isset($_GET['id'])) {
     ";
 
     $stmt = $conn->prepare($sql);
-
     $stmt->execute([
         "id" => $id
     ]);
@@ -127,10 +126,10 @@ if (isset($_POST['update_contact'])) {
     ]);
 
 
-    header(
-        "Location: admindashboard.php?page=contact"
-    );
-
+    echo  
+        '<script>
+            window.location.href = "admindashboard.php?page=contact";
+        </script>';
     exit;
 }
 
@@ -138,30 +137,15 @@ if (isset($_POST['update_contact'])) {
 
 
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
     <title>Edit Contact</title>
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
-
 <body class="bg-light">
-
-
 <div class="container mt-5">
-
     <div class="row justify-content-center">
-
         <div class="col-md-8">
-
             <div class="card shadow">
 
                 <div class="card-header bg-warning">
@@ -174,11 +158,7 @@ if (isset($_POST['update_contact'])) {
 
 
                 <div class="card-body">
-
-
                     <form method="POST">
-
-
                         <input
                             type="hidden"
                             name="csrf_token"
@@ -196,13 +176,10 @@ if (isset($_POST['update_contact'])) {
                             value="<?= (int)$contact['id']; ?>"
                         >
 
-
                         <div class="mb-3">
-
                             <label class="form-label">
                                 Monday - Friday Hours
                             </label>
-
                             <input
                                 type="text"
                                 name="weekday_hours"
@@ -219,11 +196,9 @@ if (isset($_POST['update_contact'])) {
 
 
                         <div class="mb-3">
-
                             <label class="form-label">
                                 Saturday Hours
                             </label>
-
                             <input
                                 type="text"
                                 name="saturday_hours"
@@ -235,12 +210,10 @@ if (isset($_POST['update_contact'])) {
                                 ); ?>"
                                 required
                             >
-
                         </div>
 
 
                         <div class="mb-3">
-
                             <label class="form-label">
                                 Sunday Hours
                             </label>
@@ -261,7 +234,6 @@ if (isset($_POST['update_contact'])) {
 
 
                         <div class="mb-3">
-
                             <label class="form-label">
                                 Address
                             </label>
@@ -277,12 +249,10 @@ if (isset($_POST['update_contact'])) {
                                 ); ?>"
                                 required
                             >
-
                         </div>
 
 
                         <div class="mb-3">
-
                             <label class="form-label">
                                 Postal Code
                             </label>
@@ -298,12 +268,10 @@ if (isset($_POST['update_contact'])) {
                                 ); ?>"
                                 required
                             >
-
                         </div>
 
 
                         <div class="mb-3">
-
                             <label class="form-label">
                                 Phone
                             </label>
@@ -319,12 +287,10 @@ if (isset($_POST['update_contact'])) {
                                 ); ?>"
                                 required
                             >
-
                         </div>
 
 
                         <div class="mb-3">
-
                             <label class="form-label">
                                 Email
                             </label>
@@ -340,12 +306,10 @@ if (isset($_POST['update_contact'])) {
                                 ); ?>"
                                 required
                             >
-
                         </div>
 
 
                         <div class="mb-3">
-
                             <label class="form-label">
                                 Google Maps Embed URL
                             </label>
@@ -359,7 +323,6 @@ if (isset($_POST['update_contact'])) {
                                 ENT_QUOTES,
                                 'UTF-8'
                             ); ?></textarea>
-
                         </div>
 
 
@@ -381,19 +344,10 @@ if (isset($_POST['update_contact'])) {
 
 
                     </form>
-
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-
-
 </body>
-
 </html>

@@ -9,7 +9,7 @@
 <style>
 .site-footer {
     width: 100%;
-    background: #f7f6f6;
+    background: #ffffff;
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: #111;
     /* margin-top: 10px; */
@@ -121,7 +121,7 @@
 }
 .footer-bottom {
     position: relative;
-    background: #e4e2e1;
+    background: #f7f6f6;
     min-height: 105px;
     display: flex;
     align-items: center;

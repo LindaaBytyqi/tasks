@@ -261,8 +261,9 @@ if (isset($_POST['update_slide'])) {
 
 
                     <form
-                        method="POST"
-                        enctype="multipart/form-data"
+                         action="editslides.php?id=<?= (int)$slide['id']; ?>"
+                         method="POST"
+                         enctype="multipart/form-data"
                     >
 
 

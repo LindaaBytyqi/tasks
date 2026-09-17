@@ -1,5 +1,19 @@
 <?php
+
 include "includes/header.php";
+include "includes/database.php";
+
+$stmt = $conn->prepare("
+    SELECT *
+    FROM about_sections
+    WHERE status = true
+    ORDER BY sort_order ASC, id ASC
+");
+
+$stmt->execute();
+
+$sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <style>
 
@@ -424,18 +438,6 @@ include "includes/header.php";
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .about-values {
     padding: 125px 60px 135px;
     background: #fff;
@@ -767,12 +769,6 @@ include "includes/header.php";
 .about-light-btn:hover i {
     transform: translateX(5px);
 }
-
-
-
-
-
-
 .about-promise {
     max-width: 850px;
     margin: auto;
@@ -792,8 +788,6 @@ include "includes/header.php";
     line-height: 1.9;
     font-size: 16px;
 }
-
-
 
 @media (max-width: 1100px) {
     .about-story {
@@ -944,23 +938,18 @@ include "includes/header.php";
 
     .team-grid {
         grid-template-columns: 1fr;
-
         gap: 70px;
-
         max-width: 380px;
     }
 
     .team-card {
         width: 100%;
-
         max-width: 360px;
-
         margin: 0 auto !important;
     }
 
     .team-image {
         height: 430px;
-
         border-radius:
             180px
             180px
@@ -970,38 +959,28 @@ include "includes/header.php";
 
     .team-card::before {
         font-size: 80px;
-
         top: -30px;
-
         left: -8px;
     }
 
     .team-info {
         padding-top: 23px;
     }
-
     .team-info h3 {
         font-size: 23px;
     }
 
     .team-info p {
         font-size: 13px;
-
         max-width: 320px;
     }
 
     .team-card::after {
         opacity: 1;
-
         transform: none;
-
         right: 4px;
-
         bottom: 4px;
     }
-
-
-    /* VALUES */
 
     .about-values {
         padding: 80px 20px 90px;
@@ -1009,24 +988,18 @@ include "includes/header.php";
 
     .values-grid {
         grid-template-columns: 1fr;
-
         gap: 15px;
     }
 
     .value-card {
         padding: 32px 25px;
     }
-
-
-    /* COLLECTIONS */
-
     .about-collections {
         padding: 80px 20px;
     }
 
     .collections-grid {
         grid-template-columns: 1fr;
-
         gap: 15px;
     }
 
@@ -1037,36 +1010,25 @@ include "includes/header.php";
     .collection-content h3 {
         font-size: 29px;
     }
-
-
-    /* BENEFITS */
-
     .about-benefits {
         grid-template-columns: 1fr;
-
         margin: 0 15px 80px;
-
         border-radius: 22px;
     }
 
     .about-benefits-image {
         min-height: 400px;
     }
-
     .about-benefits-content {
         padding: 55px 28px;
     }
-
     .about-benefits-content h2 {
         font-size: 39px;
-
         letter-spacing: -1.5px;
     }
-
     .benefits-intro {
         font-size: 14px;
     }
-
     .about-quote {
         height: 600px;
     }
@@ -1083,21 +1045,17 @@ include "includes/header.php";
 
     .about-quote-content h2 {
         font-size: 55px;
-
         letter-spacing: -2.5px;
     }
 
     .about-quote-content p {
         font-size: 14px;
     }
-
     .about-promise {
         padding: 80px 25px;
     }
-
     .about-promise h2 {
         font-size: 39px;
-
         letter-spacing: -1.5px;
     }
     .about-promise p {
@@ -1106,8 +1064,709 @@ include "includes/header.php";
 }
 </style>
 
-
 <main class="about-page">
+
+<?php foreach ($sections as $section): ?>
+
+    <?php
+
+    $data = json_decode(
+        $section['data'],
+        true
+    );
+
+    switch ($section['section_type']) {
+
+        case 'hero':
+
+            ?>
+
+            <section class="about-hero">
+
+                <div class="about-hero-image">
+
+                    <img
+                        src="images/<?= htmlspecialchars(
+                            $data['image'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>"
+                        alt="Beauty products and skincare"
+                    >
+
+                </div>
+
+
+                <div class="about-hero-overlay"></div>
+
+
+                <div class="about-hero-content">
+
+                    <span class="about-eyebrow">
+
+                        <?= htmlspecialchars(
+                            $data['eyebrow'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+                    </span>
+
+
+                    <h1>
+
+                        <?= htmlspecialchars(
+                            $data['title'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+
+                        <?php if (!empty($data['highlight'])): ?>
+
+                            <span>
+
+                                <?= htmlspecialchars(
+                                    $data['highlight'],
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>
+
+                            </span>
+
+                        <?php endif; ?>
+
+                    </h1>
+
+
+                    <?php if (!empty($data['description'])): ?>
+
+                        <p>
+
+                            <?= htmlspecialchars(
+                                $data['description'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>
+
+                        </p>
+
+                    <?php endif; ?>
+
+
+                    <?php if (!empty($data['button_text'])): ?>
+
+                        <a
+                            href="<?= htmlspecialchars(
+                                $data['button_link'] ?? '#',
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>"
+                            class="about-primary-btn"
+                        >
+
+                            <?= htmlspecialchars(
+                                $data['button_text'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    <?php endif; ?>
+
+                </div>
+
+            </section>
+
+            <?php
+
+            break;
+
+
+        case 'story':
+
+            ?>
+
+            <section class="about-story">
+
+                <div class="about-story-image">
+
+                    <img
+                        src="images/<?= htmlspecialchars(
+                            $data['image'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>"
+                        alt="Beauty products and skincare routine"
+                    >
+
+                </div>
+
+
+                <div class="about-story-content">
+
+                    <span class="about-section-label">
+
+                        <?= htmlspecialchars(
+                            $data['eyebrow'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+                    </span>
+
+
+                    <h2>
+
+                        <?= htmlspecialchars(
+                            $data['title'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+
+                        <?php if (!empty($data['highlight'])): ?>
+
+                            <span>
+
+                                <?= htmlspecialchars(
+                                    $data['highlight'],
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>
+
+                            </span>
+
+                        <?php endif; ?>
+
+                    </h2>
+
+
+                    <div class="about-title-line"></div>
+
+
+                    <?php if (!empty($data['paragraphs'])): ?>
+
+                        <?php foreach ($data['paragraphs'] as $paragraph): ?>
+
+                            <p>
+
+                                <?= htmlspecialchars(
+                                    $paragraph,
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>
+
+                            </p>
+
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
+
+
+                    <?php if (!empty($data['stats'])): ?>
+
+                        <div class="about-story-stats">
+
+                            <?php foreach ($data['stats'] as $stat): ?>
+
+                                <div class="story-stat">
+
+                                    <strong>
+
+                                        <?= htmlspecialchars(
+                                            $stat['value'] ?? '',
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ); ?>
+
+                                    </strong>
+
+
+                                    <span>
+
+                                        <?= htmlspecialchars(
+                                            $stat['label'] ?? '',
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ); ?>
+
+                                    </span>
+
+                                </div>
+
+                            <?php endforeach; ?>
+
+                        </div>
+
+                    <?php endif; ?>
+
+                </div>
+
+            </section>
+
+            <?php
+
+            break;
+
+
+        case 'team':
+
+            ?>
+
+            <section class="about-team">
+
+                <div class="about-section-heading">
+
+                    <span class="about-section-label">
+
+                        <?= htmlspecialchars(
+                            $data['eyebrow'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+                    </span>
+
+
+                    <h2>
+
+                        <?= htmlspecialchars(
+                            $data['title'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+
+                        <?php if (!empty($data['highlight'])): ?>
+
+                            <span>
+
+                                <?= htmlspecialchars(
+                                    $data['highlight'],
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>
+
+                            </span>
+
+                        <?php endif; ?>
+
+                    </h2>
+
+                </div>
+
+
+                <?php if (!empty($data['members'])): ?>
+
+                    <div class="team-grid">
+
+                        <?php foreach ($data['members'] as $member): ?>
+
+                            <div class="team-card">
+
+                                <div class="team-image">
+
+                                    <img
+                                        src="images/<?= htmlspecialchars(
+                                            $member['image'] ?? '',
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ); ?>"
+                                        alt="<?= htmlspecialchars(
+                                            $member['name'] ?? '',
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ); ?>"
+                                    >
+
+                                </div>
+
+
+                                <div class="team-info">
+
+                                    <span>
+
+                                        <?= htmlspecialchars(
+                                            $member['role'] ?? '',
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ); ?>
+
+                                    </span>
+
+
+                                    <h3>
+
+                                        <?= htmlspecialchars(
+                                            $member['name'] ?? '',
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ); ?>
+
+                                    </h3>
+
+
+                                    <p>
+
+                                        <?= htmlspecialchars(
+                                            $member['description'] ?? '',
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ); ?>
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                <?php endif; ?>
+
+            </section>
+
+            <?php
+
+            break;
+
+
+        case 'values':
+
+            ?>
+
+            <section class="about-values">
+
+                <div class="about-section-heading">
+
+                    <span class="about-section-label">
+
+                        <?= htmlspecialchars(
+                            $data['eyebrow'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+                    </span>
+
+
+                    <h2>
+
+                        <?= htmlspecialchars(
+                            $data['title'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+
+                        <?php if (!empty($data['highlight'])): ?>
+
+                            <span>
+
+                                <?= htmlspecialchars(
+                                    $data['highlight'],
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>
+
+                            </span>
+
+                        <?php endif; ?>
+
+                    </h2>
+
+
+                    <?php if (!empty($data['description'])): ?>
+
+                        <p>
+
+                            <?= htmlspecialchars(
+                                $data['description'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>
+
+                        </p>
+
+                    <?php endif; ?>
+
+                </div>
+
+
+                <?php if (!empty($data['values'])): ?>
+
+                    <div class="values-grid">
+
+                        <?php foreach ($data['values'] as $value): ?>
+
+                            <div class="value-card">
+
+                                <div class="value-icon">
+
+                                    <i class="bi <?= htmlspecialchars(
+                                        $value['icon'] ?? 'bi-stars',
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ); ?>"></i>
+
+                                </div>
+
+
+                                <h3>
+
+                                    <?= htmlspecialchars(
+                                        $value['title'] ?? '',
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ); ?>
+
+                                </h3>
+
+
+                                <p>
+
+                                    <?= htmlspecialchars(
+                                        $value['description'] ?? '',
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ); ?>
+
+                                </p>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                <?php endif; ?>
+
+            </section>
+
+            <?php
+
+            break;
+
+
+        case 'quote':
+
+            ?>
+
+            <section class="about-quote">
+
+                <div class="about-quote-image">
+
+                    <img
+                        src="images/<?= htmlspecialchars(
+                            $data['image'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>"
+                        alt="Beauty skincare ritual"
+                    >
+
+                </div>
+
+
+                <div class="about-quote-overlay"></div>
+
+
+                <div class="about-quote-content">
+
+                    <div class="about-quote-wrapper">
+
+                        <span>
+
+                            <?= htmlspecialchars(
+                                $data['eyebrow'] ?? '',
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>
+
+                        </span>
+
+
+                        <h2>
+
+                            <?= htmlspecialchars(
+                                $data['title'] ?? '',
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>
+
+
+                            <?php if (!empty($data['highlight'])): ?>
+
+                                <br>
+
+                                <?= htmlspecialchars(
+                                    $data['highlight'],
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>
+
+                            <?php endif; ?>
+
+                        </h2>
+
+
+                        <?php if (!empty($data['description'])): ?>
+
+                            <p>
+
+                                <?= htmlspecialchars(
+                                    $data['description'],
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>
+
+                            </p>
+
+                        <?php endif; ?>
+
+
+                        <?php if (!empty($data['button_text'])): ?>
+
+                            <a
+                                href="<?= htmlspecialchars(
+                                    $data['button_link'] ?? '#',
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>"
+                                class="about-light-btn"
+                            >
+
+                                <?= htmlspecialchars(
+                                    $data['button_text'],
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ); ?>
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <?php
+
+            break;
+
+
+        case 'promise':
+        case 'text':
+
+            ?>
+
+            <section class="about-promise">
+
+                <span class="about-section-label">
+
+                    <?= htmlspecialchars(
+                        $data['eyebrow'] ?? '',
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ); ?>
+
+                </span>
+
+
+                <h2>
+
+                    <?= htmlspecialchars(
+                        $data['title'] ?? '',
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ); ?>
+
+
+                    <?php if (!empty($data['highlight'])): ?>
+
+                        <span>
+
+                            <?= htmlspecialchars(
+                                $data['highlight'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>
+
+                        </span>
+
+                    <?php endif; ?>
+
+                </h2>
+
+
+                <?php if (!empty($data['description'])): ?>
+
+                    <p>
+
+                        <?= htmlspecialchars(
+                            $data['description'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+                    </p>
+
+                <?php endif; ?>
+
+
+                <?php if (!empty($data['button_text'])): ?>
+
+                    <a
+                        href="<?= htmlspecialchars(
+                            $data['button_link'] ?? '#',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>"
+                        class="about-primary-btn"
+                    >
+
+                        <?= htmlspecialchars(
+                            $data['button_text'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                <?php endif; ?>
+
+            </section>
+
+            <?php
+
+            break;
+
+    }
+
+    ?>
+
+<?php endforeach; ?>
+
+</main>
+
+<?php include "includes/footer.php"; ?>
+
+
+
+
+<!-- <main class="about-page">
 <section class="about-hero">
     <div class="about-hero-image">
         <img
@@ -1195,9 +1854,6 @@ include "includes/header.php";
     <div class="about-section-heading"> 
         <span class="about-section-label"> MEET THE TEAM </span> 
         <h2> The People Behind <span>The Brand.</span> </h2>
-         <!-- <p> A small team with a shared passion for beauty, thoughtful products 
-            and creating a better shopping experience.
-         </p>  -->
         </div> 
          <div class="team-grid"> <div class="team-card">
              <div class="team-image"> 
@@ -1228,12 +1884,9 @@ include "includes/header.php";
                     <h3>Lorem Ipsum</h3>
                      <p> Making sure every customer feels valued from their first visit to every order after. </p>
                 </div> 
-            
         </div>
     </div> 
 </section>
-
-
 
 
 
@@ -1348,14 +2001,10 @@ include "includes/header.php";
         discovering your next favorite product to receiving
         it at your door.
     </p>
-    <!-- <a href="categories.php"
-       class="about-primary-btn">
-        START SHOPPING
-        <i class="bi bi-arrow-right"></i>
-    </a> -->
 </section>
 
 </main>
-<?php
-include "includes/footer.php";
-?>
+
+
+ -->
+

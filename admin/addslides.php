@@ -172,11 +172,11 @@ if (isset($_POST['add_slide'])) {
     ]);
 
 
-    header(
-        "Location: admindashboard.php?page=heroslides"
-    );
-
-    exit;
+  echo  
+    '<script>
+        window.location.href = "admindashboard.php?page=hero";
+    </script>';
+exit;
 }
 
 ?>
@@ -190,10 +190,7 @@ if (isset($_POST['add_slide'])) {
 
     <title>Add Hero Slide</title>
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css rel="stylesheet" >
 
 </head>
 
@@ -466,7 +463,7 @@ if (isset($_POST['add_slide'])) {
 
 
                         <a
-                            href="admindashboard.php?page=heroslides"
+                            href="admindashboard.php?page=hero"
                             class="btn btn-secondary"
                         >
                             Cancel

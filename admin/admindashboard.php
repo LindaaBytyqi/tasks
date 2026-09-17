@@ -6,9 +6,8 @@ if (!isset($_GET['page'])) {
     exit;
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
+<!-- <!DOCTYPE html>
+<html lang="en"> -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,13 +112,23 @@ if (!isset($_GET['page'])) {
             </a>
 
              <a href="admindashboard.php?page=contact" class="nav-link">
-                <i class="bi bi-people"></i>
+                <i class="bi bi-envelope"></i>
                 <span>ContactUs</span>
             </a>
 
             <a href="admindashboard.php?page=hero" class="nav-link">
-                <i class="bi bi-people"></i>
+                <i class="bi bi-images"></i>
                 <span>HeroSlides</span>
+            </a>
+
+            <a href="admindashboard.php?page=aboutus" class="nav-link">
+                <i class="bi bi-info-circle"></i>
+                <span>AboutUs</span>
+            </a>
+
+             <a href="admindashboard.php?page=blog" class="nav-link">
+                <i class="bi bi-info-circle"></i>
+                <span>Blog</span>
             </a>
 
             <a href="admindashboard.php?page=newsletter" class="nav-link">
@@ -127,7 +136,6 @@ if (!isset($_GET['page'])) {
                 <span>Subscribers</span>
             </a>
             <a href="../logout.php" class="nav-link">
-                <!-- <i class="bi bi-person-circle"></i> -->
                  <i class="bi bi-box-arrow-right"></i>
                 <span>Logout</span>
             </a>
@@ -227,6 +235,38 @@ if (!isset($_GET['page'])) {
             } elseif($page == "deleteslides") {
 
                 include "deleteslides.php";
+
+            } elseif($page == "aboutus") {
+
+                include "aboutus.php";
+
+            } elseif($page == "deleteabout") {
+
+                include "deleteabout.php";
+
+            }elseif($page == "editabout") {
+
+                include "editabout.php";
+
+            }elseif($page == "addabout") {
+
+                include "addabout.php";
+
+            } elseif($page == "blog") {
+
+                include "blog.php";
+
+            } elseif($page == "addblog") {
+
+                include "addblog.php";
+
+            } elseif($page == "editblog") {
+
+                include "editblog.php";
+
+            } elseif($page == "deleteblog") {
+
+                include "deleteblog.php";
 
             }
              else {
