@@ -510,7 +510,7 @@ body {
                 href="index.php"
                 class="auth-logo"
             >
-                MyShop.
+                MyShop
             </a>
             <a
                 href="index.php"
@@ -521,7 +521,6 @@ body {
 
         </div>
         <div class="auth-form-container">
-
             <div class="auth-form-inner">
                 <h1>REGISTER</h1>
                 <form
@@ -530,10 +529,8 @@ body {
                     class="register-form"
                     novalidate
                 >
-
                     <div class="row-inputs">
                         <div class="input-box">
-
                             <input
                                 type="text"
                                 id="firstname"
@@ -545,11 +542,8 @@ body {
                                 class="error-text"
                                 id="firstnameError"
                             ></span>
-
                         </div>
-
                         <div class="input-box">
-
                             <input
                                 type="text"
                                 id="lastname"
@@ -557,16 +551,13 @@ body {
                                 placeholder="Last Name"
                                 required
                             >
-
                             <span
                                 class="error-text"
                                 id="lastnameError"
                             ></span>
                         </div>
                     </div>
-
                     <div class="form-group">
-
                         <input
                             type="email"
                             id="email"
@@ -574,16 +565,12 @@ body {
                             placeholder="Email Address"
                             required
                         >
-
                         <span
                             class="error-text"
                             id="emailError"
                         ></span>
-
                     </div>
-
                     <div class="form-group">
-
                         <input
                             type="password"
                             id="password"
@@ -591,34 +578,26 @@ body {
                             placeholder="Password"
                             required
                         >
-
                         <span
                             class="error-text"
                             id="passwordError"
                         ></span>
-
                         <i
                             class="bi bi-eye-slash"
                             id="togglePassword"
                         ></i>
-
                     </div>
-
                     <div class="terms-box">
-
                         <input
                             type="checkbox"
                             id="terms"
                             name="terms"
                             required
                         >
-
                         <label for="terms">
                             I agree to the Terms of Service.
                         </label>
-
                     </div>
-
                     <span
                         class="error-text"
                         id="termsError"
