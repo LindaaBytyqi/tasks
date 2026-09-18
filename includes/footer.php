@@ -12,6 +12,7 @@
     background: #ffffff;
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: #111;
+    border-top: 2px solid #bebebe;
     /* margin-top: 10px; */
 }
 .footer-main {

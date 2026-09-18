@@ -57,14 +57,10 @@ if (!$contact) {
             color: #2b303a;
             background-color: #f8fafc;
         }
-
-
         .contact-section {
-            padding-top: 13rem;
-            padding-bottom: 17rem;
+            padding-top: 12rem;
+            padding-bottom: 12rem;
         }
-
-
         .contact-title {
             font-size: 3rem;
             font-weight: 600;
@@ -72,8 +68,6 @@ if (!$contact) {
             letter-spacing: -1px;
             margin-bottom: 6rem !important;
         }
-
-
         .contact-card {
             position: relative;
             background: #ffffff;
@@ -84,15 +78,11 @@ if (!$contact) {
             transition: all 0.3s ease;
             height: 100%;
         }
-
-
         .contact-card:hover {
             border-color: #eb259f;
             transform: translateY(-4px);
             box-shadow: 0 20px 50px rgba(15, 23, 42, 0.09);
         }
-
-
         .icon-wrapper {
             width: 78px;
             height: 78px;
@@ -103,29 +93,21 @@ if (!$contact) {
             justify-content: center;
             margin-bottom: 1.8rem;
         }
-
-
         .icon-wrapper i {
             font-size: 2.2rem;
             color: #070707;
         }
-
-
         .contact-card h5 {
             font-size: 1.6rem;
             font-weight: 700;
             color: #0f172a;
             margin-bottom: 1rem;
         }
-
-
         .contact-card p {
             font-size: 1.2rem;
             color: #505863;
             line-height: 1.7;
         }
-
-
         .contact-form-section {
             background-color: #ffffff;
             border-top: 1px solid #e2e8f0;
@@ -133,13 +115,10 @@ if (!$contact) {
             padding-bottom: 8rem !important;
         }
 
-
         .contact-form-section .container {
             max-width: 1700px;
             width: 100%;
         }
-
-
         .map-container {
             width: 100%;
             min-height: 580px;
@@ -148,15 +127,12 @@ if (!$contact) {
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
         }
 
-
         .map-container iframe {
             width: 100%;
             height: 580px;
             display: block;
             border: 0;
         }
-
-
         .subtitle {
             color: #eb259f;
             font-size: 1rem;
@@ -167,8 +143,6 @@ if (!$contact) {
             display: inline-block;
             margin-bottom: 20px;
         }
-
-
         .main-heading {
             font-size: 2.8rem;
             font-weight: 700;
@@ -179,7 +153,6 @@ if (!$contact) {
             margin-bottom: 1.2rem;
         }
 
-
         .form-description {
             color: #64748b;
             font-size: 1rem;
@@ -187,7 +160,6 @@ if (!$contact) {
             max-width: 560px;
             margin-bottom: 2.8rem;
         }
-
 
         .custom-input {
             border: none;
@@ -200,25 +172,17 @@ if (!$contact) {
             box-shadow: none !important;
             transition: all 0.3s ease;
         }
-
-
         .custom-input::placeholder {
             color: #94a3b8;
         }
-
-
         .custom-input:focus {
             border-bottom-color: #f36abe;
             background-color: transparent;
         }
-
-
         .textarea.custom-input {
             min-height: 150px;
             resize: none;
         }
-
-
         .custom-btn {
             background-color: #e242a2;
             color: #ffffff;
@@ -231,7 +195,6 @@ if (!$contact) {
             transition: all 0.3s ease;
         }
 
-
         .custom-btn:hover {
             background-color: #e242a2;
             color: #ffffff;
@@ -239,51 +202,40 @@ if (!$contact) {
             transform: translateY(-1px);
         }
 
-
         @media (max-width: 991px) {
-
             .contact-section {
                 padding-top: 7rem;
                 padding-bottom: 7rem;
             }
-
             .contact-title {
                 font-size: 2.5rem;
                 margin-bottom: 4rem !important;
             }
-
             .contact-card {
                 padding: 2rem 1.5rem;
             }
-
             .contact-card h5 {
                 font-size: 1.4rem;
             }
-
             .contact-card p {
                 font-size: 1rem;
             }
-
             .contact-form-section {
                 padding-top: 5rem !important;
                 padding-bottom: 5rem !important;
             }
-
             .map-container,
             .map-container iframe {
                 min-height: 500px;
                 height: 500px;
             }
-
             .main-heading {
                 font-size: 2.4rem;
                 margin-top: 2rem;
             }
-
             .custom-input {
                 font-size: 1.1rem;
             }
-
         }
 
 
@@ -546,9 +498,6 @@ if (!$contact) {
     <div class="container my-4">
 
         <div class="row g-5 align-items-center">
-
-
-            <!-- MAP -->
 
             <div class="col-lg-6">
 

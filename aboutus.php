@@ -9,11 +9,8 @@ $stmt = $conn->prepare("
     WHERE status = true
     ORDER BY sort_order ASC, id ASC
 ");
-
 $stmt->execute();
-
 $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 <style>
 
@@ -33,21 +30,18 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
     text-align: center;
     margin-bottom: 65px;
 }
-
 .about-section-heading h2 {
     margin: 16px 0 15px;
     font-size: clamp(42px, 5vw, 65px);
     line-height: 1.05;
     letter-spacing: -2.5px;
-    font-weight: 700;
+    font-weight: 600;
 }
-
 .about-section-heading h2 span,
 .about-story-content h2 span,
 .about-promise h2 span {
-    color: #eb3f81;
+    color: #050505;
 }
-
 .about-section-heading p {
     max-width: 600px;
     margin: 0 auto;
@@ -55,7 +49,6 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
     font-size: 15px;
     line-height: 1.8;
 }
-
 .about-eyebrow,
 .about-section-label {
     color: #eb3f81;
@@ -150,7 +143,6 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
     box-shadow:
         0 12px 30px rgba(235,63,129,.25);
 }
-
 .about-primary-btn i {
     transition: transform .3s ease;
 }
@@ -253,8 +245,6 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
     font-size: 12px;
     letter-spacing: .7px;
 }
-
-
 
 
 
@@ -1067,24 +1057,16 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <main class="about-page">
 
 <?php foreach ($sections as $section): ?>
-
     <?php
-
     $data = json_decode(
         $section['data'],
         true
     );
-
     switch ($section['section_type']) {
-
         case 'hero':
-
             ?>
-
             <section class="about-hero">
-
                 <div class="about-hero-image">
-
                     <img
                         src="images/<?= htmlspecialchars(
                             $data['image'] ?? '',
@@ -1093,7 +1075,6 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         ); ?>"
                         alt="Beauty products and skincare"
                     >
-
                 </div>
 
 
@@ -1101,7 +1082,6 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
                 <div class="about-hero-content">
-
                     <span class="about-eyebrow">
 
                         <?= htmlspecialchars(
@@ -1109,50 +1089,36 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             ENT_QUOTES,
                             'UTF-8'
                         ); ?>
-
                     </span>
 
-
                     <h1>
-
                         <?= htmlspecialchars(
                             $data['title'] ?? '',
                             ENT_QUOTES,
                             'UTF-8'
                         ); ?>
 
-
                         <?php if (!empty($data['highlight'])): ?>
-
                             <span>
-
                                 <?= htmlspecialchars(
                                     $data['highlight'],
                                     ENT_QUOTES,
                                     'UTF-8'
                                 ); ?>
-
                             </span>
-
                         <?php endif; ?>
-
                     </h1>
 
 
                     <?php if (!empty($data['description'])): ?>
-
                         <p>
-
                             <?= htmlspecialchars(
                                 $data['description'],
                                 ENT_QUOTES,
                                 'UTF-8'
                             ); ?>
-
                         </p>
-
                     <?php endif; ?>
-
 
                     <?php if (!empty($data['button_text'])): ?>
 
@@ -1229,17 +1195,13 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
                         <?php if (!empty($data['highlight'])): ?>
-
                             <span>
-
                                 <?= htmlspecialchars(
                                     $data['highlight'],
                                     ENT_QUOTES,
                                     'UTF-8'
                                 ); ?>
-
                             </span>
-
                         <?php endif; ?>
 
                     </h2>
@@ -1249,21 +1211,15 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
                     <?php if (!empty($data['paragraphs'])): ?>
-
                         <?php foreach ($data['paragraphs'] as $paragraph): ?>
-
                             <p>
-
                                 <?= htmlspecialchars(
                                     $paragraph,
                                     ENT_QUOTES,
                                     'UTF-8'
                                 ); ?>
-
                             </p>
-
                         <?php endforeach; ?>
-
                     <?php endif; ?>
 
 
@@ -1272,9 +1228,7 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="about-story-stats">
 
                             <?php foreach ($data['stats'] as $stat): ?>
-
                                 <div class="story-stat">
-
                                     <strong>
 
                                         <?= htmlspecialchars(
@@ -1293,83 +1247,52 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             ENT_QUOTES,
                                             'UTF-8'
                                         ); ?>
-
                                     </span>
-
                                 </div>
 
                             <?php endforeach; ?>
-
                         </div>
-
                     <?php endif; ?>
-
                 </div>
-
             </section>
-
             <?php
-
             break;
-
-
-        case 'team':
-
+            case 'team':
             ?>
 
             <section class="about-team">
-
                 <div class="about-section-heading">
-
                     <span class="about-section-label">
-
                         <?= htmlspecialchars(
                             $data['eyebrow'] ?? '',
                             ENT_QUOTES,
                             'UTF-8'
                         ); ?>
-
                     </span>
-
-
                     <h2>
-
                         <?= htmlspecialchars(
                             $data['title'] ?? '',
                             ENT_QUOTES,
                             'UTF-8'
                         ); ?>
-
-
                         <?php if (!empty($data['highlight'])): ?>
-
                             <span>
-
                                 <?= htmlspecialchars(
                                     $data['highlight'],
                                     ENT_QUOTES,
                                     'UTF-8'
                                 ); ?>
-
                             </span>
-
                         <?php endif; ?>
-
                     </h2>
-
                 </div>
 
 
                 <?php if (!empty($data['members'])): ?>
-
                     <div class="team-grid">
-
                         <?php foreach ($data['members'] as $member): ?>
-
                             <div class="team-card">
-
                                 <div class="team-image">
-
                                     <img
                                         src="images/<?= htmlspecialchars(
                                             $member['image'] ?? '',
@@ -1382,93 +1305,57 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             'UTF-8'
                                         ); ?>"
                                     >
-
                                 </div>
 
-
                                 <div class="team-info">
-
                                     <span>
-
                                         <?= htmlspecialchars(
                                             $member['role'] ?? '',
                                             ENT_QUOTES,
                                             'UTF-8'
                                         ); ?>
-
                                     </span>
-
-
                                     <h3>
-
                                         <?= htmlspecialchars(
                                             $member['name'] ?? '',
                                             ENT_QUOTES,
                                             'UTF-8'
                                         ); ?>
-
                                     </h3>
-
-
                                     <p>
-
                                         <?= htmlspecialchars(
                                             $member['description'] ?? '',
                                             ENT_QUOTES,
                                             'UTF-8'
                                         ); ?>
-
                                     </p>
-
                                 </div>
-
                             </div>
-
                         <?php endforeach; ?>
-
                     </div>
-
                 <?php endif; ?>
-
             </section>
-
             <?php
-
             break;
-
-
-        case 'values':
-
+            case 'values':
             ?>
-
             <section class="about-values">
-
                 <div class="about-section-heading">
-
                     <span class="about-section-label">
-
                         <?= htmlspecialchars(
                             $data['eyebrow'] ?? '',
                             ENT_QUOTES,
                             'UTF-8'
                         ); ?>
-
                     </span>
-
-
                     <h2>
-
                         <?= htmlspecialchars(
                             $data['title'] ?? '',
                             ENT_QUOTES,
                             'UTF-8'
                         ); ?>
-
-
                         <?php if (!empty($data['highlight'])): ?>
-
                             <span>
-
                                 <?= htmlspecialchars(
                                     $data['highlight'],
                                     ENT_QUOTES,
@@ -1476,29 +1363,19 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 ); ?>
 
                             </span>
-
                         <?php endif; ?>
-
                     </h2>
 
-
                     <?php if (!empty($data['description'])): ?>
-
                         <p>
-
                             <?= htmlspecialchars(
                                 $data['description'],
                                 ENT_QUOTES,
                                 'UTF-8'
                             ); ?>
-
                         </p>
-
                     <?php endif; ?>
-
                 </div>
-
-
                 <?php if (!empty($data['values'])): ?>
 
                     <div class="values-grid">
@@ -1614,8 +1491,6 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php endif; ?>
 
                         </h2>
-
-
                         <?php if (!empty($data['description'])): ?>
 
                             <p>
@@ -1661,15 +1536,11 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </section>
 
             <?php
-
             break;
-
-
         case 'promise':
         case 'text':
 
             ?>
-
             <section class="about-promise">
 
                 <span class="about-section-label">
@@ -1691,11 +1562,8 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         'UTF-8'
                     ); ?>
 
-
                     <?php if (!empty($data['highlight'])): ?>
-
                         <span>
-
                             <?= htmlspecialchars(
                                 $data['highlight'],
                                 ENT_QUOTES,
@@ -1703,11 +1571,9 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             ); ?>
 
                         </span>
-
                     <?php endif; ?>
 
                 </h2>
-
 
                 <?php if (!empty($data['description'])): ?>
 
@@ -1742,269 +1608,14 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         ); ?>
 
                         <i class="bi bi-arrow-right"></i>
-
                     </a>
-
                 <?php endif; ?>
-
             </section>
-
             <?php
-
             break;
-
     }
-
     ?>
 
 <?php endforeach; ?>
-
 </main>
-
 <?php include "includes/footer.php"; ?>
-
-
-
-
-<!-- <main class="about-page">
-<section class="about-hero">
-    <div class="about-hero-image">
-        <img
-            src="images/abouttt.png"
-            alt="Beauty products and skincare">
-    </div>
-    <div class="about-hero-overlay"></div>
-    <div class="about-hero-content">
-        <span class="about-eyebrow">
-            WELCOME TO OUR BEAUTY WORLD
-        </span>
-
-        <h1>
-            Beauty Made
-            <span>Personal.</span>
-        </h1>
-        <p>
-            Discover carefully selected beauty essentials designed
-            to make every routine feel a little more special.
-        </p>
-        <a href="product.php" class="about-primary-btn">
-            EXPLORE OUR COLLECTION
-            <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
-</section>
-
-<section class="about-story">
-    <div class="about-story-image">
-        <img
-            src="images/about.png"
-            alt="Beauty products and skincare routine">
-    </div>
-
-
-    <div class="about-story-content">
-        <span class="about-section-label">
-            OUR STORY
-        </span>
-        <h2>
-            More Than Beauty.
-            <span>A Feeling.</span>
-        </h2>
-        <div class="about-title-line"></div>
-        <p>
-            We believe beauty is more than appearance.
-            It's about feeling confident, comfortable and
-            completely yourself.
-        </p>
-        <p>
-            Our collection brings together carefully selected
-            products across skincare, makeup, haircare, bodycare
-            and fragrance, making it easier to discover products
-            that naturally fit into your everyday routine.
-        </p>
-        <p>
-            Whether you're creating your morning skincare ritual,
-            getting ready for a special occasion or simply taking
-            a moment for yourself, we're here to make every beauty
-            moment feel special.
-        </p>
-        <div class="about-story-stats">
-            <div class="story-stat">
-                <strong>100+</strong>
-                <span>BEAUTY PRODUCTS</span>
-            </div>
-
-            <div class="story-stat">
-                <strong>5</strong>
-                <span>BEAUTY CATEGORIES</span>
-            </div>
-
-            <div class="story-stat">
-                <strong>100%</strong>
-                <span>CUSTOMER CARE</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-
-<section class="about-team"> 
-    <div class="about-section-heading"> 
-        <span class="about-section-label"> MEET THE TEAM </span> 
-        <h2> The People Behind <span>The Brand.</span> </h2>
-        </div> 
-         <div class="team-grid"> <div class="team-card">
-             <div class="team-image"> 
-                <img src="images/account.png" alt="Linda Bytyqi - Founder">
-             </div> 
-        <div class="team-info">
-             <span>FOUNDER</span>
-              <h3>Lorem Ipsum</h3> 
-              <p> Creating a beauty experience built around confidence, care and individuality. </p>
-        </div> 
-    </div> 
-    <div class="team-card">
-        <div class="team-image">
-             <img src="images/account.png" alt="Emma Johnson - Beauty Specialist"> 
-        </div>
-             <div class="team-info"> 
-                <span>BEAUTY SPECIALIST</span> 
-                <h3>Lorem Ipsum</h3>
-                 <p> Passionate about discovering products that make everyday beauty routines feel effortless. </p>
-                 </div> 
-                </div> 
-                <div class="team-card">
-                     <div class="team-image"> 
-                        <img src="images/account.png" alt="Sophia Williams - Customer Experience">
-                     </div> 
-                <div class="team-info"> 
-                    <span>CUSTOMER EXPERIENCE</span> 
-                    <h3>Lorem Ipsum</h3>
-                     <p> Making sure every customer feels valued from their first visit to every order after. </p>
-                </div> 
-        </div>
-    </div> 
-</section>
-
-
-
-<section class="about-values">
-    <div class="about-section-heading">
-        <span class="about-section-label">
-            WHAT WE BELIEVE IN
-        </span>
-
-        <h2>
-            Beauty With
-            <span>Purpose.</span>
-        </h2>
-
-        <p>
-            Everything we do is centered around making beauty
-            feel simple, inspiring and personal.
-        </p>
-
-    </div>
-
-
-    <div class="values-grid">
-        <div class="value-card">
-            <div class="value-icon">
-                <i class="bi bi-gem"></i>
-            </div>
-            <h3>Quality First</h3>
-            <p>
-                Carefully selected products chosen with quality,
-                beauty and everyday use in mind.
-            </p>
-        </div>
-        <div class="value-card">
-            <div class="value-icon">
-                <i class="bi bi-stars"></i>
-            </div>
-            <h3>Beauty For Everyone</h3>
-            <p>
-                Beauty is personal. Your routine should reflect
-                what makes you feel confident and comfortable.
-            </p>
-        </div>
-        <div class="value-card">
-            <div class="value-icon">
-                <i class="bi bi-flower1"></i>
-            </div>
-            <h3>Everyday Self-Care</h3>
-            <p>
-                Taking care of yourself doesn't have to be
-                complicated. Small moments matter.
-            </p>
-        </div>
-        <div class="value-card">
-            <div class="value-icon">
-                <i class="bi bi-heart"></i>
-            </div>
-            <h3>Confidence Matters</h3>
-            <p>
-                We believe the best beauty look is the one
-                that makes you feel like yourself.
-            </p>
-        </div>
-    </div>
-</section>
-
-
-
-<section class="about-quote">
-    <div class="about-quote-image">
-        <img
-            src="images/fundd.png"
-            alt="Beauty skincare ritual">
-    </div>
-    <div class="about-quote-overlay"></div>
-    <div class="about-quote-content">
-        <div class="about-quote-wrapper">
-        <span>
-            YOUR BEAUTY. YOUR ROUTINE. YOUR WAY.
-        </span>
-        <h2>
-            Take Time
-            <br>
-            For Yourself.
-        </h2>
-        <p>
-            Discover products that make your everyday
-            beauty routine feel special.
-        </p>
-        <a href="product.php"
-           class="about-light-btn">
-            SHOP COLLECTION
-            <i class="bi bi-arrow-right"></i>
-        </a>
-        </div>
-    </div>
-</section>
-
-
-
-<section class="about-promise">
-    <span class="about-section-label">
-        OUR PROMISE
-    </span>
-    <h2>
-        Beauty Should Feel
-        <span>Good.</span>
-    </h2>
-    <p>
-        We're committed to creating a shopping experience
-        that feels simple, inspiring and trustworthy — from
-        discovering your next favorite product to receiving
-        it at your door.
-    </p>
-</section>
-
-</main>
-
-
- -->
-

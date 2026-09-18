@@ -59,6 +59,7 @@ if (!$current_user) {
 if (
     !in_array($current_user['role'], ['admin', 'superadmin'], true)
     || $current_user['status'] !== true
+    
 ) {
     header("Location: ../index.php");
     exit();

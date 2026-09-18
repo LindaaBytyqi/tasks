@@ -88,8 +88,11 @@ if(isset($_POST['update_product'])){
             "status" => $status
         ]);
 
-        header("Location: admindashboard.php?page=products");
-        exit();
+      echo  
+        '<script>
+            window.location.href = "admindashboard.php?page=products";
+        </script>';
+    exit;
     }
 }
 

@@ -1,7 +1,6 @@
 <?php
 session_start();
 include "includes/database.php";
-include "includes/header.php";
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
@@ -98,6 +97,8 @@ foreach ($_SESSION['cart'] as $item) {
 }
 $shipping = 2.5;
 $total = $subtotal + $shipping;
+
+include "includes/header.php";
 ?>
 <div class="container" style="margin-top: 140px; margin-bottom: 80px;">
     <h2 class="fw-bold mb-4">Shopping Cart</h2>

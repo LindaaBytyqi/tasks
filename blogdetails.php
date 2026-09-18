@@ -158,7 +158,7 @@ function formatListItem($text)
 
 .blog-page {
     max-width: 1400px !important;
-    margin: 80px auto;
+    margin: 160px auto;
     padding: 0 25px;
     font-family: Arial, sans-serif;
 }
@@ -170,7 +170,7 @@ function formatListItem($text)
     font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 .blog-title {
@@ -335,10 +335,10 @@ function formatListItem($text)
 </style>
 
 <section class="blog-page">
-
+<!-- 
     <div class="blog-category">
         SKINCARE
-    </div>
+    </div> -->
 
     <h1 class="blog-title">
 
@@ -351,22 +351,16 @@ function formatListItem($text)
     </h1>
 
     <div class="blog-meta">
-
         <?php if (!empty($blog['published_at'])): ?>
-
             <?= date(
                 'M d, Y',
                 strtotime($blog['published_at'])
             ); ?>
-
         <?php endif; ?>
-
     </div>
 
     <?php if (!empty($blog['main_image'])): ?>
-
         <div class="blog-image">
-
             <img
                 src="<?= htmlspecialchars(
                     getBlogImagePath($blog['main_image']),
@@ -379,29 +373,20 @@ function formatListItem($text)
                     'UTF-8'
                 ); ?>"
             >
-
         </div>
-
     <?php endif; ?>
 
     <div class="blog-content">
-
         <?php foreach ($content as $block): ?>
-
             <?php
-
             if (!is_array($block)) {
                 continue;
             }
-
             $type = $block['type'] ?? '';
 
             ?>
-
             <?php if ($type === 'paragraph'): ?>
-
     <?php
-
     $paragraphText = trim(
         (string)($block['text'] ?? '')
     );
@@ -410,21 +395,16 @@ function formatListItem($text)
         "/\r\n|\r|\n/",
         $paragraphText
     );
-
     ?>
 
     <?php foreach ($lines as $line): ?>
-
         <?php
-
         $line = trim($line);
 
         if ($line === '') {
             continue;
         }
-
         ?>
-
         <?php if (isParagraphHeading($line)): ?>
 
             <div class="blog-paragraph-heading">
@@ -449,15 +429,7 @@ function formatListItem($text)
 
     <?php endforeach; ?>
 
-
-
-
-
-
-
-
-
-            <?php elseif ($type === 'paragraph_list'): ?>
+    <?php elseif ($type === 'paragraph_list'): ?>
 
     <div class="paragraph-list">
 

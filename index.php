@@ -555,22 +555,18 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
         font-size: 14px;
         gap: 7px;
     }
-
     .hero-arrow {
         width: 34px;
         height: 34px;
         font-size: 12px;
         background: rgba(255, 255, 255, 0.12);
     }
-
     .hero-prev {
         left: 9px;
     }
-
     .hero-next {
         right: 9px;
     }
-
     .hero-dots {
         bottom: 18px;
     }
@@ -785,8 +781,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     font-size: 16px;
 }
 
-
-
 </style>
 
 
@@ -807,7 +801,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <h1>
                 <?= htmlspecialchars($slide['title_line1'], ENT_QUOTES, 'UTF-8'); ?>
-
                 <?php if (!empty($slide['title_line2'])): ?>
                     <br>
                     <span>
@@ -915,76 +908,163 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-<section class="products-section">
-    <div class="products-heading">
-        <h2>TOP NEWEST PRODUCTS</h2>
+
+
+<section class="newest-products-carousel">
+    <div class="newest-carousel-header">
+        <div class="newest-carousel-title-box">
+            <span class="newest-carousel-subtitle">
+                JUST ARRIVED
+            </span>
+
+            <h2 class="newest-carousel-title">
+                Newest Products
+            </h2>
+        </div>
+
+        <a href="product.php" class="newest-view-all">
+            VIEW ALL
+        </a>
+
+        
+         <div class="newest-carousel-controls">
+
+        <button
+            type="button"
+            class="newest-carousel-btn"
+            id="newestPrev"
+            aria-label="Previous products"
+        >
+            <i class="bi bi-arrow-left"></i>
+        </button>
+
+        <button
+            type="button"
+            class="newest-carousel-btn"
+            id="newestNext"
+            aria-label="Next products"
+        >
+            <i class="bi bi-arrow-right"></i>
+        </button>
     </div>
-    <div class="products-container">
-        <?php foreach($products as $product): ?>
-            <div class="product-card">
-                <div class="product-info">
-                    <img 
-                        src="images/<?= htmlspecialchars($product['image']); ?>" 
-                        alt="<?= htmlspecialchars($product['name']); ?>"
+    </div>
+
+    <div class="newest-carousel-track">
+        <?php foreach ($products as $product): ?>
+
+            <?php
+                $hasSale = !empty($product['sale_price']) &&
+                           $product['sale_price'] < $product['price'];
+
+                $currentPrice = $hasSale
+                    ? $product['sale_price']
+                    : $product['price'];
+            ?>
+
+            <article class="newest-carousel-item">
+                <span class="newest-product-badge">
+                    NEW
+                </span>
+
+                <a
+                    href="productdetails.php?id=<?= (int)$product['id']; ?>"
+                    class="newest-product-image-link"
+                >
+                    <div class="newest-carousel-image">
+
+                          <span class="newest-product-badge">
+                                NEW
+                          </span>
+                        <img
+                            src="images/<?= htmlspecialchars(
+                                $product['image'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>"
+                            alt="<?= htmlspecialchars(
+                                $product['name'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>"
+                        >
+
+                    </div>
+                </a>
+
+                <div class="newest-carousel-info">
+                    <a
+                        href="productdetails.php?id=<?= (int)$product['id']; ?>"
+                        class="newest-carousel-name-link"
                     >
+                        <h3 class="newest-carousel-name">
+                            <?= htmlspecialchars(
+                                $product['name'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>
+                        </h3>
+                    </a>
 
-                    <h3>
-                        <?= htmlspecialchars($product['name']); ?>
-                    </h3>
-                    <div class="price">
 
-                        <?php if(
-                            $product['sale_price'] !== null && 
-                            $product['sale_price'] < $product['price']
-                        ): ?>
+                    <!-- <div class="newest-carousel-price">
 
-                            <span class="sale-price">
-                                $<?= number_format($product['sale_price'], 2); ?>
-                            </span>
+                        <span class="newest-carousel-current-price">
+                            $<?= number_format(
+                                (float)$currentPrice,
+                                2
+                            ); ?>
+                        </span>
 
-                            <span class="old-price">
-                                $<?= number_format($product['price'], 2); ?>
-                            </span>
+                        <?php if ($hasSale): ?>
 
-                        <?php else: ?>
-
-                            <span class="regular-price">
-                                $<?= number_format($product['price'], 2); ?>
+                            <span class="newest-carousel-old-price">
+                                $<?= number_format(
+                                    (float)$product['price'],
+                                    2
+                                ); ?>
                             </span>
 
                         <?php endif; ?>
-                    </div>
+
+                    </div> -->
                 </div>
 
-                <div class="product-bottom">
-                    <?php if($product['stock'] > 0): ?>
+                <div class="newest-product-hover-footer">
+                    <form
+                        action="cart.php"
+                        method="GET"
+                        class="newest-add-cart-form"
+                    >
 
-                        <span class="stock">
-                            In Stock
-                        </span>
+                        <input
+                            type="hidden"
+                            name="action"
+                            value="add"
+                        >
 
-                    <?php else: ?>
+                        <input
+                            type="hidden"
+                            name="id"
+                            value="<?= (int)$product['id']; ?>"
+                        >
 
-                        <span class="stock">
-                            Out of Stock
-                        </span>
-
-                    <?php endif; ?>
-                    <div class="buttons">
-                        <a href="productdetails.php?id=<?= $product['id']; ?>">
-                            View Product
-                        </a>
-                        <a 
-                            href="cart.php?action=add&id=<?= $product['id']; ?>" 
-                            class="btn-add">
-                            Add to Cart
-                        </a>
-                    </div>
+                        <button
+                            type="submit"
+                            class="newest-add-cart-btn"
+                        >
+                            <i class="bi bi-bag-plus"></i>
+                            <span>ADD TO CART</span>
+                        </button>
+                    </form>
                 </div>
-            </div>
+            </article>
         <?php endforeach; ?>
     </div>
-</section> 
+</section>
+
+
+
+
 
 
 
@@ -1033,7 +1113,7 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
                 onclick="window.location.href='blogdetails.php?id=<?= (int)$blog['id']; ?>'"
             >
                 <div class="card-category">
-                    CARE
+                    <!-- CARE -->
                 </div>
 
                 <div class="card-image">
@@ -1128,47 +1208,28 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-
-
 <section class="brands-section">
+    <!-- <p class="brands-label">Brands We Carry</p> -->
     <div class="brands-track">
-        <div class="brand-item"><img src="images/147.png" alt="Brand 1"></div>
-        <div class="brand-item"><img src="images/345.png" alt="Brand 2"></div>
-        <div class="brand-item"><img src="images/anas.png" alt="Brand 3"></div>
-        <div class="brand-item"><img src="images/beautyj.png" alt="Brand 4"></div>
-        <div class="brand-item"><img src="images/dior.png" alt="Brand 5"></div>
-
-        <div class="brand-item"><img src="images/147.png" alt="Brand 1"></div>
-        <div class="brand-item"><img src="images/345.png" alt="Brand 2"></div>
-        <div class="brand-item"><img src="images/anas.png" alt="Brand 3"></div>
-        <div class="brand-item"><img src="images/beautyj.png" alt="Brand 4"></div>
-        <div class="brand-item"><img src="images/dior.png" alt="Brand 5"></div>
-
+        <div class="brand-item">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dior%20Logo%202022.svg" alt="Dior">
+        </div>
+        <div class="brand-item">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Chanel%20logo.svg" alt="Chanel">
+        </div>
+        <div class="brand-item">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/L'Or%C3%A9al%20logo.svg" alt="L'Oréal">
+        </div>
+        <div class="brand-item">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Logo%20Clinique.jpg" alt="Clinique">
+        </div>
+        <div class="brand-item">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Est%C3%A9e%20Lauder%20Companies%20Logo.svg" alt="Estée Lauder">
+        </div>
     </div>
 </section>
 
-<!-- <section class="about-promise">
-    <span class="about-section-label">
-        OUR PROMISE
-    </span>
-    <h2>
-        Beauty Should Feel
-        <span>Good.</span>
-    </h2>
-    <p>
-        We're committed to creating a shopping experience
-        that feels simple, inspiring and trustworthy — from
-        discovering your next favorite product to receiving
-        it at your door.
-    </p>
-</section> -->
 
-
-    <!-- <a href="categories.php"
-       class="about-primary-btn">
-        START SHOPPING
-        <i class="bi bi-arrow-right"></i>
-    </a> -->
 
 
 <section class="newsletter-section newsletter-popup-overlay" id="newsletter">
@@ -1460,4 +1521,128 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   const track = document.getElementById('carouselTrack');
+//   const prevBtn = document.getElementById('prevBtn');
+//   const nextBtn = document.getElementById('nextBtn');
+//   const cards = document.querySelectorAll('.product-card');
+
+//   let currentIndex = 0;
+
+//   function getCardsPerView() {
+//     if (window.innerWidth <= 600) return 1;
+//     if (window.innerWidth <= 900) return 2;
+//     return 3;
+//   }
+
+//   function updateCarousel() {
+//     const cardsPerView = getCardsPerView();
+//     const maxIndex = cards.length - cardsPerView;
+    
+//     if (currentIndex < 0) currentIndex = 0;
+//     if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+//     const cardWidth = cards[0].offsetWidth + 24; 
+//     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+//   }
+
+//   nextBtn.addEventListener('click', () => {
+//     const cardsPerView = getCardsPerView();
+//     if (currentIndex < cards.length - cardsPerView) {
+//       currentIndex++;
+//       updateCarousel();
+//     }
+//   });
+
+//   prevBtn.addEventListener('click', () => {
+//     if (currentIndex > 0) {
+//       currentIndex--;
+//       updateCarousel();
+//     }
+//   });
+
+//   window.addEventListener('resize', updateCarousel);
+// });
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const track = document.querySelector(".newest-carousel-track");
+    const prevBtn = document.getElementById("newestPrev");
+    const nextBtn = document.getElementById("newestNext");
+
+    if (!track || !prevBtn || !nextBtn) {
+        return;
+    }
+
+    let currentIndex = 0;
+
+    function getVisibleProducts() {
+        if (window.innerWidth <= 640) return 1;
+        if (window.innerWidth <= 900) return 2;
+        if (window.innerWidth <= 1200) return 3;
+        return 4;
+    }
+
+    function updateCarousel() {
+        const products = track.querySelectorAll(".newest-carousel-item");
+
+        if (products.length === 0) return;
+
+        const visibleProducts = getVisibleProducts();
+        const totalProducts = products.length;
+        const maxIndex = Math.max(0, totalProducts - visibleProducts);
+
+        if (currentIndex > maxIndex) {
+            currentIndex = maxIndex;
+        }
+
+        const productWidth = products[0].getBoundingClientRect().width;
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        const moveAmount = currentIndex * (productWidth + gap);
+
+        track.style.transform = `translateX(-${moveAmount}px)`;
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= maxIndex;
+
+        prevBtn.style.opacity = currentIndex === 0 ? "0.45" : "1";
+        nextBtn.style.opacity = currentIndex >= maxIndex ? "0.45" : "1";
+    }
+
+    nextBtn.addEventListener("click", function () {
+        const products = track.querySelectorAll(".newest-carousel-item");
+        const visibleProducts = getVisibleProducts();
+        const maxIndex = Math.max(0, products.length - visibleProducts);
+
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
+
+    prevBtn.addEventListener("click", function () {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+
+    window.addEventListener("resize", updateCarousel);
+    updateCarousel();
+});
 </script>
