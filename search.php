@@ -29,78 +29,79 @@ Search results for:
 </h2>
 
 
-<div class="products-container">
-<?php if(empty($products)): ?>
-    <h3>
-        No products found.
-    </h3>
-<?php else: ?>
+    <div class="products-container">
+                <?php if (!empty($products)): ?>
+                    <?php foreach ($products as $product): ?>
+                        <div class="product-card">
 
-<?php foreach($products as $product): ?>
-    <div class="product-card">
+                            <div class="product-image-wrap">
 
-        <img
-            src="images/<?= htmlspecialchars($product['image']); ?>"
-            alt="<?= htmlspecialchars($product['name']); ?>"
-        >
-        <h3>
-            <?= htmlspecialchars($product['name']); ?>
-        </h3>
+                                <div class="product-tags">
+                                    <?php if (!empty($product['is_new'])): ?>
+                                        <span class="tag tag-new">NEW</span>
+                                    <?php endif; ?>
 
-        <div class="price">
-            <?php if (
-                $product['sale_price'] !== null &&
-                $product['sale_price'] < $product['price']
-            ): ?>
-                <span class="sale-price">
-                    $<?= number_format($product['sale_price'], 2); ?>
-                </span>
+                                    <?php if (!empty($product['discount_percent'])): ?>
+                                        <span class="tag tag-sale">-<?= (int) $product['discount_percent']; ?>%</span>
+                                    <?php endif; ?>
+                                </div>
 
-                <span class="old-price">
-                    $<?= number_format($product['price'], 2); ?>
-                </span>
+                                <button type="button" class="wishlist-btn" aria-label="Shto te të preferuarat">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2.3 5 5.8 5c2 0 3.4 1 4.2 2.3C10.8 6 12.2 5 14.2 5c3.5 0 5.3 3.4 3.8 6.9-2.5 4.5-6 9.1-6 9.1z"/>
+                                    </svg>
+                                </button>
 
-            <?php else: ?>
-                <span class="regular-price">
-                    $<?= number_format($product['price'], 2); ?>
-                </span>
-            <?php endif; ?>
+                                <a href="productdetails.php?id=<?= $product['id']; ?>" class="product-image-link">
+                                    <img
+                                        src="images/<?= htmlspecialchars($product['image']); ?>"
+                                        alt="<?= htmlspecialchars($product['name']); ?>"
+                                        loading="lazy"
+                                    >
+                                </a>
 
-        </div>
-        <?php if ($product['stock'] > 0): ?>
+                                <div class="quick-add">
+                                    <?php if ($product['stock'] > 0): ?>
+                                        <a href="cart.php?action=add&id=<?= $product['id']; ?>" class="quick-add-btn">
+                                            Add Cart
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="quick-add-btn disabled">Out of Stock</span>
+                                    <?php endif; ?>
+                                </div>
 
-            <span class="stock">
-                In Stock
-            </span>
+                            </div>
 
-        <?php else: ?>
+                            <div class="product-info">
+                                <?php if (!empty($product['category_name'])): ?>
+                                    <span class="product-category"><?= htmlspecialchars($product['category_name']); ?></span>
+                                <?php endif; ?>
 
-            <span class="stock">
-                Out of Stock
-            </span>
+                                <a href="productdetails.php?id=<?= $product['id']; ?>" class="product-name-link">
+                                    <h3><?= htmlspecialchars($product['name']); ?></h3>
+                                </a>
 
-        <?php endif; ?>
-        <div class="buttons">
-            <a
-                href="productdetails.php?id=<?= $product['id']; ?>"
-            >
-                View Product
-            </a>
-            <?php if ($product['stock'] > 0): ?>
-                <a
-                    href="cart.php?action=add&id=<?= $product['id']; ?>"
-                    class="btn-add"
-                >
-                    Add to Cart
-                </a>
-            <?php endif; ?>
-        </div>
-    </div>
-<?php endforeach; ?>
+                                <div class="product-bottom-row">
+                                    <div class="price">
+                                        <?php if ($product['sale_price'] !== null && $product['sale_price'] < $product['price']): ?>
+                                            <span class="sale-price">$<?= number_format($product['sale_price'], 2); ?></span>
+                                            <span class="old-price">$<?= number_format($product['price'], 2); ?></span>
+                                        <?php else: ?>
+                                            <span class="regular-price">$<?= number_format($product['price'], 2); ?></span>
+                                        <?php endif; ?>
+                                    </div>
 
+                                    <!-- <span class="stock-dot <?= $product['stock'] > 0 ? 'in-stock' : 'out-stock'; ?>"
+                                          title="<?= $product['stock'] > 0 ? 'In Stock' : 'Out of Stock'; ?>"></span> -->
+                                </div>
+                            </div>
 
-<?php endif; ?>
-</div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="no-products">No products found.</p>
+                <?php endif; ?>
+            </div>
 </section>
 
 

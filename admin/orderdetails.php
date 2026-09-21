@@ -111,8 +111,8 @@ $payment_method = $order['payment_method'] == '0'
                 <div class="d-flex align-items-center">
                     <?php if (!empty($item['image'])): ?>
                         <img
-                            src="../images/<?= htmlspecialchars($item['image']); ?>
-                            alt="<?= htmlspecialchars($item['name']); ?>
+                            src="../images/<?= htmlspecialchars($item['image']); ?>"
+                            alt="<?= htmlspecialchars($item['name']); ?>"
                             style="
                                 width:70px;
                                 height:70px;

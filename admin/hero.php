@@ -35,168 +35,158 @@ $slides = $stmt-> fetchAll(PDO::FETCH_ASSOC);
 
                 <table class="table table-hover align-middle mb-0">
 
-                    <thead class="table-dark">
+                <thead class="table-dark">
 
-                        <tr>
+        <tr>
+            <th width="50"></th>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Tag</th>
+            <th>Title</th>
+            <th>Order</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
 
-                            <th>ID</th>
+    </thead>
 
-                            <th>Image</th>
+    <tbody id="sortable-body">
 
-                            <th>Tag</th>
+        <?php if (empty($slides)): ?>
 
-                            <th>Title</th>
+            <tr>
+                <td colspan="8" class="text-center text-muted py-4">
+                    No hero slides found.
+                </td>
+            </tr>
 
-                            <th>Order</th>
+        <?php else: ?>
 
-                            <th>Status</th>
+            <?php foreach ($slides as $slide): ?>
 
-                            <th>Actions</th>
+                <tr data-id="<?= (int)$slide['id']; ?>">
 
-                        </tr>
+                    <td
+                        class="drag-handle text-center"
+                        style="cursor: grab;"
+                        title="Drag to reorder"
+                    >
+                        <i class="bi bi-grip-vertical fs-5"></i>
+                    </td>
 
-                    </thead>
+                    <td>
+                        <?= (int)$slide['id']; ?>
+                    </td>
 
+                    <td>
 
-                    <tbody>
+                        <img
+                            src="../images/<?= htmlspecialchars(
+                                $slide['image'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>"
+                            alt="Hero Slide"
+                            style="
+                                width:120px;
+                                height:70px;
+                                object-fit:cover;
+                                border-radius:8px;
+                            "
+                        >
 
-                    <?php if (empty($slides)): ?>
+                    </td>
 
-                        <tr>
+                    <td>
 
-                            <td
-                                colspan="7"
-                                class="text-center text-muted py-4"
-                            >
-                                No hero slides found.
-                            </td>
+                        <?= htmlspecialchars(
+                            $slide['tag'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
 
-                        </tr>
+                    </td>
 
-                    <?php else: ?>
+                    <td>
 
+                        <?= htmlspecialchars(
+                            $slide['title_line1'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ); ?>
 
-                        <?php foreach ($slides as $slide): ?>
+                        <br>
 
-                            <tr>
+                        <strong>
 
-                                <td>
-                                    <?= (int)$slide['id']; ?>
-                                </td>
+                            <?= htmlspecialchars(
+                                $slide['title_line2'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?>
 
+                        </strong>
 
-                                <td>
+                    </td>
 
-                                    <img
-                                        src="../images/<?= htmlspecialchars(
-                                            $slide['image'],
-                                            ENT_QUOTES,
-                                            'UTF-8'
-                                        ); ?>"
-                                        alt="Hero Slide"
-                                        style="
-                                            width:120px;
-                                            height:70px;
-                                            object-fit:cover;
-                                            border-radius:8px;
-                                        "
-                                    >
+                    <td class="order-number">
 
-                                </td>
+                        <?= (int)$slide['sort_order']; ?>
 
+                    </td>
 
-                                <td>
+                    <td>
 
-                                    <?= htmlspecialchars(
-                                        $slide['tag'],
-                                        ENT_QUOTES,
-                                        'UTF-8'
-                                    ); ?>
+                        <?php if ($slide['status']): ?>
 
-                                </td>
+                            <span class="badge bg-success">
+                                Active
+                            </span>
 
+                        <?php else: ?>
 
-                                <td>
+                            <span class="badge bg-secondary">
+                                Inactive
+                            </span>
 
-                                    <?= htmlspecialchars(
-                                        $slide['title_line1'],
-                                        ENT_QUOTES,
-                                        'UTF-8'
-                                    ); ?>
+                        <?php endif; ?>
 
-                                    <br>
+                    </td>
 
-                                    <strong>
+                    <td>
 
-                                        <?= htmlspecialchars(
-                                            $slide['title_line2'],
-                                            ENT_QUOTES,
-                                            'UTF-8'
-                                        ); ?>
+                        <a
+                            href="admindashboard.php?page=editslides&id=<?= (int)$slide['id']; ?>"
+                            class="btn btn-warning btn-sm"
+                        >
+                            <i class="bi bi-pencil"></i>
+                            Edit
+                        </a>
 
-                                    </strong>
+                        <a
+                            href="deleteslides.php?id=<?= (int)$slide['id']; ?>"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('Are you sure you want to delete this hero slide?');"
+                        >
+                            <i class="bi bi-trash"></i>
+                            Delete
+                        </a>
 
-                                </td>
+                    </td>
 
+                </tr>
 
-                                <td>
+            <?php endforeach; ?>
 
-                                    <?= (int)$slide['sort_order']; ?>
+        <?php endif; ?>
 
-                                </td>
+    </tbody>
 
-
-                                <td>
-
-                                    <?php if ($slide['status']): ?>
-
-                                        <span class="badge bg-success">
-                                            Active
-                                        </span>
-
-                                    <?php else: ?>
-
-                                        <span class="badge bg-secondary">
-                                            Inactive
-                                        </span>
-
-                                    <?php endif; ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <a
-                                        href="admindashboard.php?page=editslides&id=<?= (int)$slide['id']; ?>"
-                                        class="btn btn-warning btn-sm"
-                                    >
-                                        <i class="bi bi-pencil"></i>
-                                        Edit
-                                    </a>
-
-
-                                    <a
-                                        href="deleteslides.php?id=<?= (int)$slide['id']; ?>"
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure you want to delete this hero slide?');"
-                                    >
-                                        <i class="bi bi-trash"></i>
-                                        Delete
-                                    </a>
-
-                                </td>
-
-                            </tr>
-
-                        <?php endforeach; ?>
+</table>
 
 
-                    <?php endif; ?>
 
-                    </tbody>
 
-                </table>
 
             </div>
 
@@ -205,3 +195,119 @@ $slides = $stmt-> fetchAll(PDO::FETCH_ASSOC);
     </div>
 
 </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const sortableBody = document.getElementById("sortable-body");
+
+    if (!sortableBody) {
+        return;
+    }
+
+    new Sortable(sortableBody, {
+        handle: ".drag-handle",
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        chosenClass: "sortable-chosen",
+        dragClass: "sortable-drag",
+        onEnd: function () {
+
+            const rows = sortableBody.querySelectorAll("tr[data-id]");
+
+            const order = [];
+
+            rows.forEach(function (row, index) {
+
+                const id = row.getAttribute("data-id");
+
+                const sortOrder = index + 1;
+
+                order.push({
+                    id: id,
+                    sort_order: sortOrder
+                });
+
+                const orderCell =
+                    row.querySelector(".order-number");
+
+                if (orderCell) {
+                    orderCell.textContent = sortOrder;
+                }
+
+            });
+
+
+            fetch("update_hero.php", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    order: order
+                })
+
+            })
+
+            .then(function (response) {
+                return response.json();
+            })
+
+            .then(function (data) {
+
+                if (!data.success) {
+
+                    alert(
+                        "Gabim gjatë ruajtjes së renditjes."
+                    );
+
+                }
+
+            })
+
+            .catch(function (error) {
+
+                console.error(error);
+
+                alert(
+                    "Ndodhi një gabim gjatë ruajtjes së renditjes."
+                );
+
+            });
+
+        }
+
+    });
+
+});
+</script>
+<style>
+
+.drag-handle {
+    cursor: grab !important;
+    user-select: none;
+}
+
+.drag-handle:active {
+    cursor: grabbing !important;
+}
+
+.sortable-ghost {
+    opacity: 0.4;
+}
+
+.sortable-chosen {
+    background-color: #f8f9fa;
+}
+
+.sortable-drag {
+    opacity: 0.9;
+}
+
+</style>
+

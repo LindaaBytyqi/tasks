@@ -127,7 +127,8 @@ if (!isset($_GET['page'])) {
             </a>
 
              <a href="admindashboard.php?page=blog" class="nav-link">
-                <i class="bi bi-info-circle"></i>
+                <!-- <i class="bi bi-info-circle"></i> -->
+                <i class="bi bi-journal-text"></i>
                 <span>Blog</span>
             </a>
 

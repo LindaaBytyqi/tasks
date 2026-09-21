@@ -1,5 +1,4 @@
 <?php
-
 include "includes/header.php";
 include "includes/database.php";
 
@@ -29,18 +28,12 @@ if (!$category) {
     exit;
 }
 
-
-
-
 $sort = $_GET['sort'] ?? "newest";
 $min_price = $_GET['min_price'] ?? "";
 $max_price = $_GET['max_price'] ?? "";
 $stock_status = $_GET['stock'] ?? "";
 
 
-/* =========================================================
-   MAX PRICE FOR THIS CATEGORY
-========================================================= */
 
 $max_price_sql = "
     SELECT MAX(COALESCE(sale_price, price)) AS highest_price
@@ -62,15 +55,8 @@ $db_max_price = !empty($max_price_row['highest_price'])
     ? ceil($max_price_row['highest_price'])
     : 500;
 
-
-/* =========================================================
-   GET ALL CATEGORIES + PRODUCT COUNTS
-========================================================= */
-
 $cat_sql = "
-    SELECT
-        c.*,
-        COUNT(
+    SELECT c.*, COUNT(
             CASE
                 WHEN p.status IN ('1', 'active')
                 THEN p.id
@@ -78,24 +64,16 @@ $cat_sql = "
         ) AS total_products
 
     FROM categories c
-
     LEFT JOIN products p
         ON c.id = p.category_id
-
     GROUP BY c.id
-
     ORDER BY c.id ASC
 ";
 
 $cat_stmt = $conn->prepare($cat_sql);
 $cat_stmt->execute();
-
 $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-/* =========================================================
-   PAGINATION
-========================================================= */
 
 $products_per_page = 9;
 
@@ -104,14 +82,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page'])
     : 1;
 
 $page = max($page, 1);
-
 $offset = ($page - 1) * $products_per_page;
-
-
-/* =========================================================
-   COUNT PRODUCTS
-========================================================= */
-
 $count_sql = "
     SELECT COUNT(*)
     FROM products p
@@ -124,22 +95,14 @@ $count_params = [
 ];
 
 
-/* STOCK FILTER */
-
 if ($stock_status === "instock") {
-
     $count_sql .= " AND p.stock > 0";
-
 } elseif ($stock_status === "outofstock") {
-
     $count_sql .= " AND p.stock <= 0";
 }
 
 
-/* MIN PRICE */
-
 if ($min_price !== "") {
-
     $count_sql .= "
         AND COALESCE(p.sale_price, p.price) >= :min_price
     ";
@@ -148,54 +111,35 @@ if ($min_price !== "") {
 }
 
 
-/* MAX PRICE */
-
 if ($max_price !== "") {
-
     $count_sql .= "
         AND COALESCE(p.sale_price, p.price) <= :max_price
     ";
-
     $count_params["max_price"] = $max_price;
 }
 
 
 $count_stmt = $conn->prepare($count_sql);
-
 $count_stmt->execute($count_params);
-
 $total_products = (int) $count_stmt->fetchColumn();
-
 $total_pages = (int) ceil(
     $total_products / $products_per_page
 );
 
 
-/* =========================================================
-   GET PRODUCTS
-========================================================= */
-
 $sql = "
-    SELECT
-
-        p.*,
-
-        c.name AS category_name,
-
+    SELECT p.*, c.name AS category_name,
         CASE
             WHEN p.sale_price IS NOT NULL
                  AND p.sale_price < p.price
-
             THEN ROUND(
                 (
                     100 -
                     (p.sale_price / p.price * 100)
                 )::numeric
             )
-
             ELSE NULL
         END AS discount_percent,
-
         (
             p.created_at >= NOW() - INTERVAL '14 days'
         ) AS is_new
@@ -214,11 +158,6 @@ $params = [
     "category_id" => $category_id
 ];
 
-
-/* =========================================================
-   STOCK FILTER
-========================================================= */
-
 if ($stock_status === "instock") {
 
     $sql .= " AND p.stock > 0";
@@ -227,11 +166,6 @@ if ($stock_status === "instock") {
 
     $sql .= " AND p.stock <= 0";
 }
-
-
-/* =========================================================
-   MIN PRICE
-========================================================= */
 
 if ($min_price !== "") {
 
@@ -242,11 +176,6 @@ if ($min_price !== "") {
     $params["min_price"] = $min_price;
 }
 
-
-/* =========================================================
-   MAX PRICE
-========================================================= */
-
 if ($max_price !== "") {
 
     $sql .= "
@@ -256,84 +185,45 @@ if ($max_price !== "") {
     $params["max_price"] = $max_price;
 }
 
-
-/* =========================================================
-   SORT
-========================================================= */
-
 switch ($sort) {
-
     case "low":
-
         $sql .= "
             ORDER BY COALESCE(p.sale_price, p.price) ASC
         ";
-
         break;
-
-
     case "high":
-
         $sql .= "
             ORDER BY COALESCE(p.sale_price, p.price) DESC
         ";
-
         break;
-
-
     case "az":
-
         $sql .= "
             ORDER BY p.name ASC
         ";
-
         break;
-
-
     case "za":
-
         $sql .= "
             ORDER BY p.name DESC
         ";
-
         break;
-
-
     default:
-
         $sql .= "
             ORDER BY p.created_at DESC
         ";
-
         break;
 }
-
-
-/* =========================================================
-   PAGINATION LIMIT
-========================================================= */
-
 $sql .= "
     LIMIT :limit
     OFFSET :offset
 ";
 
-
 $stmt = $conn->prepare($sql);
-
-
-/* Bind normal parameters */
-
 foreach ($params as $key => $value) {
-
     $stmt->bindValue(
         ":$key",
         $value
     );
 }
-
-
-/* Bind pagination */
 
 $stmt->bindValue(
     ":limit",
@@ -347,11 +237,8 @@ $stmt->bindValue(
     PDO::PARAM_INT
 );
 
-
 $stmt->execute();
-
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <style>
@@ -376,12 +263,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <section class="products-section">
-
-
-    <!-- =====================================================
-         CATEGORY TITLE
-    ====================================================== -->
-
     <div class="category-page-title">
 
         <h1>
@@ -391,25 +272,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 'UTF-8'
             ); ?>
         </h1>
-
     </div>
-
-
-    <!-- =====================================================
-         SHOP LAYOUT
-    ====================================================== -->
 
     <div class="shop-layout">
 
-
-        <!-- =================================================
-             SIDEBAR
-        ================================================== -->
-
         <div class="filter-sidebar">
-
-
-            <!-- ================= CATEGORIES ================= -->
 
             <div class="sidebar-widget">
 
@@ -417,11 +284,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     Categories
                 </h2>
 
-
                 <ul class="sidebar-categories-list">
-
-
-                    <!-- ALL CATEGORIES -->
 
                     <li>
 
@@ -429,15 +292,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             href="product.php"
                             class="<?= empty($category_id) ? 'active' : ''; ?>"
                         >
-
                             All Categories
-
                         </a>
-
                     </li>
-
-
-                    <!-- CATEGORY LIST -->
 
                     <?php foreach ($categories as $cat): ?>
 
@@ -469,19 +326,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             </div>
 
-
-            <!-- =================================================
-                 FILTER FORM
-            ================================================== -->
-
             <form
                 method="GET"
                 action="category.php"
                 class="filter-form"
             >
-
-
-                <!-- CATEGORY ID -->
 
                 <input
                     type="hidden"
@@ -492,9 +341,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         'UTF-8'
                     ); ?>"
                 >
-
-
-                <!-- ================= SORT ================= -->
 
                 <div class="sidebar-widget">
 
@@ -566,11 +412,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 </div>
 
-
-                <!-- ================= AVAILABILITY ================= -->
-
                 <div class="sidebar-widget">
-
                     <label
                         class="widget-title"
                         for="stock-select"
@@ -578,18 +420,15 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         Availability
                     </label>
 
-
                     <select
                         name="stock"
                         id="stock-select"
                         class="styled-select"
                         onchange="this.form.submit()"
                     >
-
                         <option value="">
                             All Products
                         </option>
-
 
                         <option
                             value="instock"
@@ -599,7 +438,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         >
                             In Stock
                         </option>
-
 
                         <option
                             value="outofstock"
@@ -611,23 +449,16 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </option>
 
                     </select>
-
                 </div>
 
-
-                <!-- ================= PRICE ================= -->
-
                 <div class="sidebar-widget">
-
                     <h3 class="widget-title">
                         Filter
                     </h3>
 
 
                     <div class="range-slider-wrapper">
-
                         <div class="slider-track"></div>
-
 
                         <input
                             type="range"
@@ -640,7 +471,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             step="1"
                         >
 
-
                         <input
                             type="range"
                             id="range-max"
@@ -651,11 +481,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 : $db_max_price; ?>"
                             step="1"
                         >
-
                     </div>
-
-
-                    <!-- HIDDEN VALUES -->
 
                     <input
                         type="hidden"
@@ -664,7 +490,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         value="<?= htmlspecialchars($min_price); ?>"
                     >
 
-
                     <input
                         type="hidden"
                         name="max_price"
@@ -672,13 +497,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         value="<?= htmlspecialchars($max_price); ?>"
                     >
 
-
-                    <!-- PRICE TEXT -->
-
                     <div class="price-range-text">
-
                         Price:
-
                         $
                         <span id="min-price-display">
                             0
@@ -693,9 +513,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     </div>
 
-
-                    <!-- FILTER BUTTON -->
-
                     <button
                         type="submit"
                         class="btn-filter-blue"
@@ -709,41 +526,23 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     </button>
 
-
                 </div>
 
-
             </form>
-
 
         </div>
 
 
-        <!-- =================================================
-             PRODUCTS AREA
-        ================================================== -->
-
         <div class="products-area">
-
 
             <div class="products-container">
 
-
                 <?php if (!empty($products)): ?>
-
 
                     <?php foreach ($products as $product): ?>
 
-
                         <div class="product-card">
-
-
-                            <!-- ================= IMAGE ================= -->
-
                             <div class="product-image-wrap">
-
-
-                                <!-- PRODUCT TAGS -->
 
                                 <div class="product-tags">
 
@@ -756,7 +555,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                     <?php endif; ?>
 
-
                                     <?php if (!empty($product['discount_percent'])): ?>
 
                                         <span class="tag tag-sale">
@@ -764,21 +562,15 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             -<?= (int) $product['discount_percent']; ?>%
 
                                         </span>
-
                                     <?php endif; ?>
 
-
                                 </div>
-
-
-                                <!-- WISHLIST -->
 
                                 <button
                                     type="button"
                                     class="wishlist-btn"
                                     aria-label="Shto te të preferuarat"
                                 >
-
                                     <svg
                                         width="16"
                                         height="16"
@@ -793,9 +585,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </svg>
 
                                 </button>
-
-
-                                <!-- PRODUCT IMAGE -->
 
                                 <a
                                     href="productdetails.php?id=<?= (int) $product['id']; ?>"
@@ -818,11 +607,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                 </a>
 
-
-                                <!-- QUICK ADD -->
-
                                 <div class="quick-add">
-
 
                                     <?php if ((int) $product['stock'] > 0): ?>
 
@@ -847,13 +632,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             </div>
 
-
-                            <!-- ================= PRODUCT INFO ================= -->
-
                             <div class="product-info">
-
-
-                                <!-- CATEGORY -->
 
                                 <?php if (!empty($product['category_name'])): ?>
 
@@ -868,10 +647,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </span>
 
                                 <?php endif; ?>
-
-
-                                <!-- PRODUCT NAME -->
-
                                 <a
                                     href="productdetails.php?id=<?= (int) $product['id']; ?>"
                                     class="product-name-link"
@@ -888,9 +663,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </h3>
 
                                 </a>
-
-
-                                <!-- ================= PRICE ================= -->
 
                                 <div class="product-bottom-row">
 
@@ -957,18 +729,13 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                 </div>
 
-
                             </div>
-
 
                         </div>
 
-
                     <?php endforeach; ?>
 
-
                 <?php else: ?>
-
 
                     <p class="no-products">
                         No products found in this category.
@@ -980,20 +747,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             </div>
 
-
-            <!-- =================================================
-                 PAGINATION
-            ================================================== -->
-
             <?php if ($total_pages > 1): ?>
 
                 <div class="pagination">
 
-
-                    <!-- PREVIOUS -->
-
                     <?php if ($page > 1): ?>
-
                         <a
                             class="pagination-arrow"
                             href="?<?= http_build_query(
@@ -1007,13 +765,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         >
 
                             <i class="bi bi-arrow-left"></i>
-
                         </a>
-
                     <?php endif; ?>
-
-
-                    <!-- PAGE NUMBERS -->
 
                     <?php for (
                         $i = 1;
@@ -1041,11 +794,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <?php endfor; ?>
 
-
-                    <!-- NEXT -->
-
                     <?php if ($page < $total_pages): ?>
-
                         <a
                             class="pagination-arrow"
                             href="?<?= http_build_query(
@@ -1057,93 +806,59 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 )
                             ); ?>"
                         >
-
                             <i class="bi bi-arrow-right"></i>
-
                         </a>
-
                     <?php endif; ?>
-
 
                 </div>
 
             <?php endif; ?>
 
-
         </div>
-
 
     </div>
 
 </section>
 
-
-<!-- =========================================================
-     PRICE SLIDER
-========================================================= -->
-
 <script>
 
-const minRange =
-    document.getElementById('range-min');
+const minRange = document.getElementById('range-min');
 
-const maxRange =
-    document.getElementById('range-max');
+const maxRange = document.getElementById('range-max');
 
-const minDisplay =
-    document.getElementById('min-price-display');
+const minDisplay = document.getElementById('min-price-display');
 
-const maxDisplay =
-    document.getElementById('max-price-display');
+const maxDisplay = document.getElementById('max-price-display');
 
-const minInput =
-    document.getElementById('min_price_input');
+const minInput = document.getElementById('min_price_input');
 
-const maxInput =
-    document.getElementById('max_price_input');
+const maxInput = document.getElementById('max_price_input');
 
-const track =
-    document.querySelector('.slider-track');
-
+const track = document.querySelector('.slider-track');
 
 function updateSlider() {
-
     let minVal =
         parseInt(minRange.value);
-
     let maxVal =
         parseInt(maxRange.value);
-
 
     const maxLimit =
         parseInt(minRange.max) || 1;
 
-
     if (minVal >= maxVal) {
-
         minVal = maxVal - 1;
-
         if (minVal < 0) {
             minVal = 0;
         }
-
         minRange.value = minVal;
 
     }
 
+    minDisplay.textContent = minVal;
+    maxDisplay.textContent = maxVal;
 
-    minDisplay.textContent =
-        minVal;
-
-    maxDisplay.textContent =
-        maxVal;
-
-
-    minInput.value =
-        minVal;
-
-    maxInput.value =
-        maxVal;
+    minInput.value = minVal;
+    maxInput.value = maxVal;
 
 
     const percentMin =
@@ -1161,7 +876,6 @@ function updateSlider() {
 
 }
 
-
 minRange.addEventListener(
     'input',
     updateSlider
@@ -1172,15 +886,10 @@ maxRange.addEventListener(
     updateSlider
 );
 
-
 updateSlider();
 
 </script>
-
-
 <?php
-
 include "includes/footer.php";
-
 ?>
 

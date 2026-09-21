@@ -452,7 +452,7 @@
                     </button>
 
                     <div class="accordion-content">
-                        <h3>Quick Links</h3>
+                        <!-- <h3>Quick Links</h3> -->
 
                         <a href="index.php">
                             Home
@@ -484,7 +484,7 @@
 
                     <div class="accordion-content">
 
-                        <h3>Contact Info</h3>
+                        <!-- <h3>Contact Info</h3> -->
 
                         <span>
                             <i class="bi bi-envelope-fill"></i>

@@ -1,8 +1,6 @@
 <?php
-
 include "admin_auth.php";
 include "../includes/database.php";
-
 
 $sql = "
     SELECT *
@@ -14,7 +12,6 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 
 $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <div class="container mt-4">
@@ -47,6 +44,7 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <thead class="table-light">
 
                         <tr>
+                            <th width="50"></th>
 
                             <th>ID</th>
 
@@ -67,7 +65,7 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </thead>
 
 
-                    <tbody>
+                    <tbody id="sortable-body">
 
                     <?php if (!empty($sections)): ?>
 
@@ -84,20 +82,25 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             if (is_array($data)) {
 
-                                $title =
-                                    $data['title']
-                                    ?? '';
+                                $title = $data['title'] ?? '';
 
                             }
 
                             ?>
 
-                            <tr>
+                            <tr data-id="<?= (int)$section['id']; ?>">
+
+                                <td
+                                    class="drag-handle text-center"
+                                    style="cursor: grab;"
+                                    title="Drag to reorder"
+                                >
+                                    <i class="bi bi-grip-vertical fs-5"></i>
+                                </td>
 
                                 <td>
                                     <?= (int)$section['id']; ?>
                                 </td>
-
 
                                 <td>
 
@@ -119,7 +122,6 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                 </td>
 
-
                                 <td>
 
                                     <?= htmlspecialchars(
@@ -130,11 +132,11 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                 </td>
 
+                                <td class="order-number">
 
-                                <td>
                                     <?= (int)$section['sort_order']; ?>
-                                </td>
 
+                                </td>
 
                                 <td>
 
@@ -153,7 +155,6 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php endif; ?>
 
                                 </td>
-
 
                                 <td>
 
@@ -186,7 +187,7 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
 
                             <td
-                                colspan="6"
+                                colspan="7"
                                 class="text-center text-muted py-4"
                             >
                                 No sections found.
@@ -195,15 +196,125 @@ $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </tr>
 
                     <?php endif; ?>
-
                     </tbody>
-
                 </table>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const sortableBody = document.getElementById("sortable-body");
+
+    if (!sortableBody) {
+        return;
+    }
+
+
+    new Sortable(sortableBody, {
+        handle: ".drag-handle",
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        chosenClass: "sortable-chosen",
+        dragClass: "sortable-drag",
+
+        onEnd: function () {
+
+            const rows = sortableBody.querySelectorAll("tr[data-id]");
+
+            const order = [];
+
+
+            rows.forEach(function (row, index) {
+
+                const id = row.getAttribute("data-id");
+
+                const sortOrder = index + 1;
+
+
+                order.push({
+
+                    id: id,
+
+                    sort_order: sortOrder
+
+                });
+
+                const orderCell =
+                    row.querySelector(".order-number");
+
+                if (orderCell) {
+
+                    orderCell.textContent = sortOrder;
+
+                }
+            });
+
+            fetch("update_about_order.php", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    order: order
+                })
+
+            })
+
+            .then(function (response) {
+                return response.json();
+            })
+
+            .then(function (data) {
+                if (!data.success) {
+                    alert(
+                        "Gabim gjatë ruajtjes së renditjes."
+                    );
+                }
+            })
+
+            .catch(function (error) {
+                console.error(error);
+                alert(
+                    "Ndodhi një gabim gjatë ruajtjes së renditjes."
+                );
+            });
+        }
+    });
+
+});
+</script>
+
+<style>
+
+.drag-handle {
+    cursor: grab !important;
+    user-select: none;
+}
+
+.drag-handle:active {
+    cursor: grabbing !important;
+}
+
+.sortable-ghost {
+    opacity: 0.4;
+}
+
+.sortable-chosen {
+    background-color: #f8f9fa;
+}
+
+.sortable-drag {
+    opacity: 0.9;
+}
+
+</style>
+

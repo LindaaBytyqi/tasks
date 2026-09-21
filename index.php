@@ -626,6 +626,82 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 
+@media (min-width: 1024px) and (max-width: 1440px) {
+
+    .skincare-hero {
+        height: 82vh;
+        min-height: 650px;
+        max-height: 850px;
+    }
+
+    .hero-slide {
+        background-size: cover;
+        background-position: center center;
+    }
+    .hero-content {
+        max-width: 1200px;
+        width: 100%;
+        padding: 0 70px;
+        transform: translateX(-70px);
+    }
+    .hero-content-right {
+        margin-left: auto;
+        margin-right: 0;
+        transform: translateX(70px);
+    }
+
+    .hero-tag {
+        font-size: 12px;
+        letter-spacing: 2.5px;
+        margin-bottom: 17px;
+        padding-left: 34px;
+    }
+
+    .hero-tag::before {
+        width: 23px;
+    }
+    .hero-content h1 {
+        font-size: clamp(48px, 4.5vw, 62px);
+        line-height: 1.06;
+        letter-spacing: -1.5px;
+    }
+    .hero-content p {
+        max-width: 470px;
+        margin: 22px 0 29px;
+        font-size: 18px !important;
+        line-height: 1.65;
+    }
+    .hero-buttons {
+        gap: 13px;
+    }
+
+    .hero-btn {
+        min-width: 135px;
+        height: 48px;
+        padding: 0 20px;
+        font-size: 16px;
+        gap: 8px;
+    }
+
+    .hero-arrow {
+        width: 43px;
+        height: 43px;
+        font-size: 15px;
+    }
+
+    .hero-prev {
+        left: 18px;
+    }
+
+    .hero-next {
+        right: 18px;
+    }
+    .hero-dots {
+        bottom: 25px;
+    }
+}
+
+
 
 
 .why-shop-section {
@@ -814,7 +890,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
             </p>
 
             <div class="hero-buttons">
-
                 <a
                     href="<?= htmlspecialchars($slide['primary_button_link'], ENT_QUOTES, 'UTF-8'); ?>"
                     class="hero-btn hero-btn-primary"
@@ -829,7 +904,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
                 >
                     <?= htmlspecialchars($slide['secondary_button_text'], ENT_QUOTES, 'UTF-8'); ?>
                 </a>
-
             </div>
 
         </div>
@@ -887,7 +961,7 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
     
    <div class="categories-grid">
         <?php foreach($categories as $category): ?>
-            <a href="categories.php?id=<?= $category['id']; ?>" class="category-card">
+             <a href="/tasks/product.php?category=<?= (int)$category['id']; ?>" class="category-card">
                 <div class="category-image-wrapper">
                     <img src="images/categories/category-<?= $category['id']; ?>.png" alt="<?= htmlspecialchars($category['name']); ?>">
                 </div>
@@ -896,7 +970,7 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
             </a>
         <?php endforeach; ?>
 
-        <a href="saleproducts.php" class="category-card sale-card">
+        <a href="/tasks/saleproducts.php" class="category-card sale-card">
             <div class="category-image-wrapper">
                 <img src="images/sale1.png" alt="Sale Products">
             </div>
@@ -1101,62 +1175,7 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-<section class="tips-section">
-    <h2 class="section-title">
-        EXPERT TIPS AND INSPIRATION
-    </h2>
 
-    <div class="cards-container">
-        <?php foreach ($blogs as $blog): ?>
-            <div
-                class="tip-card"
-                onclick="window.location.href='blogdetails.php?id=<?= (int)$blog['id']; ?>'"
-            >
-                <div class="card-category">
-                    <!-- CARE -->
-                </div>
-
-                <div class="card-image">
-                    <?php if (!empty($blog['main_image'])): ?>
-                        <img
-                            src="images/<?= htmlspecialchars(
-                                $blog['main_image'],
-                                ENT_QUOTES,
-                                'UTF-8'
-                            ); ?>"
-                            alt="<?= htmlspecialchars(
-                                $blog['title'],
-                                ENT_QUOTES,
-                                'UTF-8'
-                            ); ?>"
-                        >
-                    <?php endif; ?>
-                </div>
-
-
-                <div class="card-body">
-                    <h3 class="card-title">
-                        <?= htmlspecialchars(
-                            $blog['title'],
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ); ?>
-                    </h3>
-
-                    <div class="card-footer">
-                        <span class="meta-item">
-                            <i class="far fa-clock"></i>
-                            <?= date(
-                                'M d, Y',
-                                strtotime($blog['published_at'])
-                            ); ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</section>
 
 
 
@@ -1209,7 +1228,6 @@ $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <section class="brands-section">
-    <!-- <p class="brands-label">Brands We Carry</p> -->
     <div class="brands-track">
         <div class="brand-item">
             <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dior%20Logo%202022.svg" alt="Dior">
@@ -1523,59 +1541,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   const track = document.getElementById('carouselTrack');
-//   const prevBtn = document.getElementById('prevBtn');
-//   const nextBtn = document.getElementById('nextBtn');
-//   const cards = document.querySelectorAll('.product-card');
-
-//   let currentIndex = 0;
-
-//   function getCardsPerView() {
-//     if (window.innerWidth <= 600) return 1;
-//     if (window.innerWidth <= 900) return 2;
-//     return 3;
-//   }
-
-//   function updateCarousel() {
-//     const cardsPerView = getCardsPerView();
-//     const maxIndex = cards.length - cardsPerView;
-    
-//     if (currentIndex < 0) currentIndex = 0;
-//     if (currentIndex > maxIndex) currentIndex = maxIndex;
-
-//     const cardWidth = cards[0].offsetWidth + 24; 
-//     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-//   }
-
-//   nextBtn.addEventListener('click', () => {
-//     const cardsPerView = getCardsPerView();
-//     if (currentIndex < cards.length - cardsPerView) {
-//       currentIndex++;
-//       updateCarousel();
-//     }
-//   });
-
-//   prevBtn.addEventListener('click', () => {
-//     if (currentIndex > 0) {
-//       currentIndex--;
-//       updateCarousel();
-//     }
-//   });
-
-//   window.addEventListener('resize', updateCarousel);
-// });
 
 
 

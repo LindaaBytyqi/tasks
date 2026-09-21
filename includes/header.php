@@ -60,13 +60,22 @@ if(session_status() === PHP_SESSION_NONE){
                             </a>
                         </li>
 
-
                         <li class="nav-item">
                             <a
                                 class="nav-link"
                                 href="/tasks/aboutus.php"
                             >
                                 About
+                            </a>
+                        </li>
+
+                        
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="/tasks/blogs.php"
+                            >
+                                Blogs
                             </a>
                         </li>
 
@@ -79,6 +88,7 @@ if(session_status() === PHP_SESSION_NONE){
                                 Contact
                             </a>
                         </li>
+
                     </ul>
                 </div>
 

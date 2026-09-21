@@ -155,24 +155,15 @@ function formatListItem($text)
 ?>
 
 <style>
-
 .blog-page {
-    max-width: 1400px !important;
-    margin: 160px auto;
-    padding: 0 25px;
+    max-width: 1850px !important;
+    margin: 220px auto 100px; 
+    padding: 60px 70px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.08);
     font-family: Arial, sans-serif;
 }
-
-.blog-category {
-    text-align: center;
-    color: #e06d88;
-    font-size: 25px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 25px;
-}
-
 .blog-title {
     text-align: center;
     font-size: 42px;
@@ -192,18 +183,17 @@ function formatListItem($text)
     width: 100%;
     height: 500px;
     overflow: hidden;
+    border-radius: 16px;
     margin-bottom: 45px;
 }
-
 .blog-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
-
 .blog-content {
-    max-width: 1100px;
+    max-width: 1150px;
     margin: 0 auto;
     color: #444;
     font-size: 17px;
@@ -222,7 +212,7 @@ function formatListItem($text)
 
 .blog-content p {
     margin-bottom: 22px;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .blog-content ul {
@@ -244,42 +234,8 @@ function formatListItem($text)
     width: 100%;
     max-height: 450px;
     object-fit: cover;
+    border-radius: 14px;
     margin: 25px 0 30px;
-}
-
-.paragraph-list {
-    margin-top: 10px;
-    margin-bottom: 35px;
-}
-
-.paragraph-list p {
-    margin-bottom: 15px;
-}
-
-.paragraph-list ul {
-    margin-top: 10px;
-}
-
-.paragraph-list li {
-    line-height: 1.7;
-}
-
-.back-button {
-    display: block;
-    width: fit-content;
-    margin: 50px auto 20px;
-    padding: 12px 28px;
-    background: #e06d88;
-    color: white;
-    text-decoration: none;
-    font-size: 15px;
-    letter-spacing: 1px;
-    transition: 0.3s;
-}
-
-.back-button:hover {
-    background: #d45c78;
-    color: white;
 }
 
 .blog-button {
@@ -292,6 +248,7 @@ function formatListItem($text)
     text-decoration: none;
     font-size: 18px;
     letter-spacing: 1px;
+    border-radius: 8px;
     transition: 0.3s;
 }
 
@@ -303,7 +260,9 @@ function formatListItem($text)
 @media (max-width: 768px) {
 
     .blog-page {
-        margin: 50px auto;
+        margin: 130px 15px 60px;
+        padding: 35px 22px;
+        border-radius: 15px;
     }
 
     .blog-title {
@@ -312,6 +271,7 @@ function formatListItem($text)
 
     .blog-image {
         height: 300px;
+        border-radius: 12px;
     }
 
     .blog-content {
@@ -329,17 +289,9 @@ function formatListItem($text)
     .blog-content li {
         font-size: 16px;
     }
-
 }
-
 </style>
-
 <section class="blog-page">
-<!-- 
-    <div class="blog-category">
-        SKINCARE
-    </div> -->
-
     <h1 class="blog-title">
 
         <?= htmlspecialchars(
@@ -526,8 +478,6 @@ function formatListItem($text)
 
 
 
-
-
             <?php elseif ($type === 'section'): ?>
 
                 <?php if (!empty($block['subtitle'])): ?>
@@ -685,14 +635,8 @@ function formatListItem($text)
                     ENT_QUOTES,
                     'UTF-8'
                 ); ?>
-
             </a>
-
         <?php endif; ?>
-
     </div>
-
 </section>
-
-
 <?php include "includes/footer.php"; ?>

@@ -3,7 +3,7 @@
 include "admin_auth.php";
 include "../includes/database.php";
 
-$sql = "SELECT * FROM blogs ORDER BY published_at DESC";
+$sql = "SELECT * FROM blogs ORDER BY published_at ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 

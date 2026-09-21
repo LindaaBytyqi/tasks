@@ -1,28 +1,92 @@
-<?php
-include "includes/header.php";
-include "includes/database.php";
+<?php 
 
-$sort = $_GET['sort'] ?? "newest";
-$min_price = $_GET['min_price'] ?? "";
-$max_price = $_GET['max_price'] ?? "";
-$category_id = $_GET['category'] ?? "";
-$stock_status = $_GET['stock'] ?? "";
+include "includes/header.php"; 
+include "includes/database.php"; 
 
-$max_price_sql = "SELECT MAX(COALESCE(sale_price, price)) as highest_price FROM products";
+$sort = $_GET['sort'] ?? "newest"; 
+$min_price = $_GET['min_price'] ?? ""; 
+$max_price = $_GET['max_price'] ?? ""; 
+$category_id = $_GET['category'] ?? ""; 
+$stock_status = $_GET['stock'] ?? ""; 
+
+$max_price_sql = "
+    SELECT MAX(COALESCE(sale_price, price)) AS highest_price
+    FROM products
+    WHERE status IN ('1', 'active')
+";
+
 $max_price_stmt = $conn->prepare($max_price_sql);
 $max_price_stmt->execute();
+
 $max_price_row = $max_price_stmt->fetch(PDO::FETCH_ASSOC);
 
 $db_max_price = !empty($max_price_row['highest_price'])
     ? ceil($max_price_row['highest_price'])
     : 500;
 
-$cat_sql = "SELECT c.*, COUNT(p.id) AS total_products
-            FROM categories c
-            LEFT JOIN products p ON c.id = p.category_id
-            GROUP BY c.id";
+$cat_sql = "
+    SELECT
+        c.id,
+        c.name,
+        COUNT(p.id) AS total_products
+    FROM categories c
+
+    LEFT JOIN products p
+        ON c.id = p.category_id
+        AND p.status IN ('1', 'active')
+";
+
+$cat_params = [];
+
+if ($stock_status === "instock") {
+
+    $cat_sql .= "
+        AND p.stock > 0
+    ";
+
+} elseif ($stock_status === "outofstock") {
+
+    $cat_sql .= "
+        AND p.stock <= 0
+    ";
+}
+
+if ($min_price !== "") {
+
+    $cat_sql .= "
+        AND COALESCE(p.sale_price, p.price) >= :cat_min_price
+    ";
+
+    $cat_params["cat_min_price"] = $min_price;
+}
+if ($max_price !== "") {
+
+    $cat_sql .= "
+        AND COALESCE(p.sale_price, p.price) <= :cat_max_price
+    ";
+
+    $cat_params["cat_max_price"] = $max_price;
+}
+
+$cat_sql .= "
+    WHERE c.status = true
+    GROUP BY c.id, c.name
+    ORDER BY c.id ASC
+";
+
+
 $cat_stmt = $conn->prepare($cat_sql);
+
+foreach ($cat_params as $key => $value) {
+
+    $cat_stmt->bindValue(
+        ":$key",
+        $value
+    );
+}
+
 $cat_stmt->execute();
+
 $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $products_per_page = 9;
@@ -33,97 +97,197 @@ $page = isset($_GET['page']) && is_numeric($_GET['page'])
 $page = max($page, 1);
 $offset = ($page - 1) * $products_per_page;
 
-$count_sql = "SELECT COUNT(*) FROM products p WHERE p.status IN ('1', 'active')";
+$count_sql = "
+    SELECT COUNT(*)
+    FROM products p
+    WHERE p.status IN ('1', 'active')
+";
+
 $count_params = [];
 
 if (!empty($category_id)) {
-    $count_sql .= " AND p.category_id = :category_id";
+
+    $count_sql .= "
+        AND p.category_id = :category_id
+    ";
+
     $count_params["category_id"] = $category_id;
 }
+
 if ($stock_status === "instock") {
-    $count_sql .= " AND p.stock > 0";
+
+    $count_sql .= "
+        AND p.stock > 0
+    ";
+
 } elseif ($stock_status === "outofstock") {
-    $count_sql .= " AND p.stock <= 0";
+
+    $count_sql .= "
+        AND p.stock <= 0
+    ";
 }
+
 if ($min_price !== "") {
-    $count_sql .= " AND COALESCE(p.sale_price, p.price) >= :min_price";
+
+    $count_sql .= "
+        AND COALESCE(p.sale_price, p.price) >= :min_price
+    ";
+
     $count_params["min_price"] = $min_price;
 }
+
 if ($max_price !== "") {
-    $count_sql .= " AND COALESCE(p.sale_price, p.price) <= :max_price";
+
+    $count_sql .= "
+        AND COALESCE(p.sale_price, p.price) <= :max_price
+    ";
+
     $count_params["max_price"] = $max_price;
 }
 
+
 $count_stmt = $conn->prepare($count_sql);
+
 $count_stmt->execute($count_params);
+
 $total_products = (int) $count_stmt->fetchColumn();
-$total_pages = (int) ceil($total_products / $products_per_page);
+
+$total_pages = (int) ceil(
+    $total_products / $products_per_page
+);
 
 $sql = "
     SELECT
         p.*,
         c.name AS category_name,
+
         CASE
-            WHEN p.sale_price IS NOT NULL AND p.sale_price < p.price
-            THEN ROUND((100 - (p.sale_price / p.price * 100))::numeric)
+            WHEN p.sale_price IS NOT NULL
+                 AND p.sale_price < p.price
+
+            THEN ROUND(
+                (100 - (p.sale_price / p.price * 100))::numeric
+            )
+
             ELSE NULL
         END AS discount_percent,
-        (p.created_at >= NOW() - INTERVAL '14 days') AS is_new
+
+        (
+            p.created_at >= NOW() - INTERVAL '14 days'
+        ) AS is_new
+
     FROM products p
-    LEFT JOIN categories c ON c.id = p.category_id
+
+    LEFT JOIN categories c
+        ON c.id = p.category_id
+
     WHERE p.status IN ('1', 'active')
 ";
+
 $params = [];
 
+
 if (!empty($category_id)) {
-    $sql .= " AND p.category_id = :category_id";
+
+    $sql .= "
+        AND p.category_id = :category_id
+    ";
+
     $params["category_id"] = $category_id;
 }
+
 if ($stock_status === "instock") {
-    $sql .= " AND p.stock > 0";
+
+    $sql .= "
+        AND p.stock > 0
+    ";
+
 } elseif ($stock_status === "outofstock") {
-    $sql .= " AND p.stock <= 0";
+
+    $sql .= "
+        AND p.stock <= 0
+    ";
 }
+
 if ($min_price !== "") {
-    $sql .= " AND COALESCE(p.sale_price, p.price) >= :min_price";
+
+    $sql .= "
+        AND COALESCE(p.sale_price, p.price) >= :min_price
+    ";
+
     $params["min_price"] = $min_price;
 }
 if ($max_price !== "") {
-    $sql .= " AND COALESCE(p.sale_price, p.price) <= :max_price";
+
+    $sql .= "
+        AND COALESCE(p.sale_price, p.price) <= :max_price
+    ";
+
     $params["max_price"] = $max_price;
 }
 
 switch ($sort) {
+
     case "low":
-        $sql .= " ORDER BY COALESCE(p.sale_price, p.price) ASC";
+
+        $sql .= "
+            ORDER BY COALESCE(p.sale_price, p.price) ASC
+        ";
+
         break;
+
+
     case "high":
-        $sql .= " ORDER BY COALESCE(p.sale_price, p.price) DESC";
+
+        $sql .= "
+            ORDER BY COALESCE(p.sale_price, p.price) DESC
+        ";
+
         break;
+
+
     case "az":
-        $sql .= " ORDER BY p.name ASC";
+
+        $sql .= "
+            ORDER BY p.name ASC
+        ";
+
         break;
+
     case "za":
-        $sql .= " ORDER BY p.name DESC";
+
+        $sql .= "
+            ORDER BY p.name DESC
+        ";
+
         break;
     default:
-        $sql .= " ORDER BY p.created_at DESC";
+        $sql .= "
+            ORDER BY p.created_at DESC
+        ";
         break;
 }
 
-$sql .= " LIMIT :limit OFFSET :offset";
+$sql .= "
+    LIMIT :limit
+    OFFSET :offset
+";
+
 $stmt = $conn->prepare($sql);
-
 foreach ($params as $key => $value) {
-    $stmt->bindValue(":$key", $value);
+    $stmt->bindValue(
+        ":$key",
+        $value
+    );
+
 }
-$stmt->bindValue(":limit", $products_per_page, PDO::PARAM_INT);
-$stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+$stmt->bindValue(":limit", $products_per_page,PDO::PARAM_INT);
+$stmt->bindValue( ":offset",$offset, PDO::PARAM_INT);
+
 $stmt->execute();
-
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 
+?>
 
 <section class="products-section">
     <div class="shop-layout">
