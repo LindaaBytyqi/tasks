@@ -41,20 +41,15 @@ $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <table class="table table-hover align-middle mb-0">
 
                 <thead class="table-dark">
-
                     <tr>
-
                         <th>ID</th>
                         <th>Opening Hours</th>
                         <th>Address</th>
                         <th>Phone</th>
                         <th>Email</th>
                         <th>Actions</th>
-
                     </tr>
-
                 </thead>
-
 
                 <tbody>
 

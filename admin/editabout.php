@@ -86,10 +86,7 @@ if (isset($_POST['update_section'])) {
         : 0;
 
 
-    $status =
-        isset($_POST['status'])
-        ? true
-        : false;
+   $status = isset($_POST['status']) ? 'true' : 'false';
 
 
     $newData = [];

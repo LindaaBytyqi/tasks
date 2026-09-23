@@ -3,6 +3,11 @@
 include "includes/header.php";
 include "includes/database.php";
 
+$contactSuccess = $_SESSION['contact_success'] ?? '';
+$contactError = $_SESSION['contact_error'] ?? '';
+
+unset($_SESSION['contact_success'], $_SESSION['contact_error']);
+
 $stmt = $conn->prepare("
     SELECT *
     FROM contact_settings
@@ -333,12 +338,110 @@ if (!$contact) {
 
         }
 
+.contact-popup {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
+.contact-popup-content {
+    width: 370px;
+    padding: 25px 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    text-align: center;
+    animation: contactPopup .3s ease;
+}
+
+.contact-popup-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    margin: 0 auto;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.success-popup .contact-popup-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.error-popup .contact-popup-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.contact-popup-content p {
+    margin: 15px 0 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #111827;
+}
+
+@keyframes contactPopup {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+       .contact-popup {
+        top: 90px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: calc(100% - 40px);
+    }
+
+    .contact-popup-content {
+        width: 100%;
+    }
+}
     </style>
 
 </head>
-
-
 <body>
+
+<?php if ($contactSuccess !== ''): ?>
+
+<div class="contact-popup success-popup">
+    <div class="contact-popup-content">
+
+        <div class="contact-popup-icon">
+            <i class="bi bi-check-lg"></i>
+        </div>
+
+        <p><?= htmlspecialchars($contactSuccess, ENT_QUOTES, 'UTF-8'); ?></p>
+
+    </div>
+</div>
+
+<?php elseif ($contactError !== ''): ?>
+
+<div class="contact-popup error-popup">
+    <div class="contact-popup-content">
+
+        <div class="contact-popup-icon">
+            <i class="bi bi-x-lg"></i>
+        </div>
+
+        <p><?= htmlspecialchars($contactError, ENT_QUOTES, 'UTF-8'); ?></p>
+
+    </div>
+</div>
+
+<?php endif; ?>
 
 
 <section class="contact-section">
@@ -351,9 +454,6 @@ if (!$contact) {
 
 
         <div class="row g-4">
-
-
-            <!-- OPEN HOURS -->
 
             <div class="col-lg-4 col-md-6">
 
@@ -484,7 +584,6 @@ if (!$contact) {
 
             </div>
 
-
         </div>
 
     </div>
@@ -500,7 +599,6 @@ if (!$contact) {
         <div class="row g-5 align-items-center">
 
             <div class="col-lg-6">
-
                 <div class="map-container">
 
                     <?php if (!empty($contact['map_embed'])): ?>
@@ -530,11 +628,7 @@ if (!$contact) {
                     <?php endif; ?>
 
                 </div>
-
             </div>
-
-
-            <!-- CONTACT FORM -->
 
             <div class="col-lg-6">
 
@@ -551,18 +645,20 @@ if (!$contact) {
                     </h2>
 
 
-                    <form class="mt-4">
-
+                    <form class="mt-4" action="sendcontact.php" method="POST">
 
                         <div class="row g-4 mb-4">
-
 
                             <div class="col-md-6">
 
                                 <input
                                     type="text"
+                                    name="name"
                                     class="form-control custom-input"
                                     placeholder="Name"
+                                    pattern="[A-Za-zÀ-ÿ\s]+"
+                                    title="Name can contain only letters and spaces."
+                                    required
                                 >
 
                             </div>
@@ -572,8 +668,12 @@ if (!$contact) {
 
                                 <input
                                     type="text"
+                                    name="lastName"
                                     class="form-control custom-input"
                                     placeholder="Last Name"
+                                    pattern="[A-Za-zÀ-ÿ\s]+"
+                                    title="Name can contain only letters and spaces."
+                                    required
                                 >
 
                             </div>
@@ -589,8 +689,10 @@ if (!$contact) {
 
                                 <input
                                     type="email"
+                                     name="email"
                                     class="form-control custom-input"
                                     placeholder="Email"
+                                    required
                                 >
 
                             </div>
@@ -600,8 +702,12 @@ if (!$contact) {
 
                                 <input
                                     type="tel"
+                                    name="phone"
                                     class="form-control custom-input"
                                     placeholder="Phone"
+                                    pattern="[0-9+\-\s()]+"
+                                    title="Please enter a valid phone number."
+                                    required
                                 >
 
                             </div>
@@ -611,13 +717,13 @@ if (!$contact) {
 
 
                         <div class="mb-5">
-
                             <textarea
                                 class="form-control custom-input"
                                 rows="3"
+                                name="message"
                                 placeholder="Message"
+                                required
                             ></textarea>
-
                         </div>
 
 
@@ -625,35 +731,43 @@ if (!$contact) {
                             type="submit"
                             class="btn custom-btn"
                         >
-
                             <i class="bi bi-send-fill me-2"></i>
-
                             Get In Touch
-
                         </button>
-
 
                     </form>
 
                 </div>
 
-            </div>
 
+            </div>
 
         </div>
 
     </div>
 
 </section>
-
-
 </body>
-
 </html>
 
 
-<?php
+<script>
+const contactPopup = document.querySelector('.contact-popup');
 
-include "includes/footer.php";
+if (contactPopup) {
+    setTimeout(() => {
+        contactPopup.style.opacity = '0';
 
-?>
+        setTimeout(() => {
+            contactPopup.remove();
+        }, 300);
+
+    }, 3000);
+}
+
+
+
+</script>
+
+
+<?php include "includes/footer.php"; ?>

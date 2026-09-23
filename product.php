@@ -39,32 +39,25 @@ $cat_sql = "
 $cat_params = [];
 
 if ($stock_status === "instock") {
-
     $cat_sql .= "
         AND p.stock > 0
     ";
-
 } elseif ($stock_status === "outofstock") {
-
     $cat_sql .= "
         AND p.stock <= 0
     ";
 }
 
 if ($min_price !== "") {
-
     $cat_sql .= "
         AND COALESCE(p.sale_price, p.price) >= :cat_min_price
     ";
-
     $cat_params["cat_min_price"] = $min_price;
 }
 if ($max_price !== "") {
-
     $cat_sql .= "
         AND COALESCE(p.sale_price, p.price) <= :cat_max_price
     ";
-
     $cat_params["cat_max_price"] = $max_price;
 }
 
@@ -78,7 +71,6 @@ $cat_sql .= "
 $cat_stmt = $conn->prepare($cat_sql);
 
 foreach ($cat_params as $key => $value) {
-
     $cat_stmt->bindValue(
         ":$key",
         $value
@@ -86,11 +78,8 @@ foreach ($cat_params as $key => $value) {
 }
 
 $cat_stmt->execute();
-
 $categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
-
 $products_per_page = 9;
-
 $page = isset($_GET['page']) && is_numeric($_GET['page'])
     ? (int) $_GET['page']
     : 1;
@@ -106,42 +95,34 @@ $count_sql = "
 $count_params = [];
 
 if (!empty($category_id)) {
-
     $count_sql .= "
         AND p.category_id = :category_id
     ";
-
     $count_params["category_id"] = $category_id;
 }
 
 if ($stock_status === "instock") {
-
     $count_sql .= "
         AND p.stock > 0
     ";
 
 } elseif ($stock_status === "outofstock") {
-
     $count_sql .= "
         AND p.stock <= 0
     ";
 }
 
 if ($min_price !== "") {
-
     $count_sql .= "
         AND COALESCE(p.sale_price, p.price) >= :min_price
     ";
-
     $count_params["min_price"] = $min_price;
 }
 
 if ($max_price !== "") {
-
     $count_sql .= "
         AND COALESCE(p.sale_price, p.price) <= :max_price
     ";
-
     $count_params["max_price"] = $max_price;
 }
 
@@ -188,78 +169,59 @@ $params = [];
 
 
 if (!empty($category_id)) {
-
     $sql .= "
         AND p.category_id = :category_id
     ";
-
     $params["category_id"] = $category_id;
 }
 
 if ($stock_status === "instock") {
-
     $sql .= "
         AND p.stock > 0
     ";
 
 } elseif ($stock_status === "outofstock") {
-
     $sql .= "
         AND p.stock <= 0
     ";
 }
 
 if ($min_price !== "") {
-
     $sql .= "
         AND COALESCE(p.sale_price, p.price) >= :min_price
     ";
-
     $params["min_price"] = $min_price;
 }
 if ($max_price !== "") {
-
     $sql .= "
         AND COALESCE(p.sale_price, p.price) <= :max_price
     ";
-
     $params["max_price"] = $max_price;
 }
 
 switch ($sort) {
-
     case "low":
-
         $sql .= "
             ORDER BY COALESCE(p.sale_price, p.price) ASC
         ";
-
         break;
 
-
     case "high":
-
         $sql .= "
             ORDER BY COALESCE(p.sale_price, p.price) DESC
         ";
-
         break;
 
-
     case "az":
-
         $sql .= "
             ORDER BY p.name ASC
         ";
-
         break;
 
     case "za":
-
         $sql .= "
             ORDER BY p.name DESC
         ";
-
         break;
     default:
         $sql .= "

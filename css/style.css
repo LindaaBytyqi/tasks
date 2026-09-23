@@ -1093,7 +1093,7 @@ main {
     min-height:42px;
     transition:color .2s ease;
 }
-.product-card:hover h3{ color:#eb3f81; }
+/* .product-card:hover h3{ color:#eb3f81; } */
 
 .product-bottom-row{
     display:flex;
@@ -1109,42 +1109,6 @@ main {
 .stock-dot{ width:9px; height:9px; border-radius:50%; }
 .stock-dot.in-stock{ background:#3ec070; }
 .stock-dot.out-stock{ background:#e04b4b; }
-
-.pagination{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    margin-top:50px;
-}
-.pagination a{
-    min-width:38px;
-    height:38px;
-    padding:0 10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:8px;
-    border:1px solid #eee;
-    text-decoration:none;
-    color:#333;
-    font-size:14px;
-    font-weight:500;
-    transition:.2s ease;
-}
-.pagination a:hover{
-    border-color:#eb3f81;
-    color:#eb3f81;
-}
-.pagination a.active{
-    background:#eb3f81;
-    border-color:#eb3f81;
-    color:#fff;
-}
-.pagination-arrow{
-    background:#fff;
-}
-
 
 
 .pagination{
@@ -1840,7 +1804,7 @@ main {
 
 .brands-section {
     max-width: 1500px;
-    margin: 100px auto;
+    margin: 50px  auto 100px;
     padding: 50px 20px;
     text-align: center;
 }

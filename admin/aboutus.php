@@ -224,55 +224,40 @@ document.addEventListener("DOMContentLoaded", function () {
         dragClass: "sortable-drag",
 
         onEnd: function () {
-
             const rows = sortableBody.querySelectorAll("tr[data-id]");
-
             const order = [];
 
-
             rows.forEach(function (row, index) {
-
                 const id = row.getAttribute("data-id");
-
                 const sortOrder = index + 1;
 
-
                 order.push({
-
                     id: id,
-
                     sort_order: sortOrder
 
                 });
 
                 const orderCell =
                     row.querySelector(".order-number");
-
                 if (orderCell) {
-
                     orderCell.textContent = sortOrder;
 
                 }
             });
 
             fetch("update_about_order.php", {
-
                 method: "POST",
-
                 headers: {
                     "Content-Type": "application/json"
                 },
-
                 body: JSON.stringify({
                     order: order
                 })
-
             })
 
             .then(function (response) {
                 return response.json();
             })
-
             .then(function (data) {
                 if (!data.success) {
                     alert(
@@ -294,7 +279,6 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <style>
-
 .drag-handle {
     cursor: grab !important;
     user-select: none;
@@ -315,6 +299,5 @@ document.addEventListener("DOMContentLoaded", function () {
 .sortable-drag {
     opacity: 0.9;
 }
-
 </style>
 

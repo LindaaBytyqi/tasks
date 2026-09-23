@@ -2,7 +2,7 @@
 include "admin_auth.php";
 include "../includes/database.php";
 
-$sql ="SELECT * FROM hero_slides order by id asc";
+$sql ="SELECT * FROM hero_slides ORDER BY sort_order ASC, id ASC";
 $stmt = $conn -> prepare($sql);
 $stmt -> execute();
 
@@ -216,13 +216,9 @@ document.addEventListener("DOMContentLoaded", function () {
         onEnd: function () {
 
             const rows = sortableBody.querySelectorAll("tr[data-id]");
-
             const order = [];
-
             rows.forEach(function (row, index) {
-
                 const id = row.getAttribute("data-id");
-
                 const sortOrder = index + 1;
 
                 order.push({
@@ -232,7 +228,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const orderCell =
                     row.querySelector(".order-number");
-
                 if (orderCell) {
                     orderCell.textContent = sortOrder;
                 }
@@ -241,9 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             fetch("update_hero.php", {
-
                 method: "POST",
-
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -251,7 +244,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 body: JSON.stringify({
                     order: order
                 })
-
             })
 
             .then(function (response) {
@@ -259,27 +251,19 @@ document.addEventListener("DOMContentLoaded", function () {
             })
 
             .then(function (data) {
-
                 if (!data.success) {
-
                     alert(
                         "Gabim gjatë ruajtjes së renditjes."
                     );
-
                 }
-
             })
 
             .catch(function (error) {
-
                 console.error(error);
-
                 alert(
                     "Ndodhi një gabim gjatë ruajtjes së renditjes."
                 );
-
             });
-
         }
 
     });
@@ -287,12 +271,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 <style>
-
 .drag-handle {
     cursor: grab !important;
     user-select: none;
 }
-
 .drag-handle:active {
     cursor: grabbing !important;
 }
@@ -304,10 +286,8 @@ document.addEventListener("DOMContentLoaded", function () {
 .sortable-chosen {
     background-color: #f8f9fa;
 }
-
 .sortable-drag {
     opacity: 0.9;
 }
-
 </style>
 

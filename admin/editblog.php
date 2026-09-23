@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['button_url'] ?? ''
     );
 
-    $status = isset($_POST['status']) ? true : false;
+    $status = $_POST['status'] ?? 'false';
 
     $posted_content = $_POST['content'] ?? '[]';
 
@@ -279,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             content = :content,
             button_text = :button_text,
             button_url = :button_url,
-            status = :status,
+            status = CAST(:status AS BOOLEAN),
             updated_at = CURRENT_TIMESTAMP
         WHERE id = :id
     ";

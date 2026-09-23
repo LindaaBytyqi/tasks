@@ -37,13 +37,23 @@ $stmt->execute();
 $blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-$cat_sql = "SELECT c.*, COUNT(p.id) AS total_products  
-            FROM categories c  
-            LEFT JOIN products p ON c.id = p.category_id  
-            GROUP BY c.id"; 
-$cat_stmt = $conn->prepare($cat_sql); 
-$cat_stmt->execute(); 
-$categories = $cat_stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+$sql = "
+    SELECT 
+        c.*,
+        COUNT(p.id) AS total_products
+    FROM categories c
+    LEFT JOIN products p 
+        ON p.category_id = c.id
+        AND p.status IN ('1', 'active')
+    WHERE c.status = true
+    GROUP BY c.id
+    ORDER BY c.id ASC
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -1445,7 +1455,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         autoSlide = setInterval(
             nextSlide,
-            5500
+            3000
         );
     }
 
