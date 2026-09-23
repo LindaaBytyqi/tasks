@@ -162,7 +162,7 @@ $payment_method = $order['payment_method'] == '0'
 
                         <div>
                             <strong>
-                                <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>"
+                                <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>
                             </strong>
                             <br>
                             <small>

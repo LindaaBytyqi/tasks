@@ -484,8 +484,6 @@
 
                     <div class="accordion-content">
 
-                        <!-- <h3>Contact Info</h3> -->
-
                         <span>
                             <i class="bi bi-envelope-fill"></i>
                             Email Us

@@ -18,20 +18,14 @@ $email = trim($_POST['email'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
 $message = trim($_POST['message'] ?? '');
 
-if ($name === '' || $lastName === '' || $email === '' || $message === '') {
-    $_SESSION['contact_error'] = 'Please fill in all required fields.';
+if (!preg_match('/^[\p{L}\s]{2,30}$/u', $name)) {
+    $_SESSION['contact_error'] = 'Name should contain only letters and spaces.';
     header('Location: contactus.php');
     exit;
 }
 
-if (!preg_match('/^[\p{L}\s]+$/u', $name)) {
-    $_SESSION['contact_error'] = 'Name can contain only letters and spaces.';
-    header('Location: contactus.php');
-    exit;
-}
-
-if (!preg_match('/^[\p{L}\s]+$/u', $lastName)) {
-    $_SESSION['contact_error'] = 'Last name can contain only letters and spaces.';
+if (!preg_match('/^[\p{L}\s]{2,30}$/u', $lastName)) {
+    $_SESSION['contact_error'] = 'Last name should contain only letters and spaces.';
     header('Location: contactus.php');
     exit;
 }
@@ -42,12 +36,17 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-if (!preg_match('/^[0-9+\-\s()]+$/', $phone)) {
+if (!preg_match('/^[0-9+\-\s()]{7,20}$/', $phone)) {
     $_SESSION['contact_error'] = 'Please enter a valid phone number.';
     header('Location: contactus.php');
     exit;
 }
 
+if (mb_strlen($message) < 5) {
+    $_SESSION['contact_error'] = 'Message must contain at least 5 characters.';
+    header('Location: contactus.php');
+    exit;
+}
 $mail = new PHPMailer(true);
 
 try {
@@ -56,7 +55,8 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
 
-
+    $mail->Username = 'lindabytyqi64@gmail.com';
+    $mail->Password = 'kivs opnn zzas uqwx';
 
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;

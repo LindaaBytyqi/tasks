@@ -55,12 +55,10 @@ if (!isset($_GET['page'])) {
             border-radius: 10px;
             transition: all 0.25s ease;
         }
-
         .admin-nav .nav-link i {
             font-size: 21px;
             width: 25px;
         }
-
         .admin-nav .nav-link:hover {
             background-color: #fce7f0;
             color: #eb6c9c;
@@ -136,6 +134,7 @@ if (!isset($_GET['page'])) {
                 <i class="bi bi-envelope"></i>
                 <span>Subscribers</span>
             </a>
+
             <a href="../logout.php" class="nav-link">
                  <i class="bi bi-box-arrow-right"></i>
                 <span>Logout</span>
@@ -269,8 +268,7 @@ if (!isset($_GET['page'])) {
 
                 include "deleteblog.php";
 
-            }
-             else {
+            } else {
 
                 echo "<h2>Page not found</h2>";
 

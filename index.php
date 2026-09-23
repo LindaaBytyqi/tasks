@@ -1291,6 +1291,8 @@ include "includes/footer.php";
 ?>
 
 <script>
+
+
 const newsletterForm = document.getElementById("newsletterForm");
 newsletterForm.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -1346,6 +1348,8 @@ newsletterForm.addEventListener("submit", function(event) {
         console.error(error);
     });
 });
+
+
 
 
 const newsletterPopup = document.getElementById("newsletter");

@@ -337,7 +337,22 @@ if (!$contact) {
             }
 
         }
+.contact-error {
+    display: block;
+    color: #dc2626;
+    font-size: 12px;
+    text-align: left;
+    margin-top: 6px;
+    min-height: 18px;
+}
 
+.contact-input-error {
+    border-bottom-color: #dc2626 !important;
+}
+
+.contact-input-success {
+    border-bottom-color: #050505 !important;
+}
 .contact-popup {
     position: fixed;
     top: 100px;
@@ -644,101 +659,107 @@ if (!$contact) {
                         Any Questions?
                     </h2>
 
-
-                    <form class="mt-4" action="sendcontact.php" method="POST">
+                <form class="mt-4" action="sendcontact.php" method="POST" id="contactForm">
 
                         <div class="row g-4 mb-4">
 
                             <div class="col-md-6">
 
-                                <input
-                                    type="text"
-                                    name="name"
-                                    class="form-control custom-input"
-                                    placeholder="Name"
-                                    pattern="[A-Za-zÀ-ÿ\s]+"
-                                    title="Name can contain only letters and spaces."
-                                    required
-                                >
+                            <input
+                                type="text"
+                                id="contactName"
+                                name="name"
+                                class="form-control custom-input"
+                                placeholder="Name"
+                                required
+                            >
 
-                            </div>
-
-
-                            <div class="col-md-6">
-
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    class="form-control custom-input"
-                                    placeholder="Last Name"
-                                    pattern="[A-Za-zÀ-ÿ\s]+"
-                                    title="Name can contain only letters and spaces."
-                                    required
-                                >
-
-                            </div>
-
+                        <span class="contact-error" id="nameError"></span>
 
                         </div>
 
 
-                        <div class="row g-4 mb-4">
+                        <div class="col-md-6">
 
+                            <input
+                                type="text"
+                                id="contactLastName"
+                                name="lastName"
+                                class="form-control custom-input"
+                                placeholder="Last Name"
+                                required
+                            >
 
-                            <div class="col-md-6">
-
-                                <input
-                                    type="email"
-                                     name="email"
-                                    class="form-control custom-input"
-                                    placeholder="Email"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="col-md-6">
-
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    class="form-control custom-input"
-                                    placeholder="Phone"
-                                    pattern="[0-9+\-\s()]+"
-                                    title="Please enter a valid phone number."
-                                    required
-                                >
-
-                            </div>
-
+                        <span class="contact-error" id="lastNameError"></span>
 
                         </div>
+
+                    </div>
+
+
+                        <div class="row g-4 mb-4">
+
+                        <div class="col-md-6">
+
+                        <input
+                            type="email"
+                            id="contactEmail"
+                            name="email"
+                            class="form-control custom-input"
+                            placeholder="Email"
+                            required
+                        >
+
+                        <span class="contact-error" id="emailError"></span>
+
+                    </div>
+
+
+                        <div class="col-md-6">
+
+                        <input
+                            type="tel"
+                            id="contactPhone"
+                            name="phone"
+                            class="form-control custom-input"
+                            placeholder="Phone"
+                            required
+                        >
+
+                        <span class="contact-error" id="phoneError"></span>
+
+                    </div>
+
+                    </div>
 
 
                         <div class="mb-5">
-                            <textarea
-                                class="form-control custom-input"
-                                rows="3"
-                                name="message"
-                                placeholder="Message"
-                                required
-                            ></textarea>
-                        </div>
+
+                        <textarea
+                            class="form-control custom-input"
+                            rows="3"
+                            id="contactMessage"
+                            name="message"
+                            placeholder="Message"
+                            required
+                        ></textarea>
+
+                        <span class="contact-error" id="messageError"></span>
+
+                    </div>
 
 
-                        <button
-                            type="submit"
-                            class="btn custom-btn"
-                        >
-                            <i class="bi bi-send-fill me-2"></i>
-                            Get In Touch
-                        </button>
+                    <button
+                        type="submit"
+                        class="btn custom-btn"
+                    >
+                    <i class="bi bi-send-fill me-2"></i>
+                        Get In Touch
+                    </button>
 
-                    </form>
+                </form>
 
                 </div>
-
 
             </div>
 
@@ -767,7 +788,122 @@ if (contactPopup) {
 
 
 
-</script>
+const contactForm = document.getElementById("contactForm");
+contactForm.addEventListener("submit", function(e) {
 
+    let valid = true;
+
+    const name = document.getElementById("contactName");
+    const lastName = document.getElementById("contactLastName");
+    const email = document.getElementById("contactEmail");
+    const phone = document.getElementById("contactPhone");
+    const message = document.getElementById("contactMessage");
+
+
+    const nameRegex =
+        /^[A-Za-zÇËçëÀ-ÿ\s]{2,30}$/;
+
+    const emailRegex =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const phoneRegex =
+        /^[0-9+\-\s()]{7,20}$/;
+
+    document.querySelectorAll(".contact-error").forEach(function(error) {
+        error.textContent = "";
+    });
+
+
+    document.querySelectorAll(".custom-input").forEach(function(input) {
+        input.classList.remove("contact-input-error");
+        input.classList.remove("contact-input-success");
+    });
+
+    if (!nameRegex.test(name.value.trim())) {
+
+        document.getElementById("nameError").textContent =
+            "Name should contain only letters and spaces.";
+
+        name.classList.add("contact-input-error");
+
+        valid = false;
+
+    } else {
+
+        name.classList.add("contact-input-success");
+
+    }
+
+
+    if (!nameRegex.test(lastName.value.trim())) {
+
+        document.getElementById("lastNameError").textContent =
+            "Last name should contain only letters and spaces.";
+
+        lastName.classList.add("contact-input-error");
+
+        valid = false;
+
+    } else {
+
+        lastName.classList.add("contact-input-success");
+
+    }
+
+
+    if (!emailRegex.test(email.value.trim())) {
+
+        document.getElementById("emailError").textContent =
+            "Enter a valid email address.";
+
+        email.classList.add("contact-input-error");
+
+        valid = false;
+
+    } else {
+
+        email.classList.add("contact-input-success");
+
+    }
+
+
+    if (!phoneRegex.test(phone.value.trim())) {
+
+        document.getElementById("phoneError").textContent =
+            "Please enter a valid phone number.";
+
+        phone.classList.add("contact-input-error");
+
+        valid = false;
+
+    } else {
+
+        phone.classList.add("contact-input-success");
+
+    }
+
+    if (message.value.trim() === "") {
+
+        document.getElementById("messageError").textContent =
+            "Please enter your message.";
+
+        message.classList.add("contact-input-error");
+
+        valid = false;
+
+    } else {
+
+        message.classList.add("contact-input-success");
+
+    }
+
+    if (!valid) {
+        e.preventDefault();
+    }
+
+});
+
+
+</script>
 
 <?php include "includes/footer.php"; ?>
